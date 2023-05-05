@@ -308,34 +308,6 @@
    * Let $\textbf{w} = \begin{bmatrix}w_1 & \dots & w_n & 1\end{bmatrix}$
    * $y = H(\textbf{w}\cdot\textbf{x})$
 
-# Perceptron Learning Rule
-### Steps for Perceptron Learning:
-1. Initially, chose $(\textbf{w}, b)$ at random to create a plane $\textbf{w} \cdot \textbf{x} +b=0$
-2. Detect if there exist any misclassified nodes
-3. Update the plane by adjusting $(\textbf{w}, b)$
-4. Repeat until there are no more misclassified nodes
-
-### Normal Vector:
-* For the plane equation $\textbf{w} \cdot \textbf{x} +b=0$, $\textbf{w}$ is a normal vector to the plane
-* If $\textbf{w} \cdot \textbf{v}\geq 0$, the angle between $\textbf{w}$ and $\textbf{v}$ is acute so $\textbf{v}$ is inside the region
-* If $\textbf{w} \cdot \textbf{v}< 0$, the angle between $\textbf{w}$ and $\textbf{v}$ is obtuse so $\textbf{v}$ is outside the region
-* Same applies for a point being inside/outside the region when $b \neq 0$ (affine transformation)
-   * Can treat $b$ as an extra weight in $\mathbb{R}^{n+1}$
-
-### Updating the Plane:
-* For any misclassified $\textbf{v}$:
-   * If $\textbf{w} \cdot \textbf{v} < 0$ (i.e. $\textbf{v}$ is 1 but is misclassified as 0) set $\textbf{w}_{new} = \textbf{w}_{old} + \textbf{v}$
-   * If $\textbf{w} \cdot \textbf{v} \geq 0$ (i.e. $\textbf{v}$ is 0 but is misclassified as 1) set $\textbf{w}_{new} = \textbf{w}_{old} - \textbf{v}$
-* Can generalise this as:
-   * $\textbf{w}_{new} = \textbf{w}_{old} + (actual - predicted) \textbf{v}$
-   * Or $\textbf{w}_{new} = \textbf{w}_{old} + (y(\textbf{v}) - \hat{y}(\textbf{v})) \textbf{v}$
-* Learning rate $\alpha$ is a configurable hyperparameter which determines the step size at each iteration
-   * Speed-accuracy trade-off:
-   ![effect-learning-rate](./images/effect-learning-rate.PNG)
-      * Smaller $\alpha$ requires more training iterations (epochs), leading to a slow rate of convergence
-      * Larger $\alpha$ results in rapid changes that may make learning jumps overshoot the optima
-   * Updates become: $\textbf{w}_{new} = \textbf{w}_{old} + \alpha(y(\textbf{v}) - \hat{y}(\textbf{v})) \textbf{v}$
-
 # Multi-Layer Perceptron
 * XOR is linearly inseparable
 * Suppose we try and make a single-layer perceptron for it:
@@ -1045,71 +1017,3 @@
    * $C^k \cdot (\textbf{Q}^T)^k(\textbf{S}-\textbf{S}_{0})\textbf{Q} \leq C^k \cdot (C \cdot \textbf{1}) = C^{k+1} \cdot \textbf{1}$
    * $||\textbf{S}-\textbf{S}_k||_{\mathrm{max}} \leq C^{k+1} \leq \epsilon$
    * $k \geq \lceil \log_c\epsilon \rceil$
-
-# Dimensionality Reduction for Time Series
-### Piecewise Aggregate Approximation (PAA)
-* Basic idea:
-   * Split the time series into equal-sized segments
-   * Take the mean value for each segment
-* PAA transforms a time series $\textbf{X} = (x_1, ..., x_n)$ into a reduced vector $\textbf{Y} = (y_1, ..., y_N)$ with $N < n$ such that $y_i = \frac{N}{n}\sum_{j=\frac{n}{N}(i-1)+1}^{\frac{n}{N}i} x_j$ for $i=1,2,...,N$
-* Computationally efficient, taking time $O(n)$ for a time series of length $n$
-* The number of segments $N$ is user-specified, which is a trade-off between space reduction and approximation accuracy
-   * When $N=1$, PAA reduces to the mean of the original time series - highest space reduction, but lowest accuracy
-   * When $N=n$, PAA is identical to the original time series (no space reduction, but no accuracy loss)
-* If $n \mod N = 0$, $X$ is split into exactly $N$ equal segments
-* If $n \mod N > 0$, $X$ can be split into $N$ segments, with lengths as follows:
-   * The first $(N-n) \mod N$ segments are of length $\lfloor \frac{n}{N} \rfloor$
-   * The last $n \mod N$ segments are of length $\lfloor \frac{n}{N} \rfloor + 1$
-   * This minimises the difference of length between the smallest and largest segment
-* Limitations:
-   * PAA approximates each segment using only the average value (i.e. the 0-order polynomial), which may lose the trend information for every segment
-   * PAA is unable to identify segments of variable length
-
-### Piecewise Linear Approximation (PLA):
-* Approximates a time series with line segments
-* Given the total number of segments $N$ and a time series $\textbf{X} = (x_1, ..., x_n)$, PLA splits $\textbf{X}$ into $N$ equal segments, defined as $\textbf{Y} (y_1, ..., y_N)$ 
-* The $i$-th segment $y_i = (a_i,b_i)$ ($i = 1, ..., N$) has two coefficients $a_i$ and $b_i$, representing the best-fit line (with least squares) in the $i$-th segment:
-   * $\hat{y}_t = a_i(t-(i-1)l)+b_i$, $t \in [(i-1)l+1, il]$ where $l = \frac{n}{N}$ is the length of each segment
-* When $n$ is divisible by $N$, the coefficients $a_i$ and $b_i$ can be obtained as follows:
-   * $a_i = \frac{12\sum_{(i-1)(l+1)}^{il}(j-(i-1)l-\frac{l+1}{2})x_j}{l(l+1)(l-1)}$
-   * $b_i = -\frac{6\sum_{(i-1)(l+1)}^{il}(j-(i-1)l-\frac{2l+1}{3})x_j}{l(l-1)}$
-* When $n$ is not divisible by $N$, PLA can adopt a PAA-like method that splits $X$ into $N$ segments (lengths the same as before)
-* PLA used 1-order polynomials for piecewise linear regression
-* For fairness of comparison in accuracy, we keep the total number of segments the same and compare $N$-segment PLA with $2N$-segment PAA
-   * For each segment representation, PLA requires two coefficients $(a,b)$ whereas PAA requires only one
-* To find PLA for each segment: use least-squares regression for each of the points in the segment 
-   * $\textbf{AY}=\textbf{B}$ with $\textbf{A}$ being a matrix with two columns - one for the $a$ coefficients and one for the $b$ coefficients, $\textbf{Y}=\begin{bmatrix} a_i \\ b_i \end{bmatrix}$ and $\textbf{B}$ being a column vector of $y$ values
-   * $\textbf{Y}=\textbf{LB}$ with $\textbf{L}=(\textbf{A}^T\textbf{A})^{-1}\textbf{A}^T$
-
-### Adaptive Piecewise Constant Approximation (APCA):
-* An adaptive PAA, allowing segments to be of variable lengths
-* Given a number of segments $N$ and a time series $\textbf{X} = (x_1, ..., x_n)$, its APCA is represented as $\textbf{Y} = (y_1, ..., y_N)$ with the $i$-th segment $y_i$ ($i=1,...,N$) defined as $y_i=[v_i,r_i]$ where:
-   * $v_i$ is the mean value of data points in the $i$-th segment
-   * $r_i$ is the right point of the $i$-th segment
-* Haar Discrete Wavelet Transform:
-   * Calculate average of successive paired numbers until there is only one number left
-   ![dwt-tree](./images/dwt-tree.PNG)
-      * Forms an inverted binary tree with the final number as the root and the original time series data as the leaf nodes
-   * Calculate the deviation from each node to its children
-   ![dwt-deviations](./images/dwt-deviations.PNG)
-   * Vector of (unnormalised) DWT coefficients consists of the root node value, followed by the deviations starting from the root and going towards the leaf nodes
-   ![dwt-coefficients](./images/dwt-coefficients.PNG)
-   * Intuitively, the DWT vector $C$ is an incremental way of representing the original time series data
-      * Can be viewed as a series of resolutions
-* Algorithm:
-   1. If $\mathrm{length}(X)$ if not a power of two, pad $X$ with zeros to make it so
-   2. Perform the Haar Discrete Wavelet Transform (DWT) on $X$
-   3. Keep the top $N$ Haar coefficients with the largest normalised magnitude, and zero out the remaining ones to produce a sparse DWT vector $C'$
-      * First need to normalise by dividing each element by factor $\sqrt{2}^n$, where $n$ is the resolution for the current element
-      * Lower resolutions capture more of the fundamental information about the time series
-   4. Reconstruct approximation of $X$ from the top $N$ Haar coefficients
-   ![dwt-reconstruction](./images/dwt-reconstruction.PNG)
-   5. If $X'$ was padded with zeros, truncate it to its original length
-   6. Replace approximte segment mean values with exact mean values from $X$
-   ![dwt-segments](./images/dwt-segments.PNG)
-      * Convert into $[v_i,r_i]$ form by taking the mean and index of the rightmost value in each segment (starting from index 1)
-         * E.g. the first segment in the above example becomes $[6,2]$, the second segment becomes $[3.5,6]$ and the third becomes $[5,8]$
-   7. While the number of segments $> N$, where $N$ is our desired number of segments, merge two adjacent segments with the least deviation in values using the mean between the two
-
-In summary:
-![time-series-reductions](./images/time-series-reductions.PNG)

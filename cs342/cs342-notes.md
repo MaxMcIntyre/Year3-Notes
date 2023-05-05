@@ -27,7 +27,7 @@
 * Feature matrix $\textbf{X}$ has $n$ rows as examples, $d$ columns as features
    * $x_{ij}$ is feature $j$ for example $i$
    * $\textbf{x}_i$ is the vector of all features for example i
-   * $\textbf{x}_j$ is the vector of all for examples for feature $j$
+   * $\textbf{x}_j$ is the vector of all examples for feature $j$
 * Label vector $\textbf{y}$ contains the labels of the $n$ examples
 * Training phase: use $\textbf{X}$ and $\textbf{y}$ to find a decision stump
 * Prediction phase: given an example $x_i$, use a model to predict a label $\hat{y}_i$
@@ -147,7 +147,7 @@ $E_{test} = E_{approx} + E_{train}$
 * Leave-one-out (LOO) cross-validation: train on all but one training example
    * Repeat $n$ times and average
 * $E_{test}$ more accurately approximated with more folds, but more expensive to compute
-   * If we have 20 depths with 5 folds for example, then there are 100 models to be fit
+   * If we have 20 depths with 5 folds for example, then there are 100 models to fit
 
 ![k-fold-cross-validation-algorithm](./images/k-fold-cross-validation-algorithm.PNG)
 
@@ -297,7 +297,7 @@ Since $f''(w) \geq 0$, our $w$ is indeed a minimiser.
 
 ### Matrices for least squares:
 * Our ground truth, $\textbf{y}_i$, is a $n \times 1$ vector containing ground truth $y_i$ in position $i$
-* Our training example, $\textbf{x}_i$, is a $d \times 1$ containing $d$ features
+* Our training example, $\textbf{x}_i$, is a $d \times 1$ vector containing $d$ features
 * Our training dataset, $\textbf{X}$, is a $n \times d$ matrix with $\textbf{x}_i^T$ in row $i$
 
 $\textbf{y} = \begin{bmatrix} 
@@ -333,7 +333,7 @@ $\hat{\textbf{y}}_i = \begin{bmatrix}
     \textbf{x}_2^T \\ 
     \vdots \\
     \textbf{x}_n^T 
-\end{bmatrix} = \begin{bmatrix} 
+\end{bmatrix} \textbf{w} = \begin{bmatrix} 
     \textbf{x}_1^T \textbf{w} \\
     \textbf{x}_2^T \textbf{w} \\ 
     \vdots \\
@@ -394,7 +394,7 @@ $\textbf{Z} = \begin{bmatrix}
 * Fit new parameters $\textbf{v}$ under change of basis: solve for $\textbf{Z}^T\textbf{Zv} = \textbf{Z}^T\textbf{y}$
    * Non-linear feature transform
    * The $\textbf{z}_i$ are the coordinates in the new basis, or feature space, for the training example $i$
-* To predict new data $\tilde{\textbf{X}}$, we compute $\tilde{\textbf{Z}}$ from $\tilde{\textbf{X}}$ and then $\hat{\textbf{y}} = \tilde{\textbf{X}}\textbf{v}$
+* To predict new data $\tilde{\textbf{X}}$, we compute $\tilde{\textbf{Z}}$ from $\tilde{\textbf{X}}$ and then $\hat{\textbf{y}} = \tilde{\textbf{Z}}\textbf{v}$
 * Fundamental trade-off: as the polynomial degree increases, the training error decreases 
    * Approximation error tends to increase - overfitting with large $p$
    * Validation or cross-validation commonly used to select degree $p$
@@ -439,7 +439,8 @@ $= \frac{1}{2}||\textbf{Xw}-\textbf{y}||^2 + \frac{\lambda}{2}||\textbf{w}||^2$
    ![l1-norm-graph](./images/l1-norm-graph.PNG)
 * Huber loss is a differentiable approximation to the L1-norm
    * $f(\textbf{w}) = \frac{1}{2} \sum_{i=1}^n h(\textbf{w}^T\textbf{x}_i - y_i) = \sum_{i=1}^n h(r_i)$
-   * $h(r_i) = \begin{cases} \frac{1}{2}r_i^2 & \text{for } |r_i \leq \epsilon|\\ \epsilon(|r_i| - \frac{1}{2}\epsilon) & \text{otherwise} \end{cases}$
+   * $h(r_i) = \begin{cases} \frac{1}{2}r_i^2 & \text{for } |r_i| \leq \epsilon
+   \\ \epsilon(|r_i| - \frac{1}{2}\epsilon) & \text{otherwise} \end{cases}$
    * This loss function is convex
    * Function $h$ is differentiable
    * $h'(r_i) = \begin{cases} r_i & \text{for } |r_i \leq \epsilon|\\ \epsilon \space \mathrm{sgn}(r_i) & \text{otherwise} \end{cases}$
@@ -458,7 +459,6 @@ $= \frac{1}{2}||\textbf{Xw}-\textbf{y}||^2 + \frac{\lambda}{2}||\textbf{w}||^2$
 * In regression, it is common practice to standardise the targets in ground truth vector $\textbf{y}$
    * Replace $y_i$ with $\frac{y_i-\mu_y}{\sigma_y}$
 * If targets are standardised, setting $\textbf{w}=0$ predicts average of $\textbf{y}$
-   * Why? (come back to this)
 
 ### Feature Selection:
 * Given our training data $\textbf{X}$, find the features that are important for predicting $\textbf{y}$
@@ -473,7 +473,7 @@ $= \frac{1}{2}||\textbf{Xw}-\textbf{y}||^2 + \frac{\lambda}{2}||\textbf{w}||^2$
 * Regression-weight approach:
    * Fit regression weights $\textbf{w}$ based on all features - e.g., by using least squares
    * Take all features $j$ where $|w_j|$ is greater than a threshold
-   * Does not work well with collinearity, e.g. if the 'Friday' feature always equals the 'Fish and Chips' feature it may tell us that Fridays are relevant but Fish and Chips are not ($\hat{y}_i = w_1(FC) + w_2(FR) = 0(FC) + (w_1+w_2)(FR)$)
+   * Does not work well with collinearity, e.g. if the 'Friday' feature always equals the 'Fish and Chips' feature it may tell us that Fridays are relevant but Fish and Chips are not: $\hat{y}_i = w_1(FC) + w_2(FR) = 0(FC) + (w_1+w_2)(FR)$
 
 ### Search and score approach:
 * Define a score function $f(s)$ that measures the quality of $s$, a subset of features
@@ -596,7 +596,7 @@ $= \frac{1}{2}||\textbf{Xw}-\textbf{y}||^2 + \frac{\lambda}{2}||\textbf{w}||^2$
 ### K-means objective:
 * Find cluster centres $\textbf{m}$ and assignments $\textbf{r}$ to minimise the sum of squared distances of data points $\{\textbf{x}_1,...,\textbf{x}_n\}$ to their assigned cluster centres
 * Minimise:
-   * $f(\{\textbf{m}\}, \{\textbf{r}\}) = \sum_{i=1}^n \sum_{i=1}^K r_j^i||\textbf{m}_j-\textbf{x}_i||^2$ s.t. $\sum_{j=1}^K = 1 \space \forall K, i$ where $r_j^i \in \{0,1\}$
+   * $f(\{\textbf{m}\}, \{\textbf{r}\}) = \sum_{i=1}^n \sum_{j=1}^K r_j^i||\textbf{m}_j-\textbf{x}_i||^2$ s.t. $\sum_{j=1}^K r_j^i = 1$ where $r_j^i \in \{0,1\}$ for all data points and clusters
    * $r_j^i=1$ means that $\textbf{x}_i$ is assigned to cluster $k$ with centre $\textbf{m}_k$ (i.e. a feature can only be assigned to one mean)
 * Two step optimisation process:
    * Fix means, optimise assignments (each point assigned to cluster whose mean is closest to it)
@@ -634,9 +634,9 @@ $= \frac{1}{2}||\textbf{Xw}-\textbf{y}||^2 + \frac{\lambda}{2}||\textbf{w}||^2$
    * This is a softmax function 
    * Summing $k$ over $r_k^i$ for a given $i$ adds up to 1 - they can be interpreted as probabilities
 * How can we adapt the updating of cluster centres $\textbf{m}_k$ within the context of soft K-means clustering?
-   * We want $r_j^i \in \{0, 1\}$ with cluster $l$ contributing a term: $\sum_{i=1}^n r_l^i||\textbf{m}_l-\textbf{x}_i||^2$
+   * We want $r_j^i \in [0, 1]$ with cluster $l$ contributing a term: $\sum_{i=1}^n r_l^i||\textbf{m}_l-\textbf{x}_i||^2$
    * We want to find a $\textbf{m}_l$ such that this contribution is as small as possible
-   * $\textbf{m}_l = \underset{i} \argmin \sum_{i=1}^n r_l^i ||\textbf{m}_l-\textbf{x}_i||^2$
+   * $\textbf{m}_l = \underset{\textbf{m}} \argmin \sum_{i=1}^n r_l^i ||\textbf{m}_l-\textbf{x}_i||^2$
    * This sum is a convex function in $\textbf{m}$: it has a unique minimiser
    * $f(\textbf{m}) = \sum_{i=1}^n r_l^i(\textbf{m}^T\textbf{m}-2\textbf{m}^T\textbf{x}_i+\textbf{x}_i^T\textbf{x})$
    * $\nabla f(\textbf{m}) = \sum_{i=1}^n r_l^i (2\textbf{m}-2\textbf{x}_i)=0$
@@ -664,7 +664,7 @@ $= \frac{1}{2}||\textbf{Xw}-\textbf{y}||^2 + \frac{\lambda}{2}||\textbf{w}||^2$
    * Interpretation: figure out what the parts represent and which ones are the most important
 
 ### Principal Component Analysis (PCA):
-* Takes a matrix $\textbf{X}$ (dimensions $n \times d$) and outputs two matrices $\textbf{Z}$ (dimensions $n \times k$) and $\textbf{Z}$ (dimensions $k \times d$)
+* Takes a matrix $\textbf{X}$ (dimensions $n \times d$) and outputs two matrices $\textbf{Z}$ (dimensions $n \times k$) and $\textbf{W}$ (dimensions $k \times d$)
 * $\textbf{X} \approx \textbf{ZW}$
 * Each row $c$ of $\textbf{W}$ is a part ($\textbf{w}_c$), aka a factor or principal component (PC)
    * 1st row - most important, 2nd row - 2nd most important, ..., $k$-th row - least important
@@ -814,7 +814,7 @@ $= \frac{1}{2}||\textbf{Xw}-\textbf{y}||^2 + \frac{\lambda}{2}||\textbf{w}||^2$
 * $f(\textbf{w})=\sum_{i=1}^n\max\{0,1-y_i\textbf{w}^T\textbf{x}_i\}$
 * Properties for true label $-1$:
    * Convex and not degenerate - for $\textbf{w}=0$, the error is $1$ and not $0$ (not the lowest possible value)
-   * Error is $0$ if $\textbf{w}^T\textbf{x}_i \geq -1$
+   * Error is $0$ if $\textbf{w}^T\textbf{x}_i \leq -1$
    * Error is $1$ if $\textbf{w}^T\textbf{x}_i = 0$, i.e. matches 0-1 loss
 
 ![hinge-loss](./images/hinge-loss.PNG)
@@ -826,7 +826,7 @@ $= \frac{1}{2}||\textbf{Xw}-\textbf{y}||^2 + \frac{\lambda}{2}||\textbf{w}||^2$
 * Logistic loss: smooth degenerate approximation to 0-1 loss with a log-sum-exp
    * $\max\{0,-y_i\textbf{w}^T\textbf{x}_i\} \approx \log(\exp(0)+\exp(-y_i\textbf{w}^T\textbf{x}_i))$
    * Which gives $f(\textbf{w})=\sum_{i=1}^n \log(1+\exp(-y_i\textbf{w}^T\textbf{x}_i))$
-   * Not degenerate: if $\textbf{w}=0$, erorr is $\log(2)$ instead of $0$
+   * Not degenerate: if $\textbf{w}=0$, error is $\log(2)$ instead of $0$
    * Convex function, so differentiable
 
 ![hinge-vs-logistic-loss](./images/hinge-vs-logistic-loss.PNG)
@@ -873,7 +873,7 @@ $= \frac{1}{2}||\textbf{Xw}-\textbf{y}||^2 + \frac{\lambda}{2}||\textbf{w}||^2$
       * Softmax loss maximises the predicted value for the correct class, $y_i^{correct} = \textbf{w}^T_{y_i}\textbf{x}_i$, after mapping all predicted values for all classes to probability values $\in [0,1]$
       * $-\textbf{w}^T_{y_i}\textbf{x}_i + \log(\sum_{c=1}^k \exp(\textbf{w}_c^T\textbf{x}_i)) = -\log(\frac{\exp(y_i^{correct})}{\sum_{c=1}^k \exp(\textbf{w}_c^T\textbf{x}_i)})$
 * We sum the loss over all examples and optionally add L2-regularisation:
-   * $f(\textbf{W})=\sum_{i=1}^n(\textbf{w}^T_{y_i}\textbf{x}_i + \log(\sum_{c=1}^k \exp(\textbf{w}_c^T\textbf{x}_i))) + \frac{\lambda}{2}||\textbf{W}||_F^2$
+   * $f(\textbf{W})=\sum_{i=1}^n(-\textbf{w}^T_{y_i}\textbf{x}_i + \log(\sum_{c=1}^k \exp(\textbf{w}_c^T\textbf{x}_i))) + \frac{\lambda}{2}||\textbf{W}||_F^2$
    * Aka categorical cross-entropy loss
    * Convex and differentiable in $\textbf{W}$ - we can then find a solution
 * Multi-class linear classifier divides $\textbf{x}_i$ space into convex regions 
@@ -896,6 +896,7 @@ $= \frac{1}{2}||\textbf{Xw}-\textbf{y}||^2 + \frac{\lambda}{2}||\textbf{w}||^2$
    * Gradient with L2-regularisation: $\nabla f(\textbf{v}) = \textbf{Z}^T\textbf{Zv}-\textbf{Z}^T\textbf{y}+\lambda\textbf{v}$
    * Solution: $(\textbf{Z}^T\textbf{Z}+\lambda\textbf{I})\textbf{v} = \textbf{Z}^T\textbf{y}$
    * $\textbf{v} = (\textbf{Z}^T\textbf{Z}+\lambda\textbf{I})^{-1}(\textbf{Z}^T\textbf{y})$
+   * Which can alternatively be written as: $\textbf{v} = \textbf{Z}^T(\textbf{ZZ}^T+\lambda\textbf{I})^{-1}\textbf{y}$
 * Given test data $\tilde{\textbf{X}}$ with $t$ datapoints, we form $\tilde{\textbf{y}}$ by forming $\tilde{\textbf{Z}}$ and then using:
    * $\tilde{\textbf{y}} = \tilde{\textbf{Z}}\textbf{v}$
    * $\tilde{\textbf{y}} = \tilde{\textbf{Z}}\textbf{Z}^T(\textbf{ZZ}^T+\lambda\textbf{I})^{-1}\textbf{y}$
@@ -989,7 +990,7 @@ $= \frac{1}{2}||\textbf{Xw}-\textbf{y}||^2 + \frac{\lambda}{2}||\textbf{w}||^2$
    * $\textbf{w}^T\textbf{x}_i=1$
    * $\textbf{w}^T(\textbf{x}_j+d\frac{\textbf{w}}{||\textbf{w}||})=1$
    * $\textbf{w}^T\textbf{x}_j+d\frac{\textbf{w}^T\textbf{w}}{||\textbf{w}||}=1$
-   * $-1 + d\frac{||\textbf{w}||^2}{||\textbf{w}} = 1$
+   * $-1 + d\frac{||\textbf{w}||^2}{||\textbf{w}||} = 1$
    * $d = \frac{2}{||\textbf{w}||}$
 
 ![perpendicular-vectors](./images/perpendicular-vectors.PNG)
@@ -1008,7 +1009,7 @@ $= \frac{1}{2}||\textbf{Xw}-\textbf{y}||^2 + \frac{\lambda}{2}||\textbf{w}||^2$
 * Recall: define a loss that encourages largest $\textbf{w}_c^T\textbf{x}_i$ to be correct prediction $\textbf{w}_{y_i}^T\textbf{x}_i$
 * Defined as $\textbf{w}_{y_i}^T\textbf{x}_i > \textbf{w}_c^T\textbf{x}_i$ $\forall c \neq y_i$
 * Penalising violations of this constraint is degenerate
-* Instead, let us use: $\textbf{w}_{y_i}^T \geq \textbf{w}_c^T + 1$ $\forall c \neq y_i$
+* Instead, let us use: $\textbf{w}_{y_i}^T\textbf{x}_i \geq \textbf{w}_c^T\textbf{x}_i + 1$ $\forall c \neq y_i$
    * $0 \geq 1-\textbf{w}_{y_i}^T\textbf{x}_i+\textbf{w}_c^T\textbf{x}_i$ $\forall c \neq y_i$
 * Two ways to measure violation of constraint:
    * Sum: $\sum_{c \neq y_i} \max\{0,1-\textbf{w}_{y_i}^T\textbf{x}_i+\textbf{w}_c^T\textbf{x}_i\}$
@@ -1516,7 +1517,7 @@ $=\textbf{r}^{(2)} \textbf{W}^{(2)} h'(\textbf{z}_i^{(1)}) \textbf{x}_i$
    * This gives the identity matrix - not very useful for dimensionality reduction
 * But if $k \ll d$, $\textbf{W}_{enc}^{(1)}$ maps to a $k$-dimensional space - a dimensionality reduction
 * The output of the AE must lie in a $k$-dimensional feature space spanned by the columns of $\textbf{W}_{dec}^{(1)}$
-* Let us use the PCA feature spac as the baseline space:
+* Let us use the PCA feature space as the baseline space:
    * Let us assume the PCs are the columns of a $d \times k$ matrix $\textbf{U}$ starting from column 1, i.e. the top PC
    * The linear AE is equivalent to PCA by setting $\textbf{W}_{dec}^{(1)}=\textbf{U}$ and $\textbf{W}_{enc}^{(1)}=\textbf{U}^T$
 * If orthogonality and normalisation are imposed to $\textbf{W}_{dec}^{(1)}$, it is possible to implement PCA using this linear AE with $k=d$
@@ -1531,10 +1532,10 @@ $=\textbf{r}^{(2)} \textbf{W}^{(2)} h'(\textbf{z}_i^{(1)}) \textbf{x}_i$
    * Non-linear activation function for the encoder usually sigmoid or ReLU
    * Function used for decoder:
       * Sigmoid function: restricts all outputs to be between $0$ and $1$
-      * $\hat{\textbf{x}}_i = sigmoid(\textbf{W}_{dec}^{(1)}\textbf{z}_i)$
+      * $\hat{\textbf{x}}_i = \sigma(\textbf{W}_{dec}^{(1)}\textbf{z}_i)$
    * Non-linear activation function for the encoder usually sigmoid or ReLU
-      * $\textbf{z}_i = sigmoid(\textbf{W}_{enc}^{(1)}\textbf{x}_i)$
-* Let us assume a 1-layer AE with real-valued inputs, i.e. each $x_{ij} \in \{0,1\}$
+      * $\textbf{z}_i = \sigma(\textbf{W}_{enc}^{(1)}\textbf{x}_i)$
+* Let us assume a 1-layer AE with real-valued inputs, i.e. each $x_{ij} \in \mathbb{R}$
    * Function used for decoder:
       * Linear function will make sure outputs are real
       * $\hat{\textbf{x}}_i = \textbf{W}_{dec}^{(1)}\textbf{z}_i$
