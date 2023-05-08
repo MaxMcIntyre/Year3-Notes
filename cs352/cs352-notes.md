@@ -308,7 +308,7 @@ Similarities:
 * Both define a set of best practices for project management
 * Both focus on project initiation, planning, execution/product delivery, and closing
 * PMBOK’s 10 knowledge areas are akin to PRINCE2’s 7 themes
-* PMBOOK’s 5 process groups are equivalent to PRINCE2’s 7 processes
+* PMBOK’s 5 process groups are equivalent to PRINCE2’s 7 processes
 * In both frameworks, the process groups/processes are dividable into numerous processes/activities
 
 Differences:
