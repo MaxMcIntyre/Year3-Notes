@@ -215,6 +215,24 @@ Power/Interest grid:
 4. Unique - in some major or minor way every project is unique
 5. Cross-functional - a project needs different people with different skills - some to define what is required, others to develop the required products. These people may work for several different line managers or different companies
 
+### When/Why PRINCE2 is useful:
+* IT projects
+* Generic projects
+   * Method highly versatile
+   * Suited to all types of project
+* Smaller projects
+   * Focus on tailoring
+
+### Pros and cons of the PRINCE2 approach in a balanced way:
+| Opponents say | Proponents say |
+| ----------- | ----------- |
+| Only for large projects | Fully scalable, tailored |
+| Constrained approach | Step-by-step, by stages |
+| Inflexible, not “agile” | Iterative stages, change theme |
+| Mountains of paperwork | Needn’t be, audit trail useful |
+| Not solution-oriented | Product oriented |
+| Bureaucratic | Maintains control, by exception |
+
 ### PRINCE2 Principles:
 1. Continuous business justification
    * Is there a business benefit?
@@ -308,13 +326,14 @@ Similarities:
 * Both define a set of best practices for project management
 * Both focus on project initiation, planning, execution/product delivery, and closing
 * PMBOK’s 10 knowledge areas are akin to PRINCE2’s 7 themes
-* PMBOK’s 5 process groups are equivalent to PRINCE2’s 7 processes
-* In both frameworks, the process groups/processes are dividable into numerous processes/activities
+* PMBOK’s 5 process groups (dividable into 49 processes) are equivalent to PRINCE2’s 7 processes (dividable into 40 steps)
 
 Differences:
 | PMBOK      | PRINCE2 |
 | ----------- | ----------- |
-| Work breakdown approach | Product breakdown approach |
+| Framework | Methodology |
+| Work breakdown approach (activities focus) | Product breakdown approach (deliverables focus) |
+| Driven by customer requirements | Driven by business case |
 | Descriptive | Prescriptive |
 | Emphasises PM’s role | Also defines other roles/responsibilities |
 | Extensive | Not as detailed |
@@ -385,6 +404,13 @@ By theme:
    * Issue report
 
 ![prince2-reports](./images/prince2-reports.PNG)
+
+### Managing people/personalities (guest lecture):
+Projects mostly fail due to:
+* A failure to understand the ‘Why?’
+* A failure to understand the ‘What?’
+* Ego
+* Lack of common sense
 
 # Budgeting and Forecasting
 ### Project cost management:
