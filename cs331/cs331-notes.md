@@ -401,7 +401,7 @@
    * $\alpha \in (0,1)$ and is typically between $0.01$ and $0.3$
 * No dying ReLU or vanishing gradient problems
 * Simple and easy to compute
-* Typically, $\mathrm{LReLU}(0)$ is defined to be either $\alpha$, $1$ or $\frac{\alpha+1}{2}$
+* Typically, $\mathrm{LReLU}'(0)$ is defined to be either $\alpha$, $1$ or $\frac{\alpha+1}{2}$
 ![Lrelu-gradient](./images/lrelu-gradient.PNG)
 
 ### Parametric ReLU:
