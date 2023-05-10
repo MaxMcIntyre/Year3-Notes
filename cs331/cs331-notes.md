@@ -417,7 +417,7 @@
 ![elu-gradient](./images/elu-gradient.PNG)
 
 ### Softmax:
-* $y_i = \frac{e^{z_i}}{\sum_{j=1}^N e^{z_j}}$
+* $`y_i = \frac{e^{z_i}}{\sum_{j=1}^N e^{z_j}}`$
 * Often used for multiclass classification
 * Takes as an input a vector $\textbf{z}$ of $N$ real values and normalises it into a probability distribution $\textbf{y}$ of $N$ probabilities proportional to the exponentials of the input values
 * Uses exponentials instead of the actual values since it ensures that all entries are positive
