@@ -566,7 +566,7 @@
    * When $y=1$, $L=-\log\hat{y}$ and when $y=0$, $L=-\log(1-\hat{y})$
    * The final loss function is just the two added together: $L=-y\log\hat{y}-(1-y)\log(1-\hat{y})$
 * Multiclass log loss:
-   * $L = \sum_{i=1}^N y_i\log\hat{y}_i$ with $\sum_{i=1}^N y_i=1$ and $\sum_{i=1}^N \hat{y}_i=1$
+   * $`L = \sum_{i=1}^N y_i\log\hat{y}_i$ with $\sum_{i=1}^N y_i=1$ and $\sum_{i=1}^N \hat{y}_i=1`$
 
 # Backpropagation
 ### Gradient Descent:
