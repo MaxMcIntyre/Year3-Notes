@@ -391,7 +391,7 @@
 * For positive inputs, no vanishing gradient as its derivative becomes 1
 * Dying ReLU problem - ReLU neurons become inactive and only output 0 for any input
 * Not zero-centred
-* Typically, $\mathrm{ReLU}(0)$ is defined to be either $0$, $1$ or $\frac{1}{2}$
+* Typically, $\mathrm{ReLU}'(0)$ is defined to be either $0$, $1$ or $\frac{1}{2}$
 * Not differentiable at $x=0$ as its slope is not 'smooth' at this point - the left-hand slope is $0$ whereas the right-hand slope is $1$
 ![relu-gradient](./images/relu-gradient.PNG)
 
