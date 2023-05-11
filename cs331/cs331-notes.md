@@ -10,6 +10,8 @@
    * A subset of ML
 * NC applies a network of neurons to parse data, learns from it and uses the learnings to discover meaningful patterns for classification
    * Process of determining the network is called the learning rule 
+* GOFAI example: SHRDLU, an early NLP chatbot that uses pre-programmed, human-defined rules to answer questions intelligently to a limited extent. Receives its intelligence only from large amount of knowledge via human input
+* ML but not NC example: Support Vector Machine (SVM), a data classification ML algorithm that uses statistical methods (not brain-inspired neural networks) to maximise a margin between 2 classes in training data. Uses a Kernel function to map samples to high-dimensional feature space.
 
 # Three Learning Paradigms
 * Supervised Learning:
@@ -217,7 +219,7 @@
 * Also known as a linear threshold gate model
 * Sum: $z = x_1 + x_2 + ... + x_n$
    * No weights in an MP neuron
-* Threshold: $y = \begin{cases} 1 & z \geq \theta \\ 0 & z < \theta \end{cases}$
+* Threshold: $`y = \begin{cases} 1 & z \geq \theta \\ 0 & z < \theta \end{cases}`$
 ![mp-neuron](./images/mp-neuron.PNG)
 * Circle is like a soma
 * $\sum$ represents sum of $x$ inputs
@@ -250,17 +252,17 @@
 
 ### Vector Representation:
 * Let:
-   * $\textbf{1} = \begin{bmatrix}1 & 1 & \dots & 1\end{bmatrix}$
-   * $\textbf{x} = \begin{bmatrix} 
+   * $`\textbf{1} = \begin{bmatrix}1 & 1 & \dots & 1\end{bmatrix}`$
+   * $`\textbf{x} = \begin{bmatrix} 
     x_1 \\
     x_2 \\ 
     \vdots \\
     x_n
-    \end{bmatrix}$ 
+    \end{bmatrix}`$ 
 * It follows that:
    * $\textbf{1} \cdot \textbf{x} = x_1 + x_2 + ... x_n = z$
 * Heaviside Function:
-   * $H_\theta(z) = \begin{cases} 1 & z \geq \theta \\ 0 & z < \theta \end{cases}$
+   * $`H_\theta(z) = \begin{cases} 1 & z \geq \theta \\ 0 & z < \theta \end{cases}`$
    ![heaviside-function](./images/heaviside-function.PNG)
    * $y = H_\theta(\textbf{1} \cdot \textbf{x})$
 
@@ -288,7 +290,7 @@
 ### Perceptron:
 * $z = w_1x_1 + w_2x_2 + ... + w_nx_n$
    * Each $x_i$ and $w_i$ is real-valued
-* $y = \begin{cases} 1 & z \geq \theta \\ 0 & z < \theta \end{cases}$
+* $`y = \begin{cases} 1 & z \geq \theta \\ 0 & z < \theta \end{cases}`$
 * Covers MP neuron as a special case when:
    * All $x_i \in \{0,1\}$
    * All $w_i = 1$
@@ -300,12 +302,12 @@
 
 ### Vector Representation:
 * Form 1:
-   * Let $\textbf{x} = \begin{bmatrix}x_1 & \dots & x_n\end{bmatrix}^T$
-   * Let $\textbf{w} = \begin{bmatrix}w_1 & \dots & w_n\end{bmatrix}$
+   * Let $`\textbf{x} = \begin{bmatrix}x_1 & \dots & x_n\end{bmatrix}^T`$
+   * Let $`\textbf{w} = \begin{bmatrix}w_1 & \dots & w_n\end{bmatrix}`$
    * $y = H(\textbf{w}\cdot\textbf{x}+b)$
 * Form 2:
-   * Let $\textbf{x} = \begin{bmatrix}x_1 & \dots & x_n & b\end{bmatrix}^T$
-   * Let $\textbf{w} = \begin{bmatrix}w_1 & \dots & w_n & 1\end{bmatrix}$
+   * Let $`\textbf{x} = \begin{bmatrix}x_1 & \dots & x_n & b\end{bmatrix}^T`$
+   * Let $`\textbf{w} = \begin{bmatrix}w_1 & \dots & w_n & 1\end{bmatrix}`$
    * $y = H(\textbf{w}\cdot\textbf{x})$
 
 # Multi-Layer Perceptron
@@ -382,24 +384,24 @@
    ![tanh-gradient](./images/tanh-gradient.PNG)
 
 ### ReLu (Rectified Linear Unit):
-* $\mathrm{ReLU}(x) = \max(0,x) = \begin{cases} x & x \geq 0 \\ 0 & x < 0 \end{cases}$
+* $`\mathrm{ReLU}(x) = \max(0,x) = \begin{cases} x & x \geq 0 \\ 0 & x < 0 \end{cases}`$
 ![relu](./images/relu.PNG)
 * A piecewise linear function, but globally a non-linea rfunction which has a derivative allowing for backpropagation
 * Simple and easy to compute
 * For positive inputs, no vanishing gradient as its derivative becomes 1
 * Dying ReLU problem - ReLU neurons become inactive and only output 0 for any input
 * Not zero-centred
-* Typically, $\mathrm{ReLU}(0)$ is defined to be either $0$, $1$ or $\frac{1}{2}$
+* Typically, $\mathrm{ReLU}'(0)$ is defined to be either $0$, $1$ or $\frac{1}{2}$
 * Not differentiable at $x=0$ as its slope is not 'smooth' at this point - the left-hand slope is $0$ whereas the right-hand slope is $1$
 ![relu-gradient](./images/relu-gradient.PNG)
 
 ### Leaky ReLU:
-* $\mathrm{LReLU}(x) = \max(\alpha x, x) = \begin{cases} x & x \geq 0 \\ \alpha x & x < 0 \end{cases}$ where $\alpha$ is a small constant
+* $`\mathrm{LReLU}(x) = \max(\alpha x, x) = \begin{cases} x & x \geq 0 \\ \alpha x & x < 0 \end{cases}`$ where $\alpha$ is a small constant
 ![lrelu](./images/lrelu.PNG)
    * $\alpha \in (0,1)$ and is typically between $0.01$ and $0.3$
 * No dying ReLU or vanishing gradient problems
 * Simple and easy to compute
-* Typically, $\mathrm{LReLU}(0)$ is defined to be either $\alpha$, $1$ or $\frac{\alpha+1}{2}$
+* Typically, $\mathrm{LReLU}'(0)$ is defined to be either $\alpha$, $1$ or $\frac{\alpha+1}{2}$
 ![Lrelu-gradient](./images/lrelu-gradient.PNG)
 
 ### Parametric ReLU:
@@ -407,15 +409,15 @@
 * Gives a considerable rise in the accuracy at a negligible extra computational cost
 
 ### Exponential Linear Unit (ELU):
-* $\mathrm{ELU}(x) = \begin{cases} x & x \geq 0 \\ \alpha(e^x-1) & x < 0 \end{cases}$
+* $`\mathrm{ELU}(x) = \begin{cases} x & x \geq 0 \\ \alpha(e^x-1) & x < 0 \end{cases}`$
 ![elu](./images/elu.PNG)
 * Smoother at $x=0$ than LReLU, and no dying ReLU or vanishing gradient problems for $x \geq 0$
 * More computationally expensive than LReLU and ReLU
-* $\mathrm{ELU'}(x) = \begin{cases} 1 & x \geq 0 \\ \alpha e^x & x < 0 \end{cases}$
+* $`\mathrm{ELU'}(x) = \begin{cases} 1 & x \geq 0 \\ \alpha e^x & x < 0 \end{cases}`$
 ![elu-gradient](./images/elu-gradient.PNG)
 
 ### Softmax:
-* $y_i = \frac{e^{z_i}}{\sum_{j=1}^N e^{z_j}}$
+* $`y_i = \frac{e^{z_i}}{\sum_{j=1}^N e^{z_j}}`$
 * Often used for multiclass classification
 * Takes as an input a vector $\textbf{z}$ of $N$ real values and normalises it into a probability distribution $\textbf{y}$ of $N$ probabilities proportional to the exponentials of the input values
 * Uses exponentials instead of the actual values since it ensures that all entries are positive
@@ -432,9 +434,9 @@
 ![maxout](./images/maxout.PNG)
    * $x$ the same in each hidden $z$ node, but weights different
 * Generalises ReLU, LReLU and absolute ReLU, and can work better than them
-   * When $(w_1,b_1) = (1,0)$ and (w_2,b_2) = (0,0)$, $y=\max(x,0) = \mathrm{ReLU}(x)$
-   * When $(w_1,b_1) = (1,0)$ and (w_2,b_2) = (\alpha,0)$, $y=\max(x,\alpha x) = \mathrm{LReLU}(x)$
-   * When $(w_1,b_1) = (1,0)$ and (w_2,b_2) = (-1,0)$, $y=\max(x,-x) = |x|$
+   * When $(w_1,b_1) = (1,0)$ and $(w_2,b_2) = (0,0)$, $y=\max(x,0) = \mathrm{ReLU}(x)$
+   * When $(w_1,b_1) = (1,0)$ and $(w_2,b_2) = (\alpha,0)$, $y=\max(x,\alpha x) = \mathrm{LReLU}(x)$
+   * When $(w_1,b_1) = (1,0)$ and $(w_2,b_2) = (-1,0)$, $y=\max(x,-x) = |x|$
 * A single maxout unit can approximately learn any convex function
 ![maxout-convex-function](./images/maxout-convex-function.PNG)
 * An MLP with two maxout units can approximately learn any continuous function
@@ -515,15 +517,15 @@
 
 ### Norms:
 * L1 and L2 losses owe their names to the L1 and L2 norm of a vector
-* L1-norm: $||\textbf{x}||_1 = \sum_{i=1}^n|x_i|$
-* L2-norm: $||\textbf{x}||_2 = \sqrt{\sum_{i=1}^n|x_i|^2}$
-* Lp-norm: $||\textbf{x}||_p = \sqrt[p]{\sum_{i=1}^n|x_i|^p}$
+* L1-norm: $`||\textbf{x}||_1 = \sum_{i=1}^n|x_i|`$
+* L2-norm: $`||\textbf{x}||_2 = \sqrt{\sum_{i=1}^n|x_i|^2}`$
+* Lp-norm: $`||\textbf{x}||_p = \sqrt[p]{\sum_{i=1}^n|x_i|^p}`$
 * L $\infty$-norm: $||\textbf{x}||_\infty = \underset{1 \leq i \leq n} \max |x_i|$
 * Norm Equivalence:
    * Two norms are equivalent if there exists two constants $c$ and $C$ such that:
       * $c \cdot ||\textbf{x}||_q \leq ||\textbf{x}||_p \leq C \cdot ||\textbf{x}||_q$
    * L1 and L2 norms are equivalent since there exist $(c, C) = (1, \sqrt{n})$ such that $||\textbf{x}||_2 \leq ||\textbf{x}||_1 \leq \sqrt{n} ||\textbf{x}||_2$
-   * Also both are equivalent with the L $\infty$-norm since $||\textbf{x}||_\infty \leq ||\textbf{x}||_2 \leq \sqrt{n} ||\textbf{x}||_\infty$ and $||\textbf{x}||_\infty \leq ||\textbf{x}||_1 \leq \sqrt{n} ||\textbf{x}||_\infty$
+   * Also both are equivalent with the L $\infty$-norm since $`||\textbf{x}||_\infty \leq ||\textbf{x}||_2 \leq \sqrt{n} ||\textbf{x}||_\infty`$ and $`||\textbf{x}||_\infty \leq ||\textbf{x}||_1 \leq \sqrt{n} ||\textbf{x}||_\infty`$
 
 ### L0-norm:
 * Defined to be the number of non-zero entries in $\textbf{x}$
@@ -564,7 +566,7 @@
    * When $y=1$, $L=-\log\hat{y}$ and when $y=0$, $L=-\log(1-\hat{y})$
    * The final loss function is just the two added together: $L=-y\log\hat{y}-(1-y)\log(1-\hat{y})$
 * Multiclass log loss:
-   * $L = \sum_{i=1}^N y_i\log\hat{y}_i$ with $\sum_{i=1}^N y_i=1$ and $\sum_{i=1}^N \hat{y}_i=1$
+   * $`L = \sum_{i=1}^N y_i\log\hat{y}_i$ with $\sum_{i=1}^N y_i=1$ and $\sum_{i=1}^N \hat{y}_i=1`$
 
 # Backpropagation
 ### Gradient Descent:
@@ -580,7 +582,7 @@
 * Represents how variables in an expression are dependent on each other
 * Useful for visualising chain rules for partial derivatives of multivariate functions
 * Each node is a variable in the expression
-* Each edge denotes '$x$ affects $y$', carrying a value labelled as $y_x$ (i.e. the partial derivative of $y$ w.r.t. $x$)
+* Each edge denotes '$`x`$ affects $y$', carrying a value labelled as $y_x$ (i.e. the partial derivative of $y$ w.r.t. $x$)
 * Example:
 ![dependency-graph](./images/dependency-graph.PNG)
 * To compute a derivative $z_x$, multiply all the local partial derivatives together on each path between $x$ and $z$ and sum these products over all the paths between paths $x$ and $z$
@@ -610,11 +612,11 @@
    * $b = b - \alpha (\hat{y}-y)$
 * Caching repeated paths:
    * Instead of just naively summing over the paths, it would be much more efficient to use caching by merging paths back together at every node
-   * Consider the example below, where we want to compute $\nabla L  = \begin{bmatrix} 
+   * Consider the example below, where we want to compute $`\nabla L  = \begin{bmatrix} 
     L_{w_1} \\
     L_{w_2} \\ 
     L_{w_3}
-    \end{bmatrix}$ :
+    \end{bmatrix}`$ :
    ![caching-paths-example](./images/caching-paths-example.PNG)
       * Naive method: 
          * $L_{w_1} = L_{y_1}\cdot y_{1_z}\cdot z_{w_1} + L_{y_2}\cdot y_{2_z}\cdot z_{w_1} + L_{y_3}\cdot y_{3_z}\cdot z_{w_1}$
@@ -683,7 +685,7 @@
 ### Updating Neuron State:
 * When training a HN, we want all neurons to have stable states:
    * $\textbf{s}(t+1) = F(\textbf{W}\cdot\textbf{s}(t))$
-* For a bipolar HN, the neuronal activation function $F$ is $F(x)=\mathrm{sgn}(x)=\begin{cases} 1 & x \geq 0 \\ -1 & x < 0\end{cases}$
+* For a bipolar HN, the neuronal activation function $F$ is $`F(x)=\mathrm{sgn}(x)=\begin{cases} 1 & x \geq 0 \\ -1 & x < 0\end{cases}`$
 * In component form, the neuron state updating formula is: $s_i(t+1)=\mathrm{sgn}(\sum_{j=1}^n W_{i,j}s_j(t))$
 
 ### Stable Patterns:
@@ -792,9 +794,9 @@
    * $h_t = o_t \tanh(c_t)$
       * $c_t$ can be out of range $(-1,1)$, so use $\tanh$ function to squeeze it into this range
    * Gates:
-      * $f_t = \sigma(W_f * \begin{bmatrix} h_{t-1} \\ x_t \end{bmatrix})$
-      * $i_t = \sigma(W_i * \begin{bmatrix} h_{t-1} \\ x_t \end{bmatrix})$
-      * $o_t = \sigma(W_o * \begin{bmatrix} h_{t-1} \\ x_t \end{bmatrix})$
+      * $`f_t = \sigma(W_f * \begin{bmatrix} h_{t-1} \\ x_t \end{bmatrix})`$
+      * $`i_t = \sigma(W_i * \begin{bmatrix} h_{t-1} \\ x_t \end{bmatrix})`$
+      * $`o_t = \sigma(W_o * \begin{bmatrix} h_{t-1} \\ x_t \end{bmatrix})`$
          * $*$ denotes Hadamard (element-wise) multiplication
       * Sigmoid layer takes $h_{t-1}$ and $x_t$ as inputs
       * The weight matrices $W_f$, $W_i$ and $W_o$ are initialised at random, and learned as the network trains
@@ -835,9 +837,9 @@
    * Yale Format (CSR)
    * Coordinate List (COO)
 * Laplacian Matrix:
-   * $\textbf{L}=(L_{i,j}) = \begin{cases} \mathrm{deg}(i) & \text{if } i=j \\ -1 & \text{if } i \neq j \text{ and there exists an edge } (i,j) \in E \\ 0 & \text{otherwise } \end{cases}$
+   * $`\textbf{L}=(L_{i,j}) = \begin{cases} \mathrm{deg}(i) & \text{if } i=j \\ -1 & \text{if } i \neq j \text{ and there exists an edge } (i,j) \in E \\ 0 & \text{otherwise } \end{cases}`$
    * $\textbf{L}=\textbf{D}-\textbf{A}$ where:
-      * $\textbf{D}$ is a degree matrix (a diagonal matrix with $D_{i,i}=\mathrm{deg}(i)$)
+      * $\textbf{D}$ is a degree matrix (a diagonal matrix with $`D_{i,i}=\mathrm{deg}(i)`$)
       * $\textbf{A}$ is an adjacency matrix
    * $\textbf{L}$ is symmetric
    * Each row and column sums to 0
@@ -892,30 +894,29 @@
 ### Matrix Form of PageRank:
 * Finding PageRank value for each node doesn't work as well for large graphs
 * $\textbf{p}=c\textbf{Wp}+\frac{1-c}{|V|}\textbf{1}$
-   * $W_{i,j}=\begin{cases} \frac{1}{|O(j)|} & \text{if } \exists (j,i) \in E \\ 0 & \text{otherwise} \end{cases}$
+   * $`W_{i,j}=\begin{cases} \frac{1}{|O(j)|} & \text{if } \exists (j,i) \in E \\ 0 & \text{otherwise} \end{cases}`$
       * $\textbf{W}=\mathrm{col\_norm}(\textbf{A}^T)=(\mathrm{row\_norm}(\textbf{A}))^T$
       ![w-matrix-column-norms](./images/w-matrix-column-norms.PNG)
       * A matrix is column-stochastic if each column sums to 1 and each element is between 0 and 1
       * $\textbf{W}$ is a column-stochastic matrix that describes the transition of a Markov chain
-      * In terms of matrix operations: $\textbf{W}=\textbf{A}^T(\mathrm{diag}(\textbf{d})^{-1})=\textbf{A}^T\textbf{D}^{-1}
-      $ where $\textbf{d}$ is the out-degree vector of the graph
+      * In terms of matrix operations: $`\textbf{W}=\textbf{A}^T(\mathrm{diag}(\textbf{d})^{-1})=\textbf{A}^T\textbf{D}^{-1}`$ where $\textbf{d}$ is the out-degree vector of the graph
       ![w-matrix-operations](./images/w-matrix-operations.PNG)
    * Goal: solve for $\textbf{p}$
 * Method 1 - fixed-point iteration:
    * $\textbf{p}_0 = \frac{1}{\|V|}\textbf{1}$ - initial PageRank value for each node is equally important $\frac{1}{|V|}$
-   * $\textbf{p}_k=c\textbf{Wp}_{k-1}+\frac{1-c}{|V|}\textbf{1}$
+   * $`\textbf{p}_k=c\textbf{Wp}_{k-1}+\frac{1-c}{|V|}\textbf{1}`$
    * As $k \rightarrow \infty$, $\textbf{p}_k \rightarrow \textbf{p}$
    * When the random surfer keeps walking for a long time, the distribution of PageRank values in $\textbf{p}$ does not change anymore - this distribution is called a stationary distribution
    * How many iterations $k$ are required to achieve a desired accuracy?
       * Given a desired accuracy $\epsilon$, goal is to to find $k$ such that $||\textbf{p}_k-\textbf{p}||_1 \leq \epsilon$
-      * $\textbf{p}_k=c\textbf{Wp}_{k-1}+\frac{1-c}{|V|}\textbf{1}$ (1)
+      * $`\textbf{p}_k=c\textbf{Wp}_{k-1}+\frac{1-c}{|V|}\textbf{1}`$ (1)
       * $\textbf{p}=c\textbf{Wp}+\frac{1-c}{|V|}\textbf{1}$ (2)
-      * (1) - (2): $\textbf{p}_k-\textbf{p}=c\textbf{W}(\textbf{p}_{k-1}-\textbf{p})$
-         * $\textbf{p}_{k-1}-\textbf{p}=c\textbf{W}(\textbf{p}_{k-2}-\textbf{p})$
-         * $\textbf{p}_{k-2}-\textbf{p}=c\textbf{W}(\textbf{p}_{k-3}-\textbf{p})$ ...
+      * (1) - (2): $`\textbf{p}_k-\textbf{p}=c\textbf{W}(\textbf{p}_{k-1}-\textbf{p})`$
+         * $`\textbf{p}_{k-1}-\textbf{p}=c\textbf{W}(\textbf{p}_{k-2}-\textbf{p})`$
+         * $`\textbf{p}_{k-2}-\textbf{p}=c\textbf{W}(\textbf{p}_{k-3}-\textbf{p})`$ ...
          * $\textbf{p}_2-\textbf{p}=c\textbf{W}(\textbf{p}_1-\textbf{p})$
          * $\textbf{p}_1-\textbf{p}=c\textbf{W}(\textbf{p}_0-\textbf{p})$
-      * $\textbf{p}_k-\textbf{p}=c\textbf{W}(\textbf{p}_{k-1}-\textbf{p}) = c^2\textbf{W}^2(\textbf{p}_{k-2}-\textbf{p}) = c^3\textbf{W}^3(\textbf{p}_{k-3}-\textbf{p}) = ... = c^k\textbf{W}^k(\textbf{p}_0-\textbf{p})$
+      * $`\textbf{p}_k-\textbf{p}=c\textbf{W}(\textbf{p}_{k-1}-\textbf{p}) = c^2\textbf{W}^2(\textbf{p}_{k-2}-\textbf{p}) = c^3\textbf{W}^3(\textbf{p}_{k-3}-\textbf{p}) = ... = c^k\textbf{W}^k(\textbf{p}_0-\textbf{p})`$
       * $||\textbf{p}_k-\textbf{p}||_1=c^k||\textbf{W}^k(\textbf{p}_0-\textbf{p})||_1 \leq c^k(||\textbf{W}||_1)^k||\textbf{p}_0-\textbf{p}||_1$
       * Since $||\textbf{W}||_1 \leq 1$ and $||\textbf{p}_0-\textbf{p}||_1 \leq ||\textbf{p}_0||_1+||\textbf{p}||_1 \leq 2$, $||\textbf{p}_k-\textbf{p}||_1 \leq 2c^k$ 
       * $k \geq \log_c(\frac{\epsilon}{2})$
@@ -959,14 +960,14 @@
 ### SimRank:
 * Two nodes are similar if they are pointed to by similar nodes (global measure, considers multi-hops neighbours)
 * Every node is most similar to itself
-* $s(a,b) = \begin{cases} 0 & \text{if } I(a)=0 \text{ or } I(b)=0 \\ \frac{C}{|I(a)||I(b)|}\sum_{x \in I(a)}\sum_{y \in I(b)}s(x,y) & \text{if } a \neq b \\ 1 & \text{if } a=b \end{cases}$
+* $`s(a,b) = \begin{cases} 0 & \text{if } I(a)=0 \text{ or } I(b)=0 \\ \frac{C}{|I(a)||I(b)|}\sum_{x \in I(a)}\sum_{y \in I(b)}s(x,y) & \text{if } a \neq b \\ 1 & \text{if } a=b \end{cases}`$
    * $C \in [0,1]$ is a decay factor
 * Computing a single-pair SimRank on a graph $G=(V,E)$ requires $O(|E|^2)$ time and $O(|V|^2)$ space (may require all nodes)
 * Measures how soon two surfers are expected to meet at the same node if they start at nodes $a$ and $b$ and walk the graph backwards
 * Properties of SimRank: same as Jaccard
-   * We prove that $s(a,b) \leq 1$ by constructing $s_k(*,*)$ and induction on $k$:
-      * $s_0(a,b) = \begin{cases} 0 & \text{if } a \neq b \\ 1 & \text{if } a=b \end{cases}$
-      * $s_{k+1}(a,b) = \begin{cases} 0 & \text{if } I(a)=0 \text{ or } I(b)=0 \\ \frac{C}{|I(a)||I(b)|}\sum_{x \in I(a)}\sum_{y \in I(b)}s_k(x,y) & \text{if } a \neq b \\ 1 & \text{if } a=b \end{cases}$
+   * We prove that $s(a,b) \leq 1$ by constructing $`s_k(*,*)`$ and induction on $k$:
+      * $`s_0(a,b) = \begin{cases} 0 & \text{if } a \neq b \\ 1 & \text{if } a=b \end{cases}`$
+      * $`s_{k+1}(a,b) = \begin{cases} 0 & \text{if } I(a)=0 \text{ or } I(b)=0 \\ \frac{C}{|I(a)||I(b)|}\sum_{x \in I(a)}\sum_{y \in I(b)}s_k(x,y) & \text{if } a \neq b \\ 1 & \text{if } a=b \end{cases}`$
       * For $k=0$, by definition $s_0(a,b) \leq 1$
       * Suppose that $s_k(a,b) \leq 1$ holds
       * When $a \neq b$, $s_{k+1}(a,b) = \frac{C}{|I(a)||I(b)|}\sum_{x \in I(a)}\sum_{y \in I(b)}s_k(x,y) \leq \frac{C}{|I(a)||I(b)|}\sum_{x \in I(a)}\sum_{y \in I(b)}1 \leq \frac{C}{|I(a)||I(b)|} \cdot |I(a)||I(b)| \leq C \leq 1$
@@ -984,20 +985,20 @@
 * Single-pair:
    * Given a graph $G=(V,E)$ and one pair of nodes $(a,b)$, compute $s(a,b)$
 * All-pairs:
-   * Given a graph $G=(V,E)$, retrieve $|V|^2$ pairs of similarities $s(*,*)=\{s(x,y)\}_{x \in V, y \in V}$
+   * Given a graph $G=(V,E)$, retrieve $|V|^2$ pairs of similarities $`s(*,*)=\{s(x,y)\}_{x \in V, y \in V}`$
    * Consider computing $s(a,b)$ and $s(a,d)$:
       * When done in a naive way, the the SimRank of two nodes from the set $I(b) \cap I(d)$ will be computed twice
    * Define a partial sum function:
-      * $\mathrm{Partial}_{I(a)}^{s_k}(j) = \sum_{i \in I(a)} s_k(i,j)$
+      * $`\mathrm{Partial}_{I(a)}^{s_k}(j) = \sum_{i \in I(a)} s_k(i,j)`$
       * Aggregates SimRank similarities $s_k(*,j)$ over in-neighbour set $I(a)$
       * $s_{k+1}(a,b) = \frac{C}{|I(a)||I(b)|}\sum_{j \in I(b)}\mathrm{Partial}_{I(a)}^{s_k}(j)$
       * $s_{k+1}(a,d) = \frac{C}{|I(a)||I(d)|}\sum_{j \in I(d)}\mathrm{Partial}_{I(a)}^{s_k}(j)$
       * Once computed, the partial sum is memorised for later reuse to avoid duplicate computations
 
 ### Matrix Form of SimRank:
-* $\textbf{S}_{a,b} = C \cdot \textbf{Q}^T_{a,*} \cdot \textbf{S} \cdot \textbf{Q}_{*,b}$ where
+* $`\textbf{S}_{a,b} = C \cdot \textbf{Q}^T_{a,*} \cdot \textbf{S} \cdot \textbf{Q}_{*,b}`$ where
    * $S_{i,j}$ is the SimRank score between nodes $i$ and $j$
-   * $Q_{i,j} = \begin{cases} \frac{1}{|I(j)|} & \text{if } \exists (i,i) \in E \\ 0 & \text{otherwise} \end{cases} = \mathrm{col\_norm}(\textbf{A})$
+   * $`Q_{i,j} = \begin{cases} \frac{1}{|I(j)|} & \text{if } \exists (i,i) \in E \\ 0 & \text{otherwise} \end{cases} = \mathrm{col\_norm}(\textbf{A})`$
    * When $a=b$, all diagonal elements of $\textbf{S}$ are 1. $S_{a,a}=1$
    ![simrank-matrix](./images/simrank-matrix.PNG)
 * $\textbf{S}=\max(C \cdot \textbf{Q}^T\textbf{SQ},\textbf{I})$
@@ -1008,12 +1009,12 @@
    * Repeat until $\textbf{S}_k$ converges to $\textbf{S}$:
       * Compute $\textbf{S}_{k+1}=\max(C \cdot \textbf{Q}^T\textbf{S}_k\textbf{Q},\textbf{I})$
 * How many iterations $k$ are required to achieve a desired accuracy?
-   * Given a desired accuracy $\epsilon > 0$, goal is to find $k$ such that $|\textbf{S}_k-\textbf{S}|_{\mathrm{max}} \leq \epsilon$
+   * Given a desired accuracy $\epsilon > 0$, goal is to find $k$ such that $`|\textbf{S}_k-\textbf{S}|_{\mathrm{max}} \leq \epsilon`$
    * $\textbf{S} = \max(C \cdot \textbf{Q}^T\textbf{SQ},\textbf{I})$ (1)
    * $\textbf{S}_{k+1} = \max(C \cdot \textbf{Q}^T\textbf{S}_k\textbf{Q},\textbf{I})$, $\textbf{S}_0 = \textbf{I}$ (2)
-   * (1) - (2): $\textbf{S}-\textbf{S}_k = C \cdot \textbf{Q}^T(\textbf{S}-\textbf{S}_{k-1})\textbf{Q} = C^2 \cdot (\textbf{Q}^T)^2(\textbf{S}-\textbf{S}_{k-2})\textbf{Q} = C^3 \cdot (\textbf{Q}^T)^3(\textbf{S}-\textbf{S}_{k-3})\textbf{Q} = ... =  C^k \cdot (\textbf{Q}^T)^k(\textbf{S}-\textbf{S}_{0})\textbf{Q}$
+   * (1) - (2): $`\textbf{S}-\textbf{S}_k = C \cdot \textbf{Q}^T(\textbf{S}-\textbf{S}_{k-1})\textbf{Q} = C^2 \cdot (\textbf{Q}^T)^2(\textbf{S}-\textbf{S}_{k-2})\textbf{Q} = C^3 \cdot (\textbf{Q}^T)^3(\textbf{S}-\textbf{S}_{k-3})\textbf{Q} = ... =  C^k \cdot (\textbf{Q}^T)^k(\textbf{S}-\textbf{S}_{0})\textbf{Q}`$
    * $\textbf{S}-\textbf{S}_0 = C\textbf{Q}^T\textbf{SQ} - \mathrm{diag}(C\textbf{Q}^T\textbf{SQ}) \leq C\textbf{Q}^T\textbf{SQ} \leq C\textbf{Q}^T\textbf{1Q} \leq C\cdot\textbf{1Q} \leq C\cdot\textbf{1}$
    * $(\textbf{Q}^T)^k(\textbf{S}-\textbf{S}_0)\textbf{Q}^k \leq C\cdot(\textbf{Q}^T)^k\textbf{1Q}^k \leq C\cdot\textbf{1}\cdot\textbf{Q}^k \leq C\cdot\textbf{1}$
    * $C^k \cdot (\textbf{Q}^T)^k(\textbf{S}-\textbf{S}_{0})\textbf{Q} \leq C^k \cdot (C \cdot \textbf{1}) = C^{k+1} \cdot \textbf{1}$
-   * $||\textbf{S}-\textbf{S}_k||_{\mathrm{max}} \leq C^{k+1} \leq \epsilon$
+   * $`||\textbf{S}-\textbf{S}_k||_{\mathrm{max}} \leq C^{k+1} \leq \epsilon`$
    * $k \geq \lceil \log_c\epsilon \rceil$
