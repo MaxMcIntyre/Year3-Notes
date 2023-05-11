@@ -1,39 +1,32 @@
 # CS352 Project Management for Computer Scientists
 
-# Introduction and Project Initiation
-Project - "a temporary endeavour undertaken to create a unique product service or result"
-* Finite, well-defined, self-contained
-* Clear goal
-* To change something
-
-Why should a project be managed?
-* Investors
-* Business
-* Workers
-
-Need to balance everyone's needs
-
+# Project Initiation
 ### The Balancing Act:
 * The iron triangle - quality constrained by cost (budget), time (deadlines) and scope (features)
-* A rigid triangle
 ![iron-triangle](./images/iron-triangle.PNG)
-* The decuple constraint: scope, time, cost, quality, risk, resources (including HR), procurement, stakeholders, communication, integration
-   * PM knowledge areas
 * Management is a balancing act between these competing constraints
 * PMBOK:
-   * 10 knowledge areas
-   * 5 process groups
+   * 10 knowledge areas:
+      1. Integration
+      2. Scope
+      3. Time
+      4. Cost
+      5. Quality 
+      6. Resources/HR
+      7. Communication
+      8. Risk
+      9. Procurement 
+      10. Stakeholder
+   * 5 process groups:
+      1. Initiation: business case - why do the project?
+      2. Planning: balance time, cost, scope, risk...
+      3. Execution: the real work
+      4. Monitoring and Controlling: monitor and review progress
+      5. Closing: delivery, audits and lessons learned
    * 49 individual processes, for each:
       * Inputs
       * Tools, techniques, best practices
       * Outputs
-
-### Process Groups:
-1. Initiation: business case - why do the project?
-2. Planning: balance time, cost, scope, risk...
-3. Execution: the real work
-4. Monitoring and Controlling: monitor and review progress
-5. Closing: delivery, audits and lessons learned
 
 ![process-groups](./images/process-groups.PNG)
 
@@ -56,7 +49,7 @@ Need to balance everyone's needs
 * During project - guides key project decisions
 * End of project - learning linchpin for business
 
-### Project Charter
+### Project Charter:
 * Project mandate + business case -> project charter
 * Formally authorises the existence of the project and provides the PM with the authority to apply resources
 * Inputs:
@@ -93,23 +86,9 @@ Power/Interest grid:
 * SMART - Specific, Measurable, Achievable, Relevant, Time-bound
 
 # Scope and Time Management
-### Developing a project plan:
-* Once the project is given the go-ahead and the charter is signed off by the sponsor, the PM takes over
-* First steps:
-   1. Breakdown work (scope), plan timeline (time)
-   2. Set out milestones, identify bottlenecks (risk)
-   3. Plan budget (cost), allocate resources (resources)
-* This is an iterative process
-
-### Project scope management:
-   * Plan scope management - how will scope be defined, validated and controlled?
-   * Collect requirements - document stakeholder requirements
-   * Define scope - project and product descriptions
-   * Create WBS - subdivide deliverables into smaller, more manageable components
-
 ### Work Breakdown Structure (WBS):
-* 'A deliverable-oriented hierarchical decomposition of the work to be executed by the project team to accomplish the project objectives and create the required deliverables'
-* Organises and defines total scope of the project
+* Hierarchical decomposition of the work
+   * Organises and defines total scope of the project
 * Each level represents and increasingly detailed definition of the work to be completed
 * Work package - smallest unit of WBS
    * Set of related tasks and deliverables
@@ -138,13 +117,6 @@ Power/Interest grid:
       * Creativity is at the discretion of the PM - WBS is a tool to fix the scope
    * May overlook costly processes that consume time and resources
       * We can still use it to plan the schedule and budget - we will decide how to do the work after we have decided the what
-
-### Project Time Management:
-* Plan schedule management - how will the schedule be planned, managed, executed and controlled?
-* Define activities - which actions will produce the deliverables?
-* Sequence activities - relationships/dependencies
-* Estimate activity durations
-* Develop schedule - balancing constraints to create a timeline
 
 ### Estimating Durations:
 * Analagous - how long it took last time, adjusted to this project
@@ -185,9 +157,9 @@ Power/Interest grid:
 ![activity-node](./images/activity-node.PNG)
 
 * Drag time - the amount of time a critical task adds to the project duration, i.e. the amount of time it would need to be shortened by to no longer be critical
-   * Drag $= \min\{D, \min TF_{parallel}\}$
+   * $Drag = \min\{D, \min TF_{parallel}\}$
 * Crash duration - shortest possible time for which an activity can be scheduled, to speed up the whole project
-   * $D - $ Drag
+   * $Crash = D - Drag$
 * Free float - the amount of time that an activity can be delayed without delaying the start of any subsequent activities
    * $FF=ES_{next}-EF$
    * $FF \leq TF$
@@ -291,15 +263,6 @@ Power/Interest grid:
    * Day-to-day management
    * Granted authorisation from the board
    * Needs approval from the board to change the plan beyond agreed limits
-* Team manager
-   * Managing teams/developers and production quality
-* Outside the project:
-   * Corporate/programme management - commissioning, mandate
-   * Quality assurance - auditing (on behalf of corporate management), assures interests of business
-* Additional roles:
-   * Project assurance - auditing (on behalf of project board), assures interests of board
-   * Change authority - makes some decisions on behalf of the board (more authority than PM)
-   * Project support - helps project manager in management activities (admin role)
 
 ![prince2-roles](./images/prince2-roles.PNG)
 
@@ -351,57 +314,28 @@ Differences:
    * Product descriptions - a specification (especially quality criteria)
    * Product flow diagram - a network diagram of product dependencies
 
-Management products:
+### Management Products:
 * Records:
-   * Logs: daily, lessons
-   * Registers: issue, quality, risk, configuration item
+   * Lessons Log
+   * Risk Register
+      * For each risk:
+         1. Identify threats and opportunities
+         2. Assess probability, impact and proximity
+         3. Plan appropriate responses
+         4. Implement the planned responses
+         5. Communicate to interested parties
+   * Quality Register
+      * Holds details of all quality events planned and undertaken
 * Baselines (versioned):
-   * Approval: project brief, project initiation (PID), project product description (PPD), business case, benefits review plan
-   * Management strategies: quality, risk, config, comms
-   * Plans: project plan, stage plan, team plan, work package
-* Reports:
-   * Stage boundary: end stage, end project, lessons
-   * Change: highlights, issues, exception
-
-By theme:
-* Business case:
-   * Outline business case
-   * Business case
+   * Project Brief
+   * Project Initiation Document (PID)
+   * Business Case
       * Formally verified by board at each key decision point
       * Centre of impact assessment of risks, benefits, issues and changes
       * If project no longer justified, shut it down
-* Organisation:
-   * Project management team structure
-      * Clear roles, responsibilities and accountabilities
-* Plan:
-   * Project plan - overall
-   * Initiation stage plan - plan the planning stage
-   * Next stage plan
-   * Team plan - for work packages
-   * Exception plan - to recover from the effect of a tolerance deviation
-* Quality:
-   * Project product description (PPD) - deliverables, customer's quality expectations, acceptance criteria
-   * Quality management strategy - standards, techniques, procedures and tools to be used
-   * Product description - for each major product
-   * Quality register - holding details of all quality events planned and undertaken
-* Progress:
-   * Progress reports - measure progress against plan
-   * Exception reports - raise exception to board if tolerances exceeded
-* Risk:
-   * Risk register:
-      1. Identify threats and opportunities
-      2. Assess probability, impact and proximity
-      3. Plan appropriate responses
-      4. Implement the planned responses
-      5. Communicate to interested parties
-* Change:
-   * Issue register:
-      1. Capture - record issue
-      2. Examine - assess impact
-      3. Propose - consider options
-      4. Decide - escalate? (raise exception - exception report)
-      5. Implement - take corrective action
-   * Issue report
+* Reports:
+   * Exception Report
+      * Exception raised to board if tolerances exceeded for deviations from progress against plan
 
 ![prince2-reports](./images/prince2-reports.PNG)
 
@@ -413,24 +347,6 @@ Projects mostly fail due to:
 * Lack of common sense
 
 # Budgeting and Forecasting
-### Project cost management:
-* Plan cost management - how will costs be managed?
-* Estimate costs of activities
-* Determine budget - cost baseline
-* Control costs - monitor activity status, update baseline, manage changes
-
-### Creating a project budget:
-* Relies on understanding scope, schedule and resources
-* Characteristics of a good budget: planned, structured, controlled
-* Inputs: 
-   * Project management plan
-   * Project charter 
-   * Environmental factors and organisational assets
-* Outputs: 
-   * Cost management plan - how the organisation will manage cost variance
-   * Activity cost estimates
-   * Cost baseline
-
 ### Cost per X:
 * Three types:
    1. Cost per time unit - typically used to budget HR
@@ -528,35 +444,6 @@ Projects mostly fail due to:
    * Metrics tell us if we are hitting targets, getting better or getting worse
    * Early identification of mistakes or issues
    * Informed decision making and proactive management
-* Example KPIs:
-   * Scope:
-      * % tasks complete
-      * To-do list size
-      * No. of scope review meetings
-   * Timeliness:
-      * % tasks on time
-      * Time spent on schedule
-      * No. of schedule revisions
-   * Budget:
-      * % tasks on budget
-      * Budget variance
-      * Budget creation time
-      * No. of budget revisions
-   * Quality:
-      * Customer satisfaction ratings
-      * No. bugs or errors
-      * Customer complaints
-   * Efficiency/effectiveness:
-      * Resource utilisation %
-      * Missed milestones
-      * Rate of returns
-   * Project:
-      * Return on Investment (ROI)
-      * Operating margins
-      * Time to achieve value
-      * Cost of management
-      * % projects complete
-      * % projects over budget
 
 ### Enterprise Resource Planning (ERP):
 * Business analytics
@@ -636,10 +523,6 @@ Projects mostly fail due to:
       * Analysis done by people who will neither write nor use the software
    * No support for change
 * Often popular with CEOs and CTOs, less so with developers
-* Winston Royce described waterfall method as:
-   * "Implementation described above is risky and invites failure"
-   * "Fails to satisfy the various external constraints, then invariably a major redesign is required"
-   * "In effect the development process has returned to the origin and one can expect up to a 100% overrun in schedule and/or costs"
 * Nobody ever thought naive waterfall was a good method - not even its creator
 * Often called 'traditional', but was invented before computing really had any traditions
 * For all its faults, it's simple, logical and easy to communicate
@@ -664,19 +547,6 @@ Projects mostly fail due to:
 * Agile Manifesto:
 
 ![agile-manifesto](./images/agile-manifesto.PNG)
-* Agile Principles:
-   1. Early and continuous delivery of valuable software
-   2. Welcome changing requirements, even late in development
-   3. Deliver working software frequently, e.g. every 2 weeks
-   4. Business people and developers must work together daily
-   5. Build around motivated individuals with support and trust
-   6. Face-to-face conversations
-   7. Working software as the primary measure of progress
-   8. Sustainable - able to maintain a constant pace indefinitely
-   9. Excellence - good design enhances agility
-   10. Simplicity - the art of maximising the amount of work **not** done
-   11. Self-organising teams
-   12. Reflect on how to become more effective
 
 ### Scrum:
 * User stories:
@@ -803,17 +673,6 @@ Projects mostly fail due to:
    * Team focuses on prioritising, not estimating/planning
    * 'It's leaner to focus on completing only what is required'
 * Kanban Methodology:
-   * Migration to Kanban:
-      1. Start with what you do now
-      2. Agree to pursue incremental, evolutionary change
-      3. Respect current roles, responsibilities and job titles
-      4. Encourages act of leadership at all levels
-   * Core properties of effective Kanban:
-      1. Visuaslise workflow
-      2. Limit work in progress - multitasking kills efficiency  
-      3. Manage flow
-      4. Make process policies explicit
-      5. Improve collaboratively
    * Kanban board - visualises work
    * Pull system - pull highest priority item from backlog
       * Avoids overburden
@@ -839,16 +698,6 @@ Projects mostly fail due to:
       * Improve the whole workflow
       * Reorganise the teams
       * Forces the question: 'do we really need separate developers and testers?'
-* Software Development Wastes:
-   * Building the wrong feature or product
-   * Mismanaging the backlog
-   * Rework
-   * Unnecessarily complex solutions
-   * Extraneous cognitive load
-   * Psychological distress
-   * Waiting/multitasking
-   * Knowledge loss
-   * Ineffective communication
 * Software as a production line:
    * Lean methodology designed for manufacturing, but software development is not a production or manufacturing activity
    * Software engineers create different things every time, whereas manufacturing produces the same things over and over again
@@ -918,26 +767,6 @@ When to use Scrum or Kanban?
    * Continuous feedback
 
 ![xp](./images/xp.PNG)
-* Crystal Method:
-   * 'XP without discipline'
-      * Agile manifesto values individuals and interactions over processes and tools
-   * A family of methods that focus on teamwork, communication and simplicity
-   * Lightweight (more talking, less documentation)
-   * Adaptable (processes and tools adapted to fit team size and criticality)
-
-![crystal-method](./images/crystal-method.PNG)
-* Rapid Application Development (RAD):
-   * Particularly suited to UI building
-   * Relies on prototypes instead of specifications
-   * Importance of the user design phase to build a working model
-* Test-Driven Development (TDD):
-   * Requirements are turned into very specific test cases, based on use-cases, before writing the code
-   * Once code passes test harness, then refactor
-   * Particularly suited to improving and debugging legacy code
-* Feature-Driven Development (FDD):
-   * Based on client-value functionality
-
-![fdd](./images/fdd.PNG)
 
 ### Scaling Agile:
 * Disciplined Agile Delivery (DAD):
@@ -1001,48 +830,6 @@ When to use Scrum or Kanban?
    * When unidentified risk occurs,
 5. Communicate
    * Inform interested parties
-
-### Risks in software development:
-* User
-   * Resistance to change
-   * Conflicts between users
-   * Negative attitudes towards project
-   * Lack of commitment
-   * Lack of cooperation
-* Team
-   * Inexperience
-   * Lack of training
-   * Lack of specialised skills
-* Organisational environment
-   * Change in organisational management
-   * Negative corporate politics
-   * Unstable environment
-   * Organisation restructuring
-* Planning and control
-   * Lack of effective PM technology
-   * Lack of close monitoring
-   * Bad estimation of required resources
-   * Poor planning
-   * Milestones not clearly defined
-   * Inexperienced PM
-   * Ineffective communication
-* System requirements
-   * Continually changing
-   * Not adequately identified
-   * Unclear
-   * Incorrect
-* Complexity
-   * Due to new technology
-   * High level of technical complexity
-   * Immature technology
-   * Technology not previously used in organisation
-
-### Risks to technology innovation:
-* Gaining traction: from innovative ideas to disruptive technologies
-![innovation-process](./images/innovation-process.PNG)
-* Once technology has been adopted...
-* Success: riding the Gartner 'Hype Cycle' and crossing the chasm
-![adoption-process](./images/adoption-process.PNG)
 
 ### Assigned Responsibilities:
 * Need to have clear and unique accountability decided beforehand
@@ -1135,29 +922,6 @@ When to use Scrum or Kanban?
    ![efmea](./images/efmea.PNG)
 
 # Leadership and Teamwork
-### Duties of a PM:
-* Planning:
-   * Define and clarify project scope
-   * Develop project plan
-   * Develop project schedule
-   * Develop policies and procedures to support the achievement of the project objectives
-   * WBS, scheduling, budgeting, lean/agile
-* Controlling:
-   * Measuring: checking project progress towards meeting objectives
-   * Evaluating: determining the cause of deviations from the plan
-   * Correcting: taking corrective actions to address deviations
-   * EVA, KPIs, risk management
-* Organising:
-   * Determine the organisational structure of the project team
-   * Identify roles and positions
-   * Identify services to be provided by external companies
-   * Staff project positions
-   * Stakeholder analysis, PRINCE2 roles, Scrum roles, RACI
-* Leading:
-   * Setting team direction
-   * Coordinating activities across different organisational functions
-   * Motivating team members
-   * Assigning work
 
 ### Decision Making:
 * PrOACT Decision Making Model:
@@ -1167,29 +931,11 @@ When to use Scrum or Kanban?
    4. Tabulate **C**onsequences: Compare the consequences of each alternative
    5. Claify **T**rade-offs: If no obvious winner, weigh up the objectives. Why is one more important than another?
 * Important to consider uncertainty, risk tolerance and linked decisions. Also beware of cognitive biases
-* Cognitive Biases:
-   1. Anchoring bias: people over-reliant on first piece of information they hear
-   2. Availability heuristic: people overestimate the importance of information that is available to them
-   3. Bandwagon effect: probability of one person adopting a belief increases based on the number of people that hold that belief
-   4. Blind-spot bias: failing to recognise own cognitive biases
-   5. Choice-supportive bias: when choosing something, tend to feel positive about it even if that choice has flaws
-   6. Clustering illusion: the tendency to see patterns in random events
-   7. Confirmation bias: we tend to listen to information that confirms our preconceptions
-   8. Conservatism bias: where people favour prior evidence over new evidence that has emerged
-   9. Information bias: the tendency to seek information when it does not affect action
-   10. Ostrich effect: the decision to ignore dangerous or negative information by 'burying one's head in the sand'
-   11. Outcome bias: judging a decision based on the outcome, rather than how exactly the decision was made in the moment
-   12. Overconfidence
-   13. Placebo effect: when simply believing that something will have a certain effect on you causes it to have that effect
-   14. Pro-innovation bias: when a proponent of an innovation tends to overvalue its usefulness and undervalue its limitations
-   15. Recency: the tendency to weigh the latest information more heavily than older data
-   16. Salience: the tendency to focus on the most easily-recognisable features of a person or concept
-   17. Selective perception: allowing our expectations to influence how we perceive the world
-   18. Stereotyping
-   19. Survivorship bias: an error that comes from focusing only on surviving/successful examples
-   20. Zero-risk bias: wanting certainty, even if it's counterproductive
-* A good leader is decisive
-* Makes good decisions quickly
+* Example Cognitive Biases:
+   * Availability heuristic: people overestimate the importance of information that is available to them
+   * Confirmation bias: we tend to listen to information that confirms our preconceptions
+   * Survivorship bias: an error that comes from focusing only on surviving/successful examples
+* A good leader is decisive and makes good decisions quickly
    * Not reckless/impulsive ones
    * Measured, reasoned, risk-aware
    * Beware of biases
@@ -1213,30 +959,14 @@ When to use Scrum or Kanban?
 * Conflict is good!
 ![trust-pyramid](./images/trust-pyramid.PNG)
 
-### Characteristics of productive teams:
+### Example characteristics of productive teams:
 * Trust:
    * Can speak openly and freely, can tell the truth even if it's uncomfortable
    * Team members can count on each other and are reliable
 * Respect:
    * Team members empowered to contribute their best
-   * Mutual respect and real concern
-   * Characteristics such as hostility and contempt are not accepted
-* Camaraderie:
-   * Empathy, good humour and playfulness are appreciated
-   * Strong sense of belonging to the team
-   * Team members celebrate and recognise accomplishments
-* Communication:
-   * Clear and efficient communication is appreciated, rather than gossiping or politicising
-* Constructive interaction:
-   * Conflict can arise as a means of opportunity for discovery, creativity and growth
-   * The team should avoid defensiveness, criticising and finger pointing
-   * A team should give and receive feedback on timely manners
 * Values diversity:
    * The team is open-minded and benefits from differences in ideas, perspectives, backgrounds, personalities and approaches
-* Optimism:
-   * The team shares an inspiring vision
-   * The team members are enthusiastic and appreciative of each other
-   * There is a strong spirit of fighting together for the goal
 * Team leadership:
    * Team members feel confident and empowered to lead
    * The team leader's role is clear and supportive
@@ -1245,17 +975,9 @@ When to use Scrum or Kanban?
 * Proactive:
    * The team takes the initiative
    * The team is flexible in addressing opportunities, responding positively and creatively
-   * Change is core to the team, and it is crucial for the rest of the organisation too
 * Accountability:
    * There is clarity of roles and responsibilities
-   * When problems occur, the team responds
    * Team members hold each other accountable for team results and side agreements
-* Goals and strategies:
-   * The team has clear, challenging targets and strategies to achieve them
-   * The team is strong and does not allow their goals to be defeated easily
-* Alignment:
-   * The team values cooperation, coherence and interdependence
-   * The team has a common mission and purpose
 
 ### Stages of Group Development:
 * Forming:
@@ -1297,41 +1019,22 @@ When to use Scrum or Kanban?
 * Maslow Hierarchy of Needs:
 ![maslow-hierarchy](./images/maslow-hierarchy.PNG)
 * Common reasons for a decrease in motivation:
-   * Lack of support
+   * Lack of management support
       * Lack of trust, resources or encouragement
+      * To increase management support:
+         * Align project to organisation's strategic goals
+         * Keep top management informed of status
+         * Divide project into phases and deliver frequently 
    * Personal conflicts (between team members or with managers)
+      * To resolve conflicts:
+         * Gather information from all sides and come to a mutual agreement on what the problem actually is
+         * Involve everyone in brainstorming potential solutions
+         * Facilitate a negotiated agreement
    * Overburden
       * Unrealistic or unreasonable expectations
-* How to increase management support:
-   * Align project to organisation's strategic goals
-      * Emphasise relationship to organisation's strategy
-   * Keep top management informed of status
-      * Regular updates
-      * Publicise success
-   * Divide project into phases
-      * Deliver frequently
-      * Early victories
-      * Build confidence in the project
-* Managing team conflict:
-   * Define the problem
-      * Agree what it is
-   * Gather information, from all sides
-   * Brainstorm potential solutions
-      * Team members involved in the conflict should have input
-      * Encourage openness to new ideas
-   * Choose the best solution
-      * Facilitate a negotiated agreement
-      * Be fair
-      * Each will have to concede some aspects
-* Managing expectations:
-   * Define project scope
-      * Defined early in the project
-      * Agreed with all of the key stakeholders
-   * Manage stakeholder expectations
-      * Make clear the cost and schedule impact of any requested scope change
-   * Implement a change management process
-      * Analyse change request, evaluate impact, justify change
-      * Minimise scope creep/unnecessary scope changes
+      * To reduce overburden:
+         * Define project scope early on and agree with all of the key stakeholders
+         * Implement a change management process, evaluating impact to minimise scope creep
 
 ### Understanding Personalities:
 * We all have different skills, but also:
