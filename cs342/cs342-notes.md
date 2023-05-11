@@ -1037,7 +1037,7 @@ $= \frac{1}{2}||\textbf{Xw}-\textbf{y}||^2 + \frac{\lambda}{2}||\textbf{w}||^2$
 * We can plot the likelihood $p(\mathcal{D}=\{H,H,T\}|w)$ as a function of $w$
 ![mle-graph](./images/mle-graph.PNG)
    * Probability distribution over $\mathcal{D}$, not $w$
-* Maximum likelihood estimation (MLE): choose parameters that maximise the likelihood $\hat{w} \in \underset{w} \argmax\{p(\mathcal{D}|w)\}$
+* Maximum likelihood estimation (MLE): choose parameters that maximise the likelihood $\hat{\textbf{w}} \in \underset{\textbf{w}} \argmax\{p(\mathcal{D}|\textbf{w})\}$
 * To compute MLE, we usually minimise the negative log-likelihood (NLL):
    * $\hat{\textbf{w}} \in \underset{\textbf{w}} \argmax\{p(\mathcal{D}|\textbf{w})\} \equiv \underset{\textbf{w}} \argmin\{-\log(p(\mathcal{D}|\textbf{w}))\}$
    * These expressions are equivalent since the logarithm is strictly monotonic, and the location of the maximum does not change if we take the logarithm
@@ -1084,14 +1084,14 @@ $= \frac{1}{2}||\textbf{Xw}-\textbf{y}||^2 + \frac{\lambda}{2}||\textbf{w}||^2$
 ### MLE and overfitting:
 * Conceptually, aiming to find the $\textbf{w}$ that makes $\mathcal{D}$ have the highest probability given $\textbf{w}$
 * MLE often leads to overfitting
-   * Dataset $\mathcal{D}$ could be very likely for some very unlikely $w$
+   * Dataset $\mathcal{D}$ could be very likely for some very unlikely $\textbf{w}$
    * For example, a complex model that overfits by memorising the dataset
 * With a low number of observations, MLE can be counterintuitive
    * Coin tossing - $\mathcal{D}=\{H,H,H\}$, MLE is $p_{head}=1$ which is a completely unfair coin
 * Intuitively, we want to find the $w$ that has the highest probability given the dataset $\mathcal{D}$
 
 ### MAP: Maximum a Posteriori:
-* We need the conditional probability $p(w|\mathcal{D})$
+* We need the conditional probability $p(\textbf{w}|\mathcal{D})$
    * $\hat{\textbf{w}} \in \underset{\textbf{w}} \argmax\{p(\textbf{w}|\mathcal{D})\}$
 * MLE and MAP estimation are connected by Bayes' rule:
    * $p(\textbf{w}|\mathcal{D})=\frac{p(\mathcal{D}|\textbf{w})p(\textbf{w})}{p(\mathcal{D})} \propto p(\mathcal{D}|\textbf{w})p(\textbf{w})$
@@ -1105,14 +1105,14 @@ $= \frac{1}{2}||\textbf{Xw}-\textbf{y}||^2 + \frac{\lambda}{2}||\textbf{w}||^2$
 
 ### L2-regularisation and MAP estimation:
 * We can obtain L2-regularisation under an independent Gaussian assumption:
-   * Assume each dimension of $\textbf{w}$ ($w_j$) comes from a Gaussian with mean $\mu=0$ and variance $\sigma^2=\frac{1}{\lambda}$, and is independent of other dimensions
-   * $p(\textbf{w}) = \prod_{j=1}^d p(w_j) \propto \prod_{j=1}^d \exp(-\frac{\lambda}{2}w_j^2) = \exp(-\frac{\lambda}{2}\sum_{j=1}^d w_j^2)$
+   * Assume each dimension of $\textbf{w}$ ($w_j$) comes from a Gaussian distribution with mean $\mu=0$ and variance $\sigma^2=\frac{1}{\lambda}$, and is independent of other dimensions
+   * $p(\textbf{w}) = \prod_{j=1}^d p(w_j) \propto \prod_{j=1}^d \exp(-\frac{\lambda}{2}w_j^2) = \exp(-\frac{\lambda}{2}\sum_{j=1}^d w_j^2) = \exp(-\frac{\lambda}{2}||\textbf{w}||^2)$
 * By using the negative log:
    * $-\log(p(\textbf{w})) = -\log(\exp(-\frac{\lambda}{2}||\textbf{w}||^2)) = \frac{\lambda}{2}||\textbf{w}||^2$
 * With this prior, the MAP estimate for all $y_i$ of IID training examples is:
    * $\hat{\textbf{w}} \in \underset{\textbf{w}} \argmin\{-\log(p(\textbf{y}|\textbf{X},\textbf{w}))-\log(p(\textbf{w}))\} \equiv \underset{\textbf{w}} \argmin\{-\sum_{i=1}^n(\log(p(\textbf{y}|\textbf{x}_i,\textbf{w}))) + \frac{\lambda}{2}||\textbf{w}||^2\}$
 * Gaussian likelihood with standard deviation $\sigma=1$ for all $y_i$ plus Gaussian prior gives L2-regularised least squares:
-   * If $p(y_i|\textbf{x}_i,\textbf{w}) \propto \exp(-\frac{\textbf({w}^T\textbf{x}_i-y_i)^2}{2})$ and $p(w_j) \propto \exp(-\frac{\lambda}{2}w_j^2)$ then MAP estimation is equivalent to minimising:
+   * If $p(y_i|\textbf{x}_i,\textbf{w}) \propto \exp(-\frac{\textbf(\textbf{w}^T\textbf{x}_i-y_i)^2}{2})$ and $p(w_j) \propto \exp(-\frac{\lambda}{2}w_j^2)$ then MAP estimation is equivalent to minimising:
       * $f(\textbf{w}) = \frac{1}{2}||\textbf{Xw}-\textbf{y}||+\frac{\lambda}{2}||\textbf{w}||^2$
    * As $n \rightarrow \infty$, the regulariser becomes negligible so regularising weights doesn't make much sense - we have a good model already
 
@@ -1256,7 +1256,7 @@ $= \frac{1}{2}||\textbf{Xw}-\textbf{y}||^2 + \frac{\lambda}{2}||\textbf{w}||^2$
    * $\sum_{t=1}^\infty \alpha^t = \sum_{t=1}^\infty\frac{1}{t}$ (large value)
 * For example: $\alpha^t = \frac{0.001}{t}$
    * Not a strong strategy in practice since step sizes become very small very fast
-* Stronger strategy is to set $\alpha^t=\frac{a}{\sqrt{t}}$ where $\alpha \ll 1$
+* Stronger strategy is to set $\alpha^t=\frac{a}{\sqrt{t}}$ where $a \ll 1$
    * For example $\alpha^t=\frac{0.001}{\sqrt{t}}$ 
 
 ### SGD for Recommender Systems:
@@ -1267,8 +1267,8 @@ $= \frac{1}{2}||\textbf{Xw}-\textbf{y}||^2 + \frac{\lambda}{2}||\textbf{w}||^2$
    * $\beta_i = \beta_i - \alpha r_{ij}$
    * $\beta_j = \beta_j - \alpha r_{ij}$
    * $\textbf{w} = \textbf{w} - \alpha r_{ij}\textbf{x}_{ij}$
-   * $\textbf{z}_i = \textbf{z}_i - \alpha r_{ij}\textbf{z}_i$
-   * $\textbf{w}^j = \textbf{w}^j - \alpha r_{ij}\textbf{w}^j$
+   * $\textbf{z}_i = \textbf{z}_i - \alpha r_{ij}\textbf{w}^j$
+   * $\textbf{w}^j = \textbf{w}^j - \alpha r_{ij}\textbf{z}_i$
    * Note that $\beta_i$ and $\beta_j$, $\textbf{z}_i$ and $\textbf{w}^j$ are only updated for the specific user/item chosen
 
 # Neural Networks
@@ -1287,7 +1287,7 @@ $= \frac{1}{2}||\textbf{Xw}-\textbf{y}||^2 + \frac{\lambda}{2}||\textbf{w}||^2$
 
 ### Introducing non-linearity:
 * Transform $\textbf{z}_i$ by a non-linear function $h$:
-   * $\textbf{z}_i = \textbf{Xw}_i$
+   * $\textbf{z}_i = \textbf{Wx}_i$
    * $\hat{y}_i = \textbf{v}^T h(\textbf{z}_i)$
    * Where $h$ transforms each dimension of $\textbf{z}_i$
 * For example, sigmoid function applied element-wise:
@@ -1520,12 +1520,12 @@ $=\textbf{r}^{(2)} \textbf{W}^{(2)} h'(\textbf{z}_i^{(1)}) \textbf{x}_i$
 * Let us use the PCA feature space as the baseline space:
    * Let us assume the PCs are the columns of a $d \times k$ matrix $\textbf{U}$ starting from column 1, i.e. the top PC
    * The linear AE is equivalent to PCA by setting $\textbf{W}_{dec}^{(1)}=\textbf{U}$ and $\textbf{W}_{enc}^{(1)}=\textbf{U}^T$
-* If orthogonality and normalisation are imposed to $\textbf{W}_{dec}^{(1)}$, it is possible to implement PCA using this linear AE with $k=d$
-* If orthogonality and normalisation are not imposed to $\textbf{W}_{dec}^{(1)}$, this linear AE with $k=d$ finds equivalent components to those found by PCA in terms of their capacity to explain the data variance
+* If orthogonality and normalisation are imposed on $\textbf{W}_{dec}^{(1)}$, it is possible to implement PCA using this linear AE with $k=d$
+* If orthogonality and normalisation are not imposed on $\textbf{W}_{dec}^{(1)}$, this linear AE with $k=d$ finds equivalent components to those found by PCA in terms of their capacity to explain the data variance
 
 ### Non-linear AEs:
 * Non-linear AEs learn to project the data onto a non-linear manifold
-   * Non-linear dimensionality reduction, aka non-linear PCA (components aren't strictly lines)
+   * Non-linear dimensionality reduction, aka non-linear PCA (components aren't strictly lines/planes)
 
 ![nonlinear-ae](./images/nonlinear-ae.PNG)
 * Let us assume a 1-layer AE with binary inputs, i.e. each $x_{ij} \in \{0,1\}$
@@ -1546,16 +1546,16 @@ $=\textbf{r}^{(2)} \textbf{W}^{(2)} h'(\textbf{z}_i^{(1)}) \textbf{x}_i$
    * Squared error often used as loss function
 * Consider case where inputs are binary
    * We use a sigmoid function for the decoder
-   * We can then use the binary cross-entropy loss:
+   * For $\textbf{x}_i$ with $d$ dimensions, we can then use the binary cross-entropy loss:
       * $\mathcal{L}(\textbf{x}_i, \hat{\textbf{x}}_i) = -\sum_{j=1}^d(x_{ij}\log(\hat{x}_{ij})+(1-x_{ij})\log(1-\hat{x}_{ij}))$
-      * Need 
+      * Considers each $x_{ij}$ as a sample that has to be classified into two classes, $0$ or $1$
    * What value of $x_{ij}$ will minimise this function?
       * If $x_{ij}=1$:
-         * If $\hat{x}_ij=1$, $-x_{ij}\log(\hat{x}_{ij})=0$ and $-(1-x_ij)\log(1-\hat{x}_ij)=0$ - no loss
-         * If $\hat{x}_ij=0$, $-x_{ij}\log(\hat{x}_{ij})=\infty$ and $-(1-x_ij)\log(1-\hat{x}_ij)=0$ - high loss
+         * If $\hat{x}_{ij}=1$, $-x_{ij}\log(\hat{x}_{ij})=0$ and $-(1-x_{ij})\log(1-\hat{x}_{ij})=0$ - no loss
+         * If $\hat{x}_{ij}=0$, $-x_{ij}\log(\hat{x}_{ij})=\infty$ and $-(1-x_{ij})\log(1-\hat{x}_{ij})=0$ - high loss
       * If $x_{ij}=0$:
-         * If $\hat{x}_ij=0$, $-x_{ij}\log(\hat{x}_{ij})=0$ and $-(1-x_ij)\log(1-\hat{x}_ij)=0$ - no loss
-         * If $\hat{x}_ij=0$, $-x_{ij}\log(\hat{x}_{ij})=0$ and $-(1-x_ij)\log(1-\hat{x}_ij)=\infty$ - high loss
+         * If $\hat{x}_{ij}=0$, $-x_{ij}\log(\hat{x}_{ij})=0$ and $-(1-x_{ij})\log(1-\hat{x}_{ij})=0$ - no loss
+         * If $\hat{x}_{ij}=0$, $-x_{ij}\log(\hat{x}_{ij})=0$ and $-(1-x_{ij})\log(1-\hat{x}_{ij})=\infty$ - high loss
 
 ### Denoising Autoencoders (DAEs):
 * Corrupts the input by using a probabilistic process before feeding it to the network:
@@ -1565,13 +1565,13 @@ $=\textbf{r}^{(2)} \textbf{W}^{(2)} h'(\textbf{z}_i^{(1)}) \textbf{x}_i$
 * Another way of corrupting the inputs is to add Gaussian noise to the input:
    * $\v{x}_{ij} = x_{ij}+\mathcal{N}(0,1)$
    * Where $\mathcal{N}(\mu, \sigma^2)$ denotes a Normal distribution with mean $\mu$ and variance $\sigma^2$
-   * Each $\textbf{x}_{ij}$ is modified by adding values that follow a Normal distribution
+   * Each $x_{ij}$ is modified by adding values that follow this distribution
 
 # Ensemble Methods
 * Set of weak models whose individual decisions are combined in some way to classify new examples or predict targets for new examples
 * Simplest approach (e.g. for classification):
    * Generate multiple classifiers
-   * Each classifier classifies the same test examples
+   * Each classifier classifies the same test example
    * Take majority as classification result
 * Ensemble methods often have a higher accuracy than their constituent members
    * Take simple poor performing models (e.g. decision stumps, low-depth decision trees) and transform them into a 'super model' without requiring a fancy new algorithm
@@ -1628,7 +1628,7 @@ $=\textbf{r}^{(2)} \textbf{W}^{(2)} h'(\textbf{z}_i^{(1)}) \textbf{x}_i$
 * The best possible prediction under these circumstances is:
    * $\hat{y}_i^* = \mathbb{E}[\tilde{y}_i|\tilde{\textbf{x}}_i]$, i.e. the expectation of $\tilde{y}_i$ conditioned on $\tilde{\textbf{x}}_i$
 * Expected loss conditioned on $\tilde{\textbf{x}}_i$:
-   * $\mathbb{E}[(\hat{y}_i-\tilde{y}_i)^2]=\mathbb{E}[\hat{y}_i^2-2\hat{y}_i\tilde{y}_i+\tilde{y}_i^2|\tilde{\textbf{x}}_i]$
+   * $\mathbb{E}[(\hat{y}_i-\tilde{y}_i)^2|\tilde{\textbf{x}}_i]=\mathbb{E}[\hat{y}_i^2-2\hat{y}_i\tilde{y}_i+\tilde{y}_i^2|\tilde{\textbf{x}}_i]$
    * $=\hat{y}_i^2-2\hat{y}_i\mathbb{E}[\tilde{y}_i|\tilde{\textbf{x}}_i]+\mathbb{E}[\tilde{y}_i^2|\tilde{\textbf{x}}_i]$
    * $=\hat{y}_i^2-2\hat{y}_i\mathbb{E}[\tilde{y}_i|\tilde{\textbf{x}}_i]+\mathbb{E}[\tilde{y}_i|\tilde{\textbf{x}}_i]^2+Var[\tilde{y}_i|\tilde{\textbf{x}}_i]$
    * $=\hat{y}_i^2-2\hat{y}_i\hat{y}_i^*+(\hat{y}_i^*)^2+Var[\tilde{y}_i|\tilde{\textbf{x}}_i]$
@@ -1636,7 +1636,7 @@ $=\textbf{r}^{(2)} \textbf{W}^{(2)} h'(\textbf{z}_i^{(1)}) \textbf{x}_i$
    * First term is positive and can be made 0 by setting $\hat{y}_i=\hat{y}_i^*$
    * Second term describes inherent unpredictability, or noise, of the predictions, known as the Bayes error
       * If the first term is 0 we still have the Bayes error, which does not depend on $\hat{y}_i$
-      * Recall the optimal Bayes classifier as our optimal classifier - if the first term is 0, we have the expected error of that baseline classifier
+      * Recall the optimal Bayes classifier as our optimal baseline classifier - if the first term is 0, we have the expected error of that baseline classifier
 * Let us go back to treating $\hat{y}_i$ as a random variable - randomness comes from the choice of the training set
 * We can decompose the expected loss (suppressing the conditioning on $\tilde{\textbf{x}}_i$ for clarity):
    * $\mathbb{E}[(\hat{y}_i-\tilde{y}_i)^2]=\mathbb{E}[(\hat{y}_i-\hat{y}_i^*)^2]+Var[\tilde{y}_i]$
@@ -1656,7 +1656,7 @@ $=\textbf{r}^{(2)} \textbf{W}^{(2)} h'(\textbf{z}_i^{(1)}) \textbf{x}_i$
    * $Var[\hat{y}_i] = Var[\frac{1}{M}\sum_{i=1}^M \hat{y}_i^{(m)}]$
    * $=\frac{1}{M^2}\sum_{m=1}^M Var[\hat{y}_i^{(m)}]$
    * $=\frac{1}{M^2}(Var[\hat{y}_i^{(1)}]+Var[\hat{y}_i^{(2)}]+...+Var[\hat{y}_i^{(M)}])$
-   * $=\frac{1}{M^2}(M\sigma^2)$
+   * $=\frac{1}{M^2}(M\sigma^2)$ (based on $M$ independent training sets from the same $p_{data}$)
    * $=\frac{\sigma^2}{M}$
 * In practice, access to the underlying data generating distribution $p_{data}$ may not be possible
    * Each set needs to be independently generated - may not have resources or be computationally expensive
@@ -1709,7 +1709,7 @@ $=\textbf{r}^{(2)} \textbf{W}^{(2)} h'(\textbf{z}_i^{(1)}) \textbf{x}_i$
    * If $\epsilon_m > 0.5$, then it is worse than guessing. But we can always just flip the sign of the prediction!
 * New weight for sample $i$ in next classifier $m+1$:
    * $w_i^{(m+1)}=w_i^{(m)}\exp(-\frac{1}{2}y_i\alpha_m\hat{y}_i^{(m)})$
-   * Weight gets exponentially larger if classifier is wrong (more difficult to classify so need to try and classify it next time), smaller if it is right
+   * Weight gets exponentially larger if classifier is wrong (more difficult to classify so need to try and classify it next time), and exponentially smaller if it is right
    * Assuming $w_i^{(1)}=1$ for all samples, we have $w_i^{(m+1)} = w_i^{(m)}\exp(-\frac{1}{2}y_i\alpha_m\hat{y}_i^{(m)}) = \exp(-\frac{1}{2}y_i\sum_{j=1}^m\alpha_m\hat{y}_i^{(j)})$
 
 ### Weighting models:
@@ -1768,7 +1768,7 @@ $=\textbf{r}^{(2)} \textbf{W}^{(2)} h'(\textbf{z}_i^{(1)}) \textbf{x}_i$
 
 # XGBoost
 * Deep learning widely preferred to AdaBoost thanks to its great performance
-* However, XGBoost has recently seen a resurgence, partially due to XGBoost:
+* However, boosting has recently seen a resurgence, partially due to XGBoost:
    * A boosting-based method that allows working with huge datasets
    * It uses regularised regression trees as the base model
 
@@ -1778,7 +1778,7 @@ $=\textbf{r}^{(2)} \textbf{W}^{(2)} h'(\textbf{z}_i^{(1)}) \textbf{x}_i$
    * Let $w_l$ denote the mean at leaf $l$ with a total of $L$ leaf nodes
    * Let $w_l^i$ denote the leaf node to be used as $\hat{y}_i$ for example $i$
 * Training finds the tree structure and the $\{w_l\}$ valus that minimise the square error:
-   * $f(w_1, w_2, ..., w_L) = \sum_{i=1}^n(w_l^i-y_i)^2$
+   * $f(w_1, w_2, ..., w_L) = \sum_{i=1}^n(w_l^i-y_i)^2 = \sum_{i=1}^n(\hat{y}_i-y_i)^2$
 * Similar complexity to fitting decision trees for classification
    * Use the mean instead of the mode and the squared error instead of information gain
    * A greedy strategy can also be used to grow the tree using stumps

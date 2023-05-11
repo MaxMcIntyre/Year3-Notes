@@ -80,7 +80,7 @@
 * Some axons are covered with a fatty substance called myelin that acts as an insulator to protect the axons
    * Not all axons have a myelin covering
    * Myelin can be damaged by diseases
-   * The myelinated axon transmit information faster than other neurons
+   * Myelinated axons transmit information faster
 
 ### How a neuron works:
 * Our sense organs interact with the outside world
@@ -89,7 +89,7 @@
 * The neuron may get activated only when its criteria is met (e.g. fire if the visuals are funny)
 * There is a massively parallel interconnected network of neurons
    * Ensures  that there is a division of work
-   * Each neuron performs a certain role of responds to a certain stimulus
+   * Each neuron performs a certain role or responds to a certain stimulus
    * Some neurons may fire in response to the information, and in turn relay information to other neurons they are connected to
 
 ### Three Classes of Neuron:
@@ -120,17 +120,17 @@
 * Voltage-gated channels are only open at certain voltages, and are often closed at resting potential
 * Why the resting potential is negative:
    1. There is a higher concentration of potassium ions inside the cell, creating a potassium ion gradient and allowing potassium ions to pass through potassium leaky channels easily. NB: there are also sodium leaky channels, but fewer sodium ions get in
-   2. There is a sodium-potassium pump that uses energy to move three sodium ions outside the neuron for every two potassium ions it puts in 
+   2. There is a sodium-potassium pump that uses energy to move 3 sodium ions outside the neuron for every 2 potassium ions it allows in 
 ![cell-channels](./images/cell-channels.PNG)
 
 ### Action Potential:
-* An action potential is the rapid change in voltage across the membrane that occur when a neuron sends information down an axon to reach the axon terminal
-* Also known as nerve impulses or spikes
+* An action potential is the rapid change in voltage across the membrane that occurs when a neuron sends information down an axon to reach the axon terminal
+* Also known as a nerve impulse or spike
 * Generated when a stimulus changes the membrane potential to the values of a threshold (-55mV)
 ![action-potential-graph](./images/action-potential-graph.PNG)
 * Obeys the 'all-or-none' principle: any subthreshold stimulus will cause nothing, while threshold and superthreshold stimuli will produce a full response of the excitable cell
 * Polarised neurons:
-   * A neuron is polarised if the outside of the membrane is positive and the inside of the membrane is negative
+   * A neuron is polarised if the outside of the membrane is positive and the inside of the membrane is negative (what it is by default at resting potential)
    * A neuron is hyperpolarised if the membrane potential becomes more negative than it is at resting potential
    * A neuron is depolarised if the membrane potential becomes more positive than it is at resting potential
 * Phases of action potential:
@@ -138,15 +138,15 @@
    2. Stimuli cause some voltage-gated sodium channels to open
    3. With sodium channels open, depolarisation occurs. Sodium rapidly rushes into the cell and the voltage rockets to 30mV
    4. At this point, voltage-gated sodium channels are closed
-   5. Potassium channels now open, and repolarisation occurs as potassium ions rapidly rush out of the cell
-   6. The sodom and potassium pump restores the resting potential
+   5. Voltage-gated potassium channels now open, and repolarisation occurs as potassium ions rapidly rush out of the cell
+   6. The sodium and potassium pump restores the resting potential
    ![action-potential-stages](./images/action-potential-stages.PNG)
 
 ### Synapse:
 * A junction between two nerve cells
 * Most synapses are chemical - the action potential is transmitted from the axon terminal to the target cell by chemical substances (known as neurotransmitters)
 * If a neurotransmitter stimulates the target cell to an action, it is an excitatory neurotransmitter
-* If a neurotransmitter inhibits the target call, it is an inhibitory neurotransmitter
+* If a neurotransmitter inhibits the target cell, it is an inhibitory neurotransmitter
 * When the presynaptic neuron is excited by an action potential, it causes the vesicles to release the neurotransmitters into the synaptic cleft (gap between two neurons)
    * Each vesicle contrains thousands of neurotransmitters
 * Some neurotransmitters will bind to the postsynaptic cell's receptors and may cause an action to occur
@@ -197,7 +197,7 @@
 
 ### Basic Structure of ANNs:
 * Input layer, hidden layers, output layer
-* When we say N-layer neural network, we do not count the input layer
+* When we say $N$-layer neural network, we do not count the input layer
 * A neural network must have one input and one output layer, but can have 0 or many hidden layers
 * A feedforward neural network is an ANN in which information only moves in one direction - forward
    * There are no cycles or loops in the network
@@ -344,7 +344,7 @@
 * An activation function is a mathematical function attached to each neuron that decides if a neuron should 'fire' or not
 * It also helps normalise the output of each neuron
 
-### Linear Activation Function:
+### Linear:
 * $L(x) = cx$
 * $L'(x) = c$
 ![linear-function-rojas-diagram](./images/linear-function-rojas-diagram.PNG)
@@ -353,7 +353,7 @@
 * It will also make all of the layers of the network collapse into one because a linear combination of linear functions is still a linear function
 * When $c=1$, $L$ is known as an identity activation function
 
-### Sigmoid Function
+### Sigmoid:
 * $\sigma(x) = \frac{1}{1+e^{-x}}$
 ![sigmoid](./images/sigmoid.PNG)
 * An s-shaped function with a smooth gradient, unlike a step function with a 'jump' in output values
@@ -370,7 +370,7 @@
    * $\max \sigma'(x) = \frac{1}{4}$ implies the vanishing gradient problem because the size of the error is reduced by at least 75% per layer for backpropagation, limiting the ability to update weights
    ![sigmoid-gradient](./images/sigmoid-gradient.PNG)
 
-### Tanh Function:
+### Tanh:
 * $\tanh(x) = \frac{e^x-e^{-x}}{e^x+e^{-x}}$
 ![tanh](./images/tanh.PNG)
 * Similar to sigmoid, but a zero-centred function that normalises the output to a range between -1 and 1
@@ -381,7 +381,7 @@
    * The maximum value of $\tanh'(x)$ is $1$
    ![tanh-gradient](./images/tanh-gradient.PNG)
 
-### ReLu (Rectified Linear Unit):
+### ReLU (Rectified Linear Unit):
 * $\mathrm{ReLU}(x) = \max(0,x) = \begin{cases} x & x \geq 0 \\ 0 & x < 0 \end{cases}$
 ![relu](./images/relu.PNG)
 * A piecewise linear function, but globally a non-linea rfunction which has a derivative allowing for backpropagation
@@ -389,8 +389,8 @@
 * For positive inputs, no vanishing gradient as its derivative becomes 1
 * Dying ReLU problem - ReLU neurons become inactive and only output 0 for any input
 * Not zero-centred
-* Typically, $\mathrm{ReLU}(0)$ is defined to be either $0$, $1$ or $\frac{1}{2}$
 * Not differentiable at $x=0$ as its slope is not 'smooth' at this point - the left-hand slope is $0$ whereas the right-hand slope is $1$
+* Typically, $\mathrm{ReLU}'(0)$ is defined to be either $0$, $1$ or $\frac{1}{2}$
 ![relu-gradient](./images/relu-gradient.PNG)
 
 ### Leaky ReLU:
@@ -399,12 +399,8 @@
    * $\alpha \in (0,1)$ and is typically between $0.01$ and $0.3$
 * No dying ReLU or vanishing gradient problems
 * Simple and easy to compute
-* Typically, $\mathrm{LReLU}(0)$ is defined to be either $\alpha$, $1$ or $\frac{\alpha+1}{2}$
+* Typically, $\mathrm{LReLU}'(0)$ is defined to be either $\alpha$, $1$ or $\frac{\alpha+1}{2}$
 ![Lrelu-gradient](./images/lrelu-gradient.PNG)
-
-### Parametric ReLU:
-* PReLU is a variation of leaky ReLU that, instead of having a predetermined slope, makes it a parameter for the neural network to learn itself
-* Gives a considerable rise in the accuracy at a negligible extra computational cost
 
 ### Exponential Linear Unit (ELU):
 * $\mathrm{ELU}(x) = \begin{cases} x & x \geq 0 \\ \alpha(e^x-1) & x < 0 \end{cases}$
@@ -421,26 +417,6 @@
 * Uses exponentials instead of the actual values since it ensures that all entries are positive
    * Need a function that can map $(-\infty, \infty) \rightarrow (0, \infty)$ and is monotonically increasing
 * When $N=2$, softmax reduces to sigmoid
-
-### Maxout:
-* Piecewise linear function that returns the maximum of inputs
-* $M_k(x) = \max(w_1x+b_1, w_2x+b_2, ..., w_kx+b_k)$
-   * $k$ is the number of linear pieces
-   * $x$ is the input
-   * $w_i$ and $b_i$ are learnable weights and biases at the $i$-th piece
-* Maxout unit example:
-![maxout](./images/maxout.PNG)
-   * $x$ the same in each hidden $z$ node, but weights different
-* Generalises ReLU, LReLU and absolute ReLU, and can work better than them
-   * When $(w_1,b_1) = (1,0)$ and (w_2,b_2) = (0,0)$, $y=\max(x,0) = \mathrm{ReLU}(x)$
-   * When $(w_1,b_1) = (1,0)$ and (w_2,b_2) = (\alpha,0)$, $y=\max(x,\alpha x) = \mathrm{LReLU}(x)$
-   * When $(w_1,b_1) = (1,0)$ and (w_2,b_2) = (-1,0)$, $y=\max(x,-x) = |x|$
-* A single maxout unit can approximately learn any convex function
-![maxout-convex-function](./images/maxout-convex-function.PNG)
-* An MLP with two maxout units can approximately learn any continuous function
-   * Any continuous function can be expressed as the difference of two convex functions
-   ![maxout-continuous-function](./images/maxout-continuous-function.PNG)
-* A drawback is that it increases the number of hidden neurons and training parameters, being very computationally expensive
 
 ### Activation Functions Summary:
 ![activation-functions](./images/activation-functions.PNG)
@@ -520,7 +496,7 @@
 * Lp-norm: $||\textbf{x}||_p = \sqrt[p]{\sum_{i=1}^n|x_i|^p}$
 * L $\infty$-norm: $||\textbf{x}||_\infty = \underset{1 \leq i \leq n} \max |x_i|$
 * Norm Equivalence:
-   * Two norms are equivalent if there exists two constants $c$ and $C$ such that:
+   * Two norms $p$ and $q$ are equivalent if there exists two constants $c$ and $C$ such that:
       * $c \cdot ||\textbf{x}||_q \leq ||\textbf{x}||_p \leq C \cdot ||\textbf{x}||_q$
    * L1 and L2 norms are equivalent since there exist $(c, C) = (1, \sqrt{n})$ such that $||\textbf{x}||_2 \leq ||\textbf{x}||_1 \leq \sqrt{n} ||\textbf{x}||_2$
    * Also both are equivalent with the L $\infty$-norm since $||\textbf{x}||_\infty \leq ||\textbf{x}||_2 \leq \sqrt{n} ||\textbf{x}||_\infty$ and $||\textbf{x}||_\infty \leq ||\textbf{x}||_1 \leq \sqrt{n} ||\textbf{x}||_\infty$
@@ -528,7 +504,7 @@
 ### L0-norm:
 * Defined to be the number of non-zero entries in $\textbf{x}$
 * Useful when trying to find the sparsest solution to an undetermined set of equations
-   * E.g. $\underset{w} \min L(\hat{\textbf{y}}, \textbf{y})$ s.t. $||\textbf{w}||_0=N$
+   * E.g. $\underset{w} \min \space L(\hat{\textbf{y}}, \textbf{y})$ s.t. $||\textbf{w}||_0=N$
 * Limiting number of features to learn
    * Network learns too many details (even noise) from the training data
    * Will negatively impact its ability to generalise on new testing data
@@ -538,8 +514,8 @@
 * Discourages learning more complex features by applying a penalty to the input parameters with the larger weights to avoid the risk of overfitting
 * Constrains weight estimates towards zero
 * NP-hard to set a L0-norm constraint
-* L1 Regularisation (Lasso Regularisation): $\underset{w} \min L(\hat{\textbf{y}}, \textbf{y}) + \lambda ||\textbf{w}||_1$
-* L2 Regularisation (Ridge Regularisation): $\underset{w} \min L(\hat{\textbf{y}}, \textbf{y}) + \lambda ||\textbf{w}||_2^2$
+* L1 Regularisation (Lasso Regularisation): $\underset{w} \min \space L(\hat{\textbf{y}}, \textbf{y}) + \lambda ||\textbf{w}||_1$
+* L2 Regularisation (Ridge Regularisation): $\underset{w} \min \space L(\hat{\textbf{y}}, \textbf{y}) + \lambda ||\textbf{w}||^2$
 * L1 regularisation tends to generate sparser solutions:
    * L1 norm has corners - it is very likely that the meeting point is at one of the corners
    ![l1-norm-graph](./images/l1-norm-graph.PNG)
@@ -550,7 +526,7 @@
 * Measures the accuracy of a classification model
 * Compares the predicted output $\hat{y}$ with the true class $y$ and penalises the probability logarithmically based on how far it diverges from the true class
 * Binary classification:
-   * $L = y\log\hat{y} + (1-y)\log(1-\hat{y})$
+   * $L = -y\log\hat{y} - (1-y)\log(1-\hat{y})$
 * Intuition behind it:
    * When $y=1$, if $\hat{y}=1$ we want $L=0$ and if $\hat{y}=0$ we want $L=\infty$
       * Need to map $\hat{y} \in [0,1]$ to $L \in [\infty,0]$
@@ -564,7 +540,7 @@
    * When $y=1$, $L=-\log\hat{y}$ and when $y=0$, $L=-\log(1-\hat{y})$
    * The final loss function is just the two added together: $L=-y\log\hat{y}-(1-y)\log(1-\hat{y})$
 * Multiclass log loss:
-   * $L = \sum_{i=1}^N y_i\log\hat{y}_i$ with $\sum_{i=1}^N y_i=1$ and $\sum_{i=1}^N \hat{y}_i=1$
+   * $L = -\sum_{i=1}^N y_i\log\hat{y}_i$ with $\sum_{i=1}^N y_i=1$ and $\sum_{i=1}^N \hat{y}_i=1$
 
 # Backpropagation
 ### Gradient Descent:
@@ -572,7 +548,7 @@
 * The key idea is taking repeated steps in the opposite direction in the gradient of $f$ at the current point because this is the direction of steepest descent
    * $x_{t+1} = x_t - \alpha\nabla f(x_t)$
 * Learning rate $\alpha \in (0,1)$ is a configurable hyperparameter that controls how much we adjust the weights with respect to the loss gradient
-* Our goal when training an NN: $\underset{w,b} \min L(w,b)$ using gradient descent
+* Our goal when training an NN: find $\underset{w,b} \min \space L(w,b)$ using gradient descent
    * $w = w - \alpha L_w$
    * $b = b - \alpha L_b$
 
@@ -600,11 +576,11 @@
 * Take a simple network:
 ![backpropagation-example](./images/backpropagation-example.PNG)
 ![backpropagation-example-dependency](./images/backpropagation-example-dependency.PNG)
-   * $z = w\cdot x + b$, $\hat{y}=\sigma_{sig}(z)$, $L=-(y\log\hat{y}+(1-y)\log(1-\hat{y}))$
+   * $z = wx + b$, $\hat{y}=\sigma_{sig}(z)$, $L=-(y\log\hat{y}+(1-y)\log(1-\hat{y}))$
    * $z_w=x$, $z_b=1$
    * $\hat{y}_z=\hat{y}(1-\hat{y})$
    * $L_{\hat{y}}=\frac{\hat{y}-y}{(1-\hat{y})\hat{y}}$
-   * $L_w = \frac{\hat{y}-y}{(1-\hat{y})\hat{y}} \cdot \hat{y}(1-\hat{y}) \cdot x = (\hat{y}-y) \cdot x$
+   * $L_w = \frac{\hat{y}-y}{(1-\hat{y})\hat{y}} \cdot \hat{y}(1-\hat{y}) \cdot x = (\hat{y}-y)x$
    * $L_b = \frac{\hat{y}-y}{(1-\hat{y})\hat{y}} \cdot \hat{y}(1-\hat{y}) \cdot 1 = \hat{y}-y$
    * $w = w - \alpha (\hat{y}-y)x$
    * $b = b - \alpha (\hat{y}-y)$
@@ -635,7 +611,7 @@
 
 ### Associative Memory:
 * Involves encoding relationships between items
-   * E.g. Pavlov conditioning between a stimulus and a response
+   * E.g. Pavlovian conditioning between a stimulus and a response
    * A Hopfield Network (HN) uses associative memory to associate an input to a full memorised image
 * Associative Memory (aka Content Addressable Memory, CAM) is the ability to access an item by just knowing part of its content
    * There can be multiple fixed points in the HN
@@ -671,7 +647,7 @@
    * $W_{i,j}=x_i x_j$ ($i \neq j$) with $W_{i,i}=0$
    * In matrix form:
       * $\textbf{W}=\textbf{x}\cdot\textbf{x}^T-\textbf{I}$ (zeroes out diagonals)
-* For $N$ bipolar memorised patterns $\{\textbf{x}^{(1)}, \textbf{x}^{(2)},..., \textbf{x}^{(N)}\}$ where each $\textbf{x}^{(p)}=[x_1^{(p)}, x_2^{(p)},..., x_1n^{(p)}]$ with $x_i^{(p)} \in \{-1,1\}$ ($p=1,2,...,N$, $i=1,2,...,n$), the weight matrix $\textbf{W}$ over all of these patterns is defined as:
+* For $N$ bipolar memorised patterns $\{\textbf{x}^{(1)}, \textbf{x}^{(2)},..., \textbf{x}^{(N)}\}$ where each $\textbf{x}^{(p)}=[x_1^{(p)}, x_2^{(p)},..., x_n^{(p)}]$ with $x_i^{(p)} \in \{-1,1\}$ ($p=1,2,...,N$, $i=1,2,...,n$), the weight matrix $\textbf{W}$ over all of these patterns is defined as:
    * $W_{i,j}=\frac{1}{N}\sum_{p=1}^N x_i^{(p)}x_j^{(p)}$ ($i \neq j$) with $W_{i,i}=0$
    * In matrix form: 
       * $\textbf{W}=\frac{1}{N}\sum_{p=1}^N \textbf{x}^{(p)}(\textbf{x}^{(p)})^T-\textbf{I}$
@@ -705,18 +681,18 @@
    * $=x_i^{(q)} \cdot \mathrm{sgn}(\frac{n-1}{N} + \frac{x_i^{(q)}}{N} \sum_{j \neq i} \sum_{p \neq q} x_i^{(p)} \cdot x_j^{(p)} \cdot x_j^{(q)})$
    * $=x_i^{(q)} \cdot \mathrm{sgn}(\epsilon_i)$ where $\epsilon_i = \frac{n-1}{N} + \frac{x_i^{(q)}}{N} \sum_{j \neq i} \sum_{p \neq q} x_i^{(p)} \cdot x_j^{(p)} \cdot x_j^{(q)}$
    * The fixed point exists only if $\epsilon_i > 0$ for all neurons $i$
-   * The probability of moving away from the stable pattern state is equal to the probability of finding a value $\epsilon_i > 0$ for all $i$
+   * The probability of moving away from the stable pattern state is equal to the probability of finding a value $\epsilon_i \leq 0$ for all $i$
 
 ### HN Energy:
 * Energy is the capacity for the HN to evolve
 * The network will evolve until it arrives at a local minimum in the energy contour 
 * The global energy $E$ is the sum of many local contributions
    * Each local contribution is the product of one connection weight with the binary states of two neurons
-   * $E = -\sum_{j>i}\sum_{j=1}^n s_i W_{i,j} s_j = \frac{1}{2}\textbf{s}^T\textbf{W}\textbf{s}$
+   * $E = -\sum_{j>i}\sum_{i=1}^n s_i W_{i,j} s_j = \frac{1}{2}\textbf{s}^T\textbf{W}\textbf{s}$
       * When $\textbf{s}$ (the states of all neurons for output) agrees well with $\textbf{Ws}$ (the states inputted to all neurons), $E$ becomes the lowest
       * Hebbian updating rule essentially reduces this energy by aligning neuron output states $\textbf{s}$ with its incoming inputs $\textbf{Ws}$
 * Theorem: the energy $E$ decreases each time a neuron state changes
-   * Proof. When a neuron state $s_i$ changes, $E^{new}-E^{old} = (s_i^{new}-s_i^{old})(\sum_{i=1}^n W_{i,j}s_j)$
+   * Proof. When a neuron state $s_i$ changes, $E^{new}-E^{old} = -(s_i^{new}-s_i^{old})(\sum_{i=1}^n W_{i,j}s_j)$
    * Case 1. If $s_i^{new} > s_i^{old}$, $E^{new}-E^{old}$ is the negative of two positives multiplied together, so $E^{new} < E^{old}$
    * Case 2. If $s_i^{new} < s_i^{old}$, $E^{new}-E^{old}$ is the negative of two negatives multiplied together, so $E^{new} < E^{old}$
 
@@ -742,32 +718,10 @@
    * $a_t = \tanh(W_i \cdot x_t + W_h \cdot y_{t-1} + b_i)$
    * $y_t = \sigma(W_o \cdot a_t + b_o)$
 
-# Long Short-Term Memory (LSTM) Networks
-### Deep RNNs:
-* A RNN can be deep not only with respect to time, but also to space as in a feed-forward network
-* A deep RNN is constructed by stacking layers of RNN together, i.e. taking the output hidden state and feeding it into another hidden layer as an input sequence and repeating this process
-* In deep RNNs, the hidden state information is passed to:
-   1. The next time step of the current layer
-   2. The current time step of the next layer
-* There are two ways of introducing depth into RNNs
-* Expanding looping operations to multiple hidden units:
-   * Hidden recurrent state is broken down into groups organised hierarchically
-   ![deep-rnn-type-1](./images/deep-rnn-type-1.PNG)
-* Increasing computational depth of a hidden unit
-   * May lengthen the shortest paths linking different time steps
-   ![deep-rnn-type-2](./images/deep-rnn-type-2.PNG)
-
-### Bidirectional RNNs:
-* Standard RNNs have the limitation that the future input information cannot be reached from the current state
-* Bidirectional RNNs allow RNNs to have both backward and forward information about the sequene at every time step
-* Two independent RNNs are put together
-* The input sequence is fed in normal time order for one RNN, and in reverse time order for the other
-* The outputs are concatenated at each time step
-![brnn](brnn.PNG)
-
+# Advanced RNNs
 ### LSTMs:
-* Vanishing/exploding gradient problems often happen in a RNN
-* Because of a multiplicative gradient that can be exponentially decreasing/increasing with respect to the number of layers, it is difficult for a RNN to capture long term dependencies
+* Vanishing/exploding gradient problems often happen in an RNN
+* Because of a multiplicative gradient that can be exponentially decreasing/increasing with respect to the number of layers, it is difficult for an RNN to capture long term dependencies
 * Alleviating exploding gradient: $||\nabla L||_{clipped} = \min(C, ||\nabla L||)$
 * An LSTM can be used to alleviate vanishing gradient
 * We introduce three gates to a memeory cell to control temporal dependency:
@@ -786,9 +740,9 @@
 * Forget gate $f$:
    * $f=0$: empty memory
    * $f=1$: do not empty memory
-* Let $c_t$ be the memory state at time $t$ and let $h_t$ be the hidden state at time $t$. The LSTM equations are as follows:
+* Let $c_t$ be the memory state at time $t$, $x_t$ be the input at time $t$ and $h_t$ be the hidden state output at time $t$. The LSTM equations are as follows:
+   * $a_t = \tanh(W_1 x_t + W_2 h_{t-1})$ where $W_1$ is the weighting from the current input and $W_2$ is the weighting from the hidden state output
    * $c_t = f_t c_{t-1} + i_t a_t$
-   * $a_t = \tanh(W_1 h_{t-1} + W_2 x_t)$ where $W_1$ is the weighting from the memory cell and $W_2$ is the weighting from the current input
    * $h_t = o_t \tanh(c_t)$
       * $c_t$ can be out of range $(-1,1)$, so use $\tanh$ function to squeeze it into this range
    * Gates:
@@ -821,7 +775,7 @@
 * A graph $G=(V,E)$ is:
    * Sparse if $|E| \approx O(|V|)$
    * Dense if $|E| \approx O(|V|^2)$
-   ![sparse-dense-graphs](./images/parse-dense-graphs.PNG)
+   ![sparse-dense-graphs](./images/sparse-dense-graphs.PNG)
 * Let $d=\frac{|E|}{|V|}$ be the average degree of $G$. $G$ is:
    * Sparse if $d \ll |V|$
    * Dense if $d \approx O(|V|)$
@@ -832,7 +786,6 @@
    * Laplacian Matrix
 * For sparse graphs:
    * Adjacency List
-   * Yale Format (CSR)
    * Coordinate List (COO)
 * Laplacian Matrix:
    * $\textbf{L}=(L_{i,j}) = \begin{cases} \mathrm{deg}(i) & \text{if } i=j \\ -1 & \text{if } i \neq j \text{ and there exists an edge } (i,j) \in E \\ 0 & \text{otherwise } \end{cases}$
@@ -842,19 +795,11 @@
    * $\textbf{L}$ is symmetric
    * Each row and column sums to 0
    * The sum of all diagonals is $2|E|$
-   * 0 is the eigenvector associated with the eigenvector of all 1s
+   * 0 is the eigenvalue associated with the eigenvector of all 1s
       * $\textbf{L}$ is singular
-   * Kirchoff's Theorem: for a connected graph $G$, the number of spanning tree of $G$ is the determinant of any cofactor of the Laplacian matrix $\textbf{L}$
-* Yale Format:
-   * Yale (or CSR, Compressed Sparse Row) format represents a matrix of three vectors that respectively contain `(offset_of_row, column_index, nonzero_value)`
-   * Allows for fast row access and matrix-vector multiplications
-   * Column index vector stores the column index of each nonzero value in the adjacency matrix of the graph, from top left to bottom right
-   * Row pointer vector has length equal to the number of rows, and stores the index of the first value of each row to be referenced in the column index vector
-   * Nonzero value vector is all 1s for an unweighted graph, and the weights of the edges for a weighted graph
-   ![yale-csr-format](./images/yale-csr-format.PNG)
+   * Kirchoff's Theorem: for a connected graph $G$, the number of spanning trees of $G$ is the determinant of any cofactor of the Laplacian matrix $\textbf{L}$
 * Coordinate List (COO):
    * COO format stores a list of tuples in the form of `(row_index, column_index, nonzero_value)`
-   * Nonzero value is as with the Yale Format
    * The entries are ideally sorted first by row index and then by column index to improve random access times
    * Good for incremental matrix construction
    * Each tuple contains the row and column index of a nonzero value in the adjacency matrix
@@ -932,20 +877,12 @@
       * Matrix-vector multiplication takes time $O(|V|^2)$ and space $O(|V|)$
       * Overall time and space required is $O(|V|^3)$ and $O(|V|^2)$ respectively
       * Method is slower than fixed-point iterations, but better when the exact result is needed
-      * Real graphs are oftrn sparse, with $|E| \ll |V|^2$
-* Method 3 - dominant eigenvector:
-   * $\textbf{p}=c\textbf{Wp}+\frac{1-c}{|V|}\textbf{1} \cdot 1$
-   * Since $||\textbf{p}||_1=1$, $\textbf{1}^T\textbf{p}=1$
-   * So $\textbf{p}=c\textbf{Wp}+\frac{1-c}{|V|}\textbf{1} \cdot \textbf{1}^T\textbf{p}$
-   * $\textbf{p}=(c\textbf{W}+\frac{1-c}{|V|}\textbf{1} \cdot \textbf{1}^T)\textbf{p}$
-   * $\textbf{p}=\textbf{Gp}$ where $\textbf{G}=c\textbf{W}+\frac{1-c}{|V|}\textbf{1} \cdot \textbf{1}^T$ (Google matrix)
-   * PageRank $\textbf{p}$ is the dominant eigenvector of the Google matrix $\textbf{G}$ associated with the eigenvalue 1
-      * $\textbf{G}$ is a scaled transition matrix plus a rank-one constant matrix: $\textbf{W}=\mathrm{col\_norm}(\textbf{A})^T$ and $\textbf{1}\cdot\textbf{1}^T = \mathrm{ones}(|V|,|V|)$
+      * Real graphs are often sparse, with $|E| \ll |V|^2$
 
 # Graph-based Similarity Search
 ### Jaccard Similarity:
 * Basic intuition: two nodes are similar if they are pointed to by the same nodes
-* $\mathrm{sim}_J(a,b)=\frac{|I(a) \cap I(b)}{I(a) \cup I(b)}$
+* $\mathrm{sim}_J(a,b)=\frac{|I(a) \cap I(b)|}{|I(a) \cup I(b)|}$
 * Properties of Jaccard similarity:
    * Reflexivity: $\mathrm{sim}_J(a,a)=1$
    * Symmetry: $\mathrm{sim}_J(a,b)=\mathrm{sim}_J(b,a)$
@@ -997,12 +934,12 @@
 ### Matrix Form of SimRank:
 * $\textbf{S}_{a,b} = C \cdot \textbf{Q}^T_{a,*} \cdot \textbf{S} \cdot \textbf{Q}_{*,b}$ where
    * $S_{i,j}$ is the SimRank score between nodes $i$ and $j$
-   * $Q_{i,j} = \begin{cases} \frac{1}{|I(j)|} & \text{if } \exists (i,i) \in E \\ 0 & \text{otherwise} \end{cases} = \mathrm{col\_norm}(\textbf{A})$
-   * When $a=b$, all diagonal elements of $\textbf{S}$ are 1. $S_{a,a}=1$
+   * $Q_{i,j} = \begin{cases} \frac{1}{|I(j)|} & \text{if } \exists (i,j) \in E \\ 0 & \text{otherwise} \end{cases} = \mathrm{col\_norm}(\textbf{A})$
+   * When $a=b$, all diagonal elements of $\textbf{S}$ are $1$. $S_{a,a}=1$
    ![simrank-matrix](./images/simrank-matrix.PNG)
 * $\textbf{S}=\max(C \cdot \textbf{Q}^T\textbf{SQ},\textbf{I})$
 * All-pairs SimRank algorithm:
-   * Get adjacency matrix $A$
+   * Get adjacency matrix $\textbf{A}$
    * Compute $\textbf{Q}=\mathrm{col\_norm}(\textbf{A})$
    * Initialise $\textbf{S}_0=\textbf{I}$
    * Repeat until $\textbf{S}_k$ converges to $\textbf{S}$:
