@@ -67,7 +67,7 @@ geometry: margin=1.5cm
     * Minimum value is $0$ ($0\log_2 0 =0$ by convention)
     * Maximum value is $\log_2 C$ 
     * For categorical features, uniform distribution has highest entropy
-* We define information gain as $IG = entropy(\textbf{y}) - \frac{n_{yes}}{n}entropy(\textbf{y}_{yes}) - \frac{n_{no}}{n} entropy(\textbf{y}_{no})$ where $n_{yes}$ is the no. of samples satisfying the rule, $n_{no}$ is the no. of samples not satisfying the rule, $entropy(\textbf{y})$ is the entropy before the split, $entropy(\textbf{y}_{yes})$ is the entropy of labels satisfying the rule, and $entropy(\textbf{y}_{no})$ is the entropy of labels not satisfying the rule
+* We define information gain as $IG(S,A) = entropy(S) - \sum_{i} \frac{|S_{u_i}|}{|S|} entropy(S_{u_i})$ where $S$ is a set of examples, $A$ is a feature from these examples, and $S_{u_i}$ is the subset of examples from $S$ whose feature $A$ is equal to the $i^{th}$ possible value that $A$ can take.
 * Information gain for baseline rule (do nothing) is 0
 * Even if a split does not increase accuracy at one depth, we hope the metric will make classification easier at the next depth
 
