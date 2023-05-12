@@ -287,7 +287,7 @@ geometry: margin=1.5cm
 * Heaviside Function:
     * $H_\theta(z) = \begin{cases} 1 & z \geq \theta \\ 0 & z < \theta \end{cases}$
 
-    !\[heaviside-function](./images/heaviside-function.PNG)
+    ![heaviside-function](./images/heaviside-function.PNG)
 
     * $y = H_\theta(\textbf{1} \cdot \textbf{x})$
 
@@ -305,7 +305,7 @@ geometry: margin=1.5cm
     * When any input is 1, threshold is reached
     * Graphical representation:
 
-    !\[or-mp-neuron](./images/or-mp-neuron.PNG)
+    ![or-mp-neuron](./images/or-mp-neuron.PNG)
 
 # Single-Layer Perceptron
 ### Limitations of MP Neuron:
@@ -324,7 +324,7 @@ geometry: margin=1.5cm
 * Can add bias $b = -\theta$
     * $z = w_1x_1 + w_2x_2 + ... + w_nx_n + b$
 
-    !\[rojas-diagram-bias](./images/rojas-diagram-bias.PNG)
+    ![rojas-diagram-bias](./images/rojas-diagram-bias.PNG)
 
     * Heaviside function jumps at $0$ rather than $\theta$
 
@@ -358,15 +358,15 @@ geometry: margin=1.5cm
 * Minsky and Papert (1969) provided a solution to the XOR problem by combining three perceptron units using a hidden layer
 * Note that $x_1 \space \mathrm{XOR} \space x_2 = (x_1 \space \mathrm{OR} \space x_2) \cap (x_1 \space \mathrm{NAND} \space x_2)$
 
-    !\[xor-graphically](./images/xor-graphically.PNG)
+    ![xor-graphically](./images/xor-graphically.PNG)
 
     * We know how to make a single-layer perceptron for OR and NAND
 
-    !\[or-nand-perceptrons](./images/or-nand-perceptrons.PNG)
+    ![or-nand-perceptrons](./images/or-nand-perceptrons.PNG)
 
     * Can combine them using an AND perceptron (since we want the intersection of the two areas)
 
-    !\[xor-perceptron](./images/xor-perceptron.PNG)
+    ![xor-perceptron](./images/xor-perceptron.PNG)
 * The MLP solution for XOR is not unique 
 * In general, an MLP can represent any polygon unit
     * An equation $\frac{x}{a} + \frac{y}{b} - 1 = 0$ has $x$-intercept $a$ and $y$-intercept $b$
@@ -408,7 +408,7 @@ geometry: margin=1.5cm
     * Here, the gradient is equal to $\frac{1}{4}$ if $\sigma(x) = 1-\sigma(x)$, i.e. $\sigma(x) = \frac{1}{2}$
     * $\max \sigma'(x) = \frac{1}{4}$ implies the vanishing gradient problem because the size of the error is reduced by at least 75% per layer for backpropagation, limiting the ability to update weights
 
-    !\[sigmoid-gradient](./images/sigmoid-gradient.PNG)
+    ![sigmoid-gradient](./images/sigmoid-gradient.PNG)
 
 ### Tanh:
 * $\tanh(x) = \frac{e^x-e^{-x}}{e^x+e^{-x}}$
@@ -422,7 +422,7 @@ geometry: margin=1.5cm
 * $\tanh'(x) = 1-\tanh^2(x)$
     * The maximum value of $\tanh'(x)$ is $1$
 
-    !\[tanh-gradient](./images/tanh-gradient.PNG)
+    ![tanh-gradient](./images/tanh-gradient.PNG)
 
 ### ReLu (Rectified Linear Unit):
 * $\mathrm{ReLU}(x) = \max(0,x) = \begin{cases} x & x \geq 0 \\ 0 & x < 0 \end{cases}$
@@ -566,7 +566,7 @@ geometry: margin=1.5cm
     * Network learns too many details (even noise) from the training data
     * Will negatively impact its ability to generalise on new testing data
 
-    !\[overfitting](./images/overfitting.PNG)
+    ![overfitting](./images/overfitting.PNG)
 
 ### Regularisation:
 * Discourages learning more complex features by applying a penalty to the input parameters with the larger weights to avoid the risk of overfitting
@@ -577,11 +577,11 @@ geometry: margin=1.5cm
 * L1 regularisation tends to generate sparser solutions:
     * L1 norm has corners - it is very likely that the meeting point is at one of the corners
 
-    !\[l1-norm-graph](./images/l1-norm-graph.PNG)
+    ![l1-norm-graph](./images/l1-norm-graph.PNG)
 
     * L2 norm has no corners - it is very unlikely that the meeting point is on ny of the axes
 
-    !\[l2-norm-graph](./images/l2-norm-graph.PNG)
+    ![l2-norm-graph](./images/l2-norm-graph.PNG)
 
 ### Log/Cross Entropy Loss:
 * Measures the accuracy of a classification model
@@ -593,14 +593,14 @@ geometry: margin=1.5cm
         * Need to map $\hat{y} \in [0,1]$ to $L \in [\infty,0]$
         * $\log x$ maps $[0,1]$ to $[-\infty,0]$ so we can use $-\log x$
 
-        !\[log-loss-part-1](./images/log-loss-part-1.PNG)
+        ![log-loss-part-1](./images/log-loss-part-1.PNG)
 
     * When $y=0$, if $\hat{y}=0$ we want $L=0$ and if $\hat{y}=1$ we want $L=\infty$
         * Need to map $\hat{y} \in [0,1]$ to $L \in [0,\infty]$
         * $-\log x$ maps $[0,1]$ to $[\infty,0]$ - not quite what we need
         * We can use $-\log(1-x)$ to map $[0,1]$ to $[0,\infty]$
 
-        !\[log-loss-part-1](./images/log-loss-part-1.PNG)
+        ![log-loss-part-1](./images/log-loss-part-1.PNG)
 
     * When $y=1$, $L=-\log\hat{y}$ and when $y=0$, $L=-\log(1-\hat{y})$
     * The final loss function is just the two added together: $L=-y\log\hat{y}-(1-y)\log(1-\hat{y})$
@@ -634,7 +634,7 @@ geometry: margin=1.5cm
     * Let $d=e^b$. Then $d_b=e^b$
     * Now $z=cd$. $z_c=d$ and $z_d=c$
 
-    !\[dependency-graph-example](./images/dependency-graph-example.PNG)
+    ![dependency-graph-example](./images/dependency-graph-example.PNG)
 
     * $z_x = 2\cdot\cos a\cdot d + 1\cdot e^b \cdot c = 2\cos(2x+y)e^{x-y}+e^{x-y}\sin(2x+y)$
 
@@ -837,7 +837,7 @@ geometry: margin=1.5cm
         * Sigmoid layer takes $h_{t-1}$ and $x_t$ as inputs
         * The weight matrices $W_f$, $W_i$ and $W_o$ are initialised at random, and learned as the network trains
 
-        !\[lstm-overview](./images/lstm-overview.PNG)
+        ![lstm-overview](./images/lstm-overview.PNG)
    
 ### Different Types of RNNs:
 * The inputs and outputs of a RNN can vary in length
@@ -863,7 +863,7 @@ geometry: margin=1.5cm
     * Sparse if $|E| \approx O(|V|)$
     * Dense if $|E| \approx O(|V|^2)$
 
-    !\[sparse-dense-graphs](./images/sparse-dense-graphs.PNG)
+    ![sparse-dense-graphs](./images/sparse-dense-graphs.PNG)
 
 * Let $d=\frac{|E|}{|V|}$ be the average degree of $G$. $G$ is:
     * Sparse if $d \ll |V|$
@@ -893,7 +893,7 @@ geometry: margin=1.5cm
     * Good for incremental matrix construction
     * Each tuple contains the row and column index of a nonzero value in the adjacency matrix
 
-    !\[coo-format](./images/coo-format.PNG)
+    ![coo-format](./images/coo-format.PNG)
 
 # Google PageRank
 * Motivation: what webpages are the most important? 
@@ -930,13 +930,13 @@ geometry: margin=1.5cm
     * $W_{i,j}=\begin{cases} \frac{1}{|O(j)|} & \text{if } \exists (j,i) \in E \\ 0 & \text{otherwise} \end{cases}$
         * $\textbf{W}=\mathrm{col\_norm}(\textbf{A}^T)=(\mathrm{row\_norm}(\textbf{A}))^T$
 
-        !\[w-matrix-column-norms](./images/w-matrix-column-norms.PNG)
+        ![w-matrix-column-norms](./images/w-matrix-column-norms.PNG)
 
         * A matrix is column-stochastic if each column sums to 1 and each element is between 0 and 1
         * $\textbf{W}$ is a column-stochastic matrix that describes the transition of a Markov chain
         * In terms of matrix operations: $\textbf{W}=\textbf{A}^T(\mathrm{diag}(\textbf{d})^{-1})=\textbf{A}^T\textbf{D}^{-1}$ where $\textbf{d}$ is the out-degree vector of the graph
 
-        !\[w-matrix-operations](./images/w-matrix-operations.PNG)
+        ![w-matrix-operations](./images/w-matrix-operations.PNG)
 
     * Goal: solve for $\textbf{p}$
 * Method 1 - fixed-point iteration:
@@ -1030,7 +1030,7 @@ geometry: margin=1.5cm
     * $Q_{i,j} = \begin{cases} \frac{1}{|I(j)|} & \text{if } \exists (i,j) \in E \\ 0 & \text{otherwise} \end{cases} = \mathrm{col\_norm}(\textbf{A})$
     * When $a=b$, all diagonal elements of $\textbf{S}$ are 1. $S_{a,a}=1$
 
-    !\[simrank-matrix](./images/simrank-matrix.PNG)
+    ![simrank-matrix](./images/simrank-matrix.PNG)
 
 * $\textbf{S}=\max(C \cdot \textbf{Q}^T\textbf{SQ},\textbf{I})$
 * All-pairs SimRank algorithm:
