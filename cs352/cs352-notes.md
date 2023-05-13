@@ -647,7 +647,7 @@ Projects mostly fail due to:
     * Reduces mura (unevenness)
     * Comes at a price of mass production
     * E.g. one person works on a big work package while another person has finished theirs
-* Keizen (Continuous Improvement):
+* Kaizen (Continuous Improvement):
     * Regular, incremental improvements
         * To all functions/processes (of the business)
         * From employees at all levels
