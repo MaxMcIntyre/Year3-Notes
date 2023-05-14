@@ -821,6 +821,10 @@ When to use Scrum or Kanban?
 
 ![safe](./images/safe.PNG)
 
+### Agile vs Lean
+
+![Agile vs Lean](./images/agile-vs-lean.PNG)
+
 # Risk Management
 ### Terminology:
 * Uncertainty: something that is not definite, i.e. has a probability of occurrence
