@@ -292,35 +292,18 @@ Power/Interest grid:
 
 ![prince2-themes-principles](./images/prince2-themes-principles.PNG)
 
-### Similarities/Differences between PRINCE2 and PMBOK:
-Sources:
+### PMBOK vs PRINCE2:
 
-* These notes
-* https://www.knowledgehut.com/blog/project-management/pmbok-vs-prince2
-* https://pmworldlibrary.net/wp-content/uploads/2015/12/pmwj41-Dec2015-Fiampolis-Acaster-opimizing-project-management-advisory.pdf
-* Aryan Patnaik
+| | PMBOK      | PRINCE2 |
+| ----------- | ----------- | ----------- |
+| What is it | Framework | Methodology |
+| Focus | Activities | Deliverables |
+| Driver | Customer requirements | Business Case |
+| Process 'groups' | 5 process groups | 7 processes
+| Knowledge areas | 10 knowledge areas | 7 themes |
+| Process 'steps' | 49 processes | 40 steps |
 
-Similarities:
-
-* Both provide a structured approach
-* Both define a set of best practices for project management
-* Both focus on project initiation, planning, execution/product delivery, and closing
-* PMBOK’s 10 knowledge areas are akin to PRINCE2’s 7 themes
-* PMBOK’s 5 process groups (dividable into 49 processes) are equivalent to PRINCE2’s 7 processes (dividable into 40 steps)
-
-Differences:
-
-| PMBOK      | PRINCE2 |
-| ----------- | ----------- |
-| Framework | Methodology |
-| Work breakdown approach (activities focus) | Product breakdown approach (deliverables focus) |
-| Driven by customer requirements | Driven by business case |
-| Descriptive | Prescriptive |
-| Emphasises PM’s role | Also defines other roles/responsibilities |
-| Extensive | Not as detailed |
-| Complicated | Simple |
-| Prioritises soft (common) skills | Prioritises technical skills |
-| Planning separate from project initiation | Planning part of project initiation |
+![PMBOK-vs-PRINCE2](./images/pmbok-vs-prince2.PNG)
 
 ### Product-based Planning:
 * Why?
