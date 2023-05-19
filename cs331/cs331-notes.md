@@ -957,7 +957,7 @@ geometry: margin=1.5cm
         * $||\textbf{p}_k-\textbf{p}||_1=c^k||\textbf{W}^k(\textbf{p}_0-\textbf{p})||_1 \leq c^k(||\textbf{W}||_1)^k||\textbf{p}_0-\textbf{p}||_1$
         * Since $||\textbf{W}||_1 \leq 1$ and $||\textbf{p}_0-\textbf{p}||_1 \leq ||\textbf{p}_0||_1+||\textbf{p}||_1 \leq 2$, $||\textbf{p}_k-\textbf{p}||_1 \leq 2c^k$ 
         * $k \geq \log_c(\frac{\epsilon}{2})$
-        * To guarantee the desired accuracy $\epsilon$, the number of iterations $K$ required is $K=\lceil\log_2(\frac{\epsilon}{2})\rceil+1$
+        * To guarantee the desired accuracy $\epsilon$, the number of iterations $K$ required is $K=\lceil\log_c(\frac{\epsilon}{2})\rceil+1$
     * Complexity:
         * Matrix-vector multiplication $\textbf{y}=\textbf{Wp}_{k-1}$ takes time $O(|E|)$ and space $O(|E|+|V|)$
         * Vector addition and scaling $\textbf{p}_k=c\textbf{y}+\frac{1-c}{|V|}\textbf{1}$ takes time $O(|V|)$ and space $O(|V|)$
@@ -1045,9 +1045,9 @@ geometry: margin=1.5cm
     * $\textbf{S}_{k} = \max(C \cdot \textbf{Q}^T\textbf{S}_{k-1}\textbf{Q},\textbf{I})$, $\textbf{S}_0 = \textbf{I}$ (2)
     * (1) \- (2): $\textbf{S}-\textbf{S}_k 
     \\ = C \cdot \textbf{Q}^T(\textbf{S}-\textbf{S}_{k-1})\textbf{Q} 
-    \\ = C^2 \cdot (\textbf{Q}^T)^2(\textbf{S}-\textbf{S}_{k-2})\textbf{Q} 
-    \\ = C^3 \cdot (\textbf{Q}^T)^3(\textbf{S}-\textbf{S}_{k-3})\textbf{Q} 
-    \\ = ... =  C^k \cdot (\textbf{Q}^T)^k(\textbf{S}-\textbf{S}_{0})\textbf{Q}$
+    \\ = C^2 \cdot (\textbf{Q}^T)^2(\textbf{S}-\textbf{S}_{k-2})\textbf{Q}^2 
+    \\ = C^3 \cdot (\textbf{Q}^T)^3(\textbf{S}-\textbf{S}_{k-3})\textbf{Q}^3 
+    \\ = ... =  C^k \cdot (\textbf{Q}^T)^k(\textbf{S}-\textbf{S}_{0})\textbf{Q}^k$
     * $\textbf{S}-\textbf{S}_0 = C\textbf{Q}^T\textbf{SQ} - \mathrm{diag}(C\textbf{Q}^T\textbf{SQ}) \leq C\textbf{Q}^T\textbf{SQ} \leq C\textbf{Q}^T\textbf{1Q} \leq C\cdot\textbf{1Q} \leq C\cdot\textbf{1}$
     * $(\textbf{Q}^T)^k(\textbf{S}-\textbf{S}_0)\textbf{Q}^k \leq C\cdot(\textbf{Q}^T)^k\textbf{1Q}^k \leq C\cdot\textbf{1}\cdot\textbf{Q}^k \leq C\cdot\textbf{1}$
     * $C^k \cdot (\textbf{Q}^T)^k(\textbf{S}-\textbf{S}_{0})\textbf{Q} \leq C^k \cdot (C \cdot \textbf{1}) = C^{k+1} \cdot \textbf{1}$
