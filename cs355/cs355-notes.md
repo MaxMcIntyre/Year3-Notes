@@ -176,7 +176,7 @@ geometry: margin=1.5cm
 * General concept of subsampling is to subsample by a factor of $n$
     * Remove every $n$-th element
     * We want to subsample in the colour channels
-* Subsampling scheme usually expressed as a three part ration $A:b:c$
+* Subsampling scheme usually expressed as a three part ratio $A:b:c$
     * $A$ - the width of the region in which the subsampling is performed. Usually $A=4$
     * $b$ - the number of Cb and Cr (chroma) samples in each row of $A$ pixels (horizontal factor)
     * $c$ - the number of changes in Cb and Cr samples between the first and second row (vertical factor)
