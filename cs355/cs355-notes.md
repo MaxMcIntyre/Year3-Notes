@@ -249,7 +249,7 @@ geometry: margin=1.5cm
 * Local SSIM score:
     * $SSIM(x,y) = l(x,y)^\alpha \cdot c(x,y)^\beta \cdot s(x,y)^\gamma$ where $\alpha, \beta, \gamma > 0$
     * For $\alpha = \beta = \gamma = 1$, $C_3 = \frac{C_2}{2}$:
-        * $SSIM(x,y) = \frac{(2\mu_x\mu_y+C_1)(2\sigma_{xy}+C_2}{(\mu_x^2+\mu_y^2+C_1)(\sigma_x^2+\sigma_y^2+C_2)}$
+        * $SSIM(x,y) = \frac{(2\mu_x\mu_y+C_1)(2\sigma_{xy}+C_2)}{(\mu_x^2+\mu_y^2+C_1)(\sigma_x^2+\sigma_y^2+C_2)}$
     * Properties:
         * Symmetry: $SSIM(x,y) = SSIM(y,x)$
         * Boundedness: $SSIM(x,y) \leq 1$
