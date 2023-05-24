@@ -40,7 +40,7 @@ geometry: margin=1.5cm
 * DB data is organised in files of records, i.e. each table stored in one file
 * File data blocks store these records
     * Each file data block is ~1-10kB and is stored on a disk block
-* Each disk block is stored on a multiple of stored on a multiple of disk sectors
+* Each disk block is stored on a multiple of disk sectors
 
 ### Block Access:
 * A physical disk block address consists of:
@@ -72,7 +72,7 @@ geometry: margin=1.5cm
 
     * Separator character marks end of variable-length field
     * Still wastes space on optional fields
-* Variable-length fields using field anmes:
+* Variable-length fields using field names:
 
     ![variable-length-example-2](./images/variable-length-example-2.PNG)
 
@@ -94,7 +94,7 @@ geometry: margin=1.5cm
     * Contiguous blocks on disk are assigned to consecutive file blocks
         * If disk block $d_i$ stores 1st file block, disk block $d_{i+1}$ stores 2nd file block etc.
 * Linked:
-    * Each disk block $d_j$ (storing file block $f_i$) stores a ponter at its end to a disk block (anywhere on the disk) storing file block $f_{i+1}$
+    * Each disk block $d_j$ (storing file block $f_i$) stores a pointer at its end to a disk block (anywhere on the disk) storing file block $f_{i+1}$
     * Have to go through the entire linked chain to get to the final file block - very inefficient
 * Indexed:
     * An index exists
