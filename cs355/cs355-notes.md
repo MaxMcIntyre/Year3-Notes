@@ -301,7 +301,7 @@ geometry: margin=1.5cm
 
     * We want $c_x(k_x) = c_y(k_y)$:
         * $\sum_{j=1}^{k_x} \frac{n_j}{n} = \frac{k_y}{L-1}$
-        * $k_y = \mathrm{round}((L-1)\sum_{j=1}^{k_x} \frac{n_j}{n}$
+        * $k_y = \mathrm{round}((L-1)\sum_{j=1}^{k_x} \frac{n_j}{n})$
 * For RGB we can perform histogram equalisation on each of the R, G and B channels
 * Or, an RGB image can be converted to luma-chroma where the histogram equalisation is performed on the luma channel only
 
@@ -314,7 +314,7 @@ geometry: margin=1.5cm
     * A random variable that can be modelled as a known distribution function (e.g. Gaussian noise)
 * $g(x,y)=f(x,y)+\eta(x,y)$
     * $\eta(x,y) \sim \mathcal{N} (0, \sigma^2)$ (may also include negative values)
-* Each pixel location follows a zero-mean Gaussian distrbution and is independent of all other locations (independently and identically distributed)
+* Each pixel location follows a zero-mean Gaussian distribution and is independent of all other locations (independently and identically distributed)
     * $\frac{1}{n}\sum_{(x,y) \in I}\eta(x,y)=0$
 * Global averaging:
     * $\frac{1}{n}\sum_{(x,y) \in I}f(x,y)=\frac{1}{n}\sum_{(x,y) \in I}g(x,y)-\frac{1}{n}\sum_{(x,y) \in I}\eta(x,y)$
@@ -331,7 +331,7 @@ geometry: margin=1.5cm
     * Can also have learnable weights
 * Impulse (salt and pepper) noise:
     * Caused by faulty sensors
-    Only a few pixels are modified and they are replaced by black or white pixels (dead pixels)
+    * Only a few pixels are modified and they are replaced by black or white pixels (dead pixels)
     * The observed pixel $g(x,y)$ can be modelled as:
         * $g(x,y) = \begin{cases} a & \text{with probability } P_a\\ b & \text{with probability } P_b\\ f(x,y) & \text{with probability } 1-P_a-P_b \end{cases}$
         * $a$ and $b$ are normally the min/max pixel values of an image, e.g. 0 and 255 for an 8-bit image
@@ -406,7 +406,7 @@ geometry: margin=1.5cm
     ![butterworth-low-pass](./images/butterworth-low-pass.PNG)
 
 * High pass filters:
-    * $H_{HP} = 1-H_{LP}(u,v)$
+    * $H_{HP}(u,v) = 1-H_{LP}(u,v)$
     * Can be used to find edges (i.e. parts of the image with high frequency)
     * Ideal high pass filter: $H(u,v) = \begin{cases} 0 & \text{if } D(u,v) \leq D_0\\ 1 & \text{if } D(u,v) > D_0 \end{cases}$
     * Gaussian high pass filter: $H(u,v) = 1-e^{-\frac{D^2(u,v)}{2D_0^2}}$
@@ -422,20 +422,22 @@ geometry: margin=1.5cm
     ![notch-filters](./images/notch-filters.PNG)
 
 ### Discrete Cosine Transform (DCT):
-* Similar to DFT, but only uses cosines as a basis which makes it a real transform (real transform function and real coefficients)
+* Similar to DFT, but only uses cosines as a basis which makes it a real transform (real basis function and real coefficients, not complex like DFT)
 
     ![dct-bases](./images/dct-bases.PNG)
 
-* Given an input $f(x) with size $N$, we have both forward and inverse DCT:
+* Given an input $f(x)$ with size $N$, we have both forward and inverse DCT:
     * $F(u) = \sum_{x=0}^{N-1}f(x)\alpha(u)\cos(\frac{\pi(2x+1)u}{2N})$
     * $f(x) = \sum_{u=0}^{N-1}F(u)\alpha(u)\cos(\frac{\pi(2x+1)u}{2N})$
     * $\alpha(u) = \begin{cases} \sqrt{\frac{1}{N}} & \text{for } u=0\\ \sqrt{\frac{2}{N}} & \text{for } u = 1, 2, ..., N-1\end{cases}$
-    * DC component: $F(0) = \frac{1}{\sqrt{N}}\sum_{x=0}^{N-1}f(x)$
-* DCT basis matrix is orthnormal, real and symmetric
+    * DC component (zero-frequency component): $F(0) = \frac{1}{\sqrt{N}}\sum_{x=0}^{N-1}f(x)$
+* DCT basis matrix is orthonormal, real and symmetric
 * DCT is the same length as the input function (as in DFT)
 * Can easily be extended to 2D. For an input $f(x,y)$ with size $M \times N$:
     * $F(u,v) = \sum_{x=0}^{M-1}\sum_{y=0}^{N-1}f(x,y)\alpha(u)\alpha(v)\cos(\frac{\pi(2x+1)u}{2M})\cos(\frac{\pi(2y+1)v}{2N})$
     * $f(x,y) = \sum_{u=0}^{M-1}\sum_{v=0}^{N-1}F(u,v)\alpha(u)\alpha(v)\cos(\frac{\pi(2x+1)u}{2M})\cos(\frac{\pi(2y+1)v}{2N})$
+    * $\alpha(u) = \begin{cases} \sqrt{\frac{1}{M}} & \text{for } u=0\\ \sqrt{\frac{2}{M}} & \text{for } u = 1, 2, ..., M-1\end{cases}$
+    * $\alpha(v) = \begin{cases} \sqrt{\frac{1}{N}} & \text{for } v=0\\ \sqrt{\frac{2}{N}} & \text{for } v = 1, 2, ..., N-1\end{cases}$
     * DC component: $F(0,0) = \frac{1}{\sqrt{MN}}\sum_{x=0}^{M-1}\sum_{y=0}^{N-1}f(x,y)$
 * DCT can represent an image in a more compact manner, i.e. only a small number of DCT coefficients are large and others are very small
     * This is useful for compression, where we can disregard coefficients with very small values without introducing visual distortion in the reconstructed image
@@ -457,7 +459,7 @@ geometry: margin=1.5cm
 * Private vs. public
     * Only authorised users can detect the private watermark
 * Robust vs. fragile
-    * Robust: designed to survive intentional (malicious) and unintentional (non-malicious modifications)
+    * Robust: designed to survive intentional (malicious) and unintentional (non-malicious) modifications
     * Semi-fragile: designed for detecting any unauthorised modification and at the same time allowing some basic modifications, such as rotation, scaling and cropping
     * Fragile: modifications will destroy watermark - used to detect any unauthorised modification
 
@@ -472,7 +474,7 @@ geometry: margin=1.5cm
 * Unauthorised copy detection:
     * __A__ is the owner of a video. __A__ makes 4 copies of it, and embeds a different watermark to each legal copy
     * __A__ shares the copies with 4 paid users
-    * Illegal copies are found on the internet. The unique watermark can be used to trace with of the 4 users leaked the copy
+    * Illegal copies are found on the internet. The unique watermark can be used to trace which of the 4 users leaked the copy
 * Tampering detection:
     * __A__ embeds a fragile watermark in an image and makes it publicly available
     * __B__ tampers the image
@@ -499,11 +501,11 @@ geometry: margin=1.5cm
 * Watermark is formed using the 7 most significant bits of each pixel
 * $N$ 7-bit segments from the $N$ different pixels are concatenated to form a watermark of length $7N$
 * How to select the watermark embedding location:
-    * Embed in specific bit planes over te entire image
+    * Embed in specific bit planes over the entire image
     * Embed in specific bit planes of selected image regions (e.g. $N \times N$ region centred at location $(x,y)$)
     * Pixel locations are chosen randomly. To decode such a watermark a key is required
         * The key is usually the seed to the random number generator
-    * Select those piels which are more tolerant to visual changes
+    * Select those pixels which are more tolerant to visual changes
         * Based on local properties of an image and how the human visual system (HVS) works
         * HVS less sensitive to changes in the blue channel and to distortions in the edges of an image
 
@@ -520,13 +522,13 @@ geometry: margin=1.5cm
 
 # Digital Watermarking - Frequency Domain
 * A more sophisticated approach to digital watermarking involves changing the frequency components of an image obtained using DCT (or DFT)
-* Main idea is to embed the atermark in the perceptually important regions of the image, so that the watermark is hard to remove without degrading the physical quality of the image
+* Main idea is to embed the watermark in the perceptually important regions of the image, so that the watermark is hard to remove without degrading the physical quality of the image
     * Invisible watermark
     * Known to be more robust to common watermarking attacks
     * Works well for audio data as well
 
 ### Perceptually significant regions:
-* DC coefficient $w_{00}$: carries most of the energy of the imae
+* DC coefficient $w_{00}$: carries most of the energy of the image
 * Rest of the coefficients (AC coefficients) can be divided into three regions:
     * Low frequency region - very important
     * Mid frequency region - somewhat important
@@ -571,15 +573,15 @@ geometry: margin=1.5cm
     * Decoder needs information about which blocks to decode
 * Another example of hybrid watermarking:
     * Divide a given image into blocks (watermark usually embedded in all blocks)
-    * For each block $A$ take the 2D DCT
+    * For each block take the 2D DCT $A$
     * Choose two locations in the DCT coefficient matrix that are of equal perceptual importance (coefficients roughly equal)
         * Swapping them will not degrade the image's quality
-    * Given a watermark bitstream $\textbf{w}$ and letting $i$ and $j$ being the first and second locations in the image respectively, we apply the following rules:
-        * $|A(i)| \geq |A(j)|$ implies $0$, otherwise $1$
+    * For example, given a watermark bitstream $\textbf{w}$, and $A(m,n)$ and $A(p,q)$ are of equal perceptual importance, we can set the following rules:
+        * $|A(m,n)| \geq |A(p,q)|$ implies $0$, otherwise $1$
         * If the implied value does not match our watermark bitstream, flip the values
     * Decoding:
         * Check if the values are flipped
-        * Check if $|A(i)| \geq |A(j)|$ - if yes, then the next bit should be $0$ and otherwise $1$ as long as the values are not flipped. Otherwise, it is the opposite way round
+        * Check if $|A(m,n)| \geq |A(p,q)|$ - if yes, then the next bit should be $0$ and otherwise $1$ as long as the values are not flipped. Otherwise, it is the opposite way round
 
 ### Watermarking Attacks:
 * Watermarking in the frequency domain is known to be more robust to common watermarking attacks:
@@ -588,7 +590,7 @@ geometry: margin=1.5cm
     * Removal: to destroy the watermark, high values needed to be added to all frequencies. This affects the visual quality severely, and such attacks can be easily detected
     * Filtering: it survives low-pass filtering
 * Jitter attack:
-    * The basic idea is to change the locations of embeded watermarks so that they cannot be recovered
+    * The basic idea is to change the locations of embedded watermarks so that they cannot be recovered
     * Split the audio/image into a number of small chunks
     * Duplicate or delete data points at random
     * Imperceptible in images
@@ -596,7 +598,7 @@ geometry: margin=1.5cm
 ### Comparing Watermarks:
 * In simple cases we can use MSE, correlation coefficient or SSIM 
 * For SS watermarking we particularly use:
-    * $\mathrm{sim}(\hat{\textbf{w}}, \textbf{w}) = \frac{\hat{\textbf{w}}\textbf{w}^T}{\sqrt{\hat{\textbf{w}}\hat{\textbf{w}}^T}}$
+    * $\mathrm{sim}(\hat{\textbf{w}}, \textbf{w}) = \frac{\hat{\textbf{w}}\textbf{w}^T}{\sqrt{\hat{\textbf{w}}\hat{\textbf{w}}^T}}$ where $\hat{\textbf{w}}$ is the extracted watermark and $\textbf{w}$ is the original watermark
 * If similarity is higher than a threshold, it is considered a match
     * For a long watermark sequence ($m > 200$), the threshold is normally set to 6
     * If an attacker generates a random Gaussian-distributed watermark, in very rare cases the watermarks will match. Longer watermarks will reduce the possibility further

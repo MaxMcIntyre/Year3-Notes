@@ -149,7 +149,7 @@ geometry: margin=1.5cm
     * This makes insertion much faster, as the new record is just added at the end of the overflow file
     * Retrievals are more expensive however as they may require access to the unordered overflow file as well (when the record is not found in the master file)
 * Updates to the ordering field value of a record can be costly as the record must be deleted from its old position and inserted into its new position
-* Not very common in DMBSs, except when the ordering field is
+* Not very common in DBMSs, except when the ordering field is
     * A key and
     * An index has been built on that key - primary index
         * Index is a data structure which would allow binary search to be performed during retrieval
@@ -233,7 +233,7 @@ geometry: margin=1.5cm
     * Permits a binary search
 * 3 types:
     * Primary index: index field is an ordering and key field of an ordered data file
-    * Clustered inex: index field is an ordering non-key field of an ordered data file - called a cluster file
+    * Clustered index: index field is an ordering non-key field of an ordered data file - called a cluster file
     * Secondary index: index field can be any non-ordering field over an ordered or non-ordered data file
 * There can be only one primary or clustered index - not both
 * There can be several secondary indexes in addition
@@ -404,7 +404,7 @@ geometry: margin=1.5cm
     * Typically, the mean time between failures of disks is 1 in tens of years
 * Performance cannot really be improved
     * Write accesses may actually be slowed down - need to write to every copy of the data
-    * Read performance can maybe improve - data can be accessed in parallEL
+    * Read performance can maybe improve - data can be accessed in parallel
 
 ### RAID 4:
 * Block-level striping + dedicated parity disk
@@ -435,7 +435,7 @@ geometry: margin=1.5cm
 * Higher than RAID 5 configs allow for more than 1 disk failure
 
 ### Intra- and Inter-Query Parallelism:
-* Parallelism typically focuses on parallelising the service of one query (that accesses block on different disks)
+* Parallelism typically focuses on parallelising the service of one query (that accesses blocks on different disks)
 * Typically, in any system there are many concurrently-executing queries
 * If we try to max out parallelism for each query, then all disks will/may be used by any single query
     * All other queries will be blocked/waiting
