@@ -475,11 +475,11 @@ geometry: margin=1.5cm
 * Also deal with problems of insertions and deletions:
     * Values being inserted into a full tree node
     * A tree node becoming empty
-* In a B-tree of order $p$, each node has the form $<P_1, (K_1, Pr_1) P_2, (K_2, Pr_2), ..., P_{q-1}, (K_{q-1} Pr_{q-1}), P_q>$ where $q \leq p$
+* In a B-tree of order $p$, each node has the form $<P_1, (K_1, Pr_1), P_2, (K_2, Pr_2), ..., P_{q-1}, (K_{q-1}, Pr_{q-1}), P_q>$ where $q \leq p$
 
     ![b-tree-node](./images/b-tree-node.PNG)
 
-    * $Pr_i$ is a data record pointers (to disk block(s)) holding value $K_i$
+    * $Pr_i$ is a data record pointer (to disk block(s) or records holding value $K_i$)
     * Values in subtrees are the same as with search trees
 * Each node has at least $\lceil \frac{p}{2} \rceil$ tree pointers
     * Root has at least $2$ pointers, unless it's the only node
@@ -504,7 +504,7 @@ geometry: margin=1.5cm
     * Only leaf nodes hold pointers to data records
 * We want as a big of a fan-out as possible to achieve better performance, as the leaves are reached faster
 * Internal node structure is as with search trees, but with the restrictions of B-trees
-* Each leaf node as the form $<(K_1, Pr_1) (K_2, Pr_2), ..., (K_{q-1} Pr_{q-1}), P_{next}>$
+* Each leaf node as the form $<(K_1, Pr_1), (K_2, Pr_2), ..., (K_{q-1} Pr_{q-1}), P_{next}>$
 
     ![b-plus-leaf-node](./images/b-plus-leaf-node.PNG)
 
@@ -525,7 +525,7 @@ geometry: margin=1.5cm
     1. Call the search algorithm to find $K$
         * If $K$ is found, output an error message
     2. Call $r$ the parent of the leaf node $n$, where $K$ will be inserted
-        * If $n$ is not full, insert a pair $(K, Pr_i)$ into $n$ here $Pr_i$ is a pointer to the block where the new data record was inserted
+        * If $n$ is not full, insert a pair $(K, Pr_i)$ into $n$ where $Pr_i$ is a pointer to the block where the new data record was inserted
         * If $n$ is full, then it has to be split into two nodes
             * A new node $n_1$ will be created, storing the last half of search field values and record pointers from $n$
             * Update the linked list of leaf nodes to include $n_1$
@@ -613,7 +613,7 @@ geometry: margin=1.5cm
     * Example:
         * Table has 1mn rows and 20% of them have $A = A_i$
         * The bitmap for $A_i$ needs 1mn bits = 125kB
-        * Storing pointers instead would require 200k pointrs (200k * 4 = 800kB)
+        * Storing pointers instead would require 200k pointers (200k * 4 = 800kB)
 
 ### Goals of Physical DB Design:
 * Appropriate structuring of data in storage devices
@@ -680,7 +680,7 @@ geometry: margin=1.5cm
     ![mapreduce](./images/mapreduce.PNG)
 
 * Within a MapReduce system framework:
-    * Mapper processes defined and assigned tasks
+    * Mapper processes: defined and assigned tasks
     * Mappers read data and emit key-value pairs
     * Emitted pairs are sent to appropriate reducers
     * Reducers aggregate info in emitted pairs and write output
@@ -709,7 +709,7 @@ geometry: margin=1.5cm
 * Normalisation:
     * If a query needs information from more than one table, it must join them
     * Joins are very computationally expensive - scalability issues
-    * NoSQL would store data in an de-normalised table
+    * NoSQL would store data in a de-normalised table
         * Don't care about repeating groups or non-atomic values
         * Sacrifice space - don't care about redundancy
         * Leave it to the application to care about the integrity of redundant information
@@ -747,7 +747,7 @@ geometry: margin=1.5cm
 * MR2 in essence:
     * Avoid overburdening a single process (JobTracker) to do both:
         * System schedule: assign and engage processes to run tasks (scheduling, assignment and managing of system resources)
-        * Application progress monitoring:
+        * Application (tasks) progress monitoring:
             * Restarting failed/slow ones
             * Bookkeeping: maintaining counters to enable the monitoring of the progress of an MR application (e.g. bytes read/written, input/output records of mappers or reducers)
  
@@ -828,7 +828,7 @@ geometry: margin=1.5cm
     * After a (default 10 minutes) time period, the RM marks an NM as unavailable
         * Removes the NM from the list of available nodes
     * The NM's AM and task(s) (as applicable) will be handled through mechanisms for task/job and AM failures
-    * AMs can blaclist an NM if many of its tasks in this NM fail
+    * AMs can blacklist an NM if many of its tasks in this NM fail
 * RM failure:
     * Serious - single point of failure
     * RM must be able to recover from saved state
@@ -895,7 +895,7 @@ geometry: margin=1.5cm
     * Sort by keys (different mappers may have sent data with the same key)
 * Reduce:
     * Input is the sorted output of mappers
-    * Call the Reduce function per key with the last of values for that key to produce the results
+    * Call the Reduce function per key with the list of values for that key to produce the results
 
 ### Example:
 * Count the number of occurrences of each word in a collection of documents
@@ -932,10 +932,10 @@ geometry: margin=1.5cm
 ### SQL Joins:
 * Reduce-side join:
     * 2-way join on attribute $B$ - n-way joins can be viewed as a series of 2-way joins
-    * Feed to mappers tuples from both $R$ an $S$ (e.g. one at a time)
+    * Feed to mappers tuples from both $R$ and $S$ (e.g. one at a time)
     * When processing an $R$ tuple $t_R$:
         * Emit($b_r,(R,t_R)$) where $b_r$ represents the value of attribute $B$ in $t_R$
-    * When processing an $s$ tuple $t_s$:
+    * When processing an $S$ tuple $t_S$:
         * Emit($b_s,(S,t_S)$) where $b_s$ represents the value of attribute $B$ in $t_S$
     * All tuples from $R$ and $S$ with the same value of $B$ will be sent to the same reducer
     * Reducer responsible for value $b$ receives Reduce($b,[(R,t_{R1},t_{R2},...,t_{Rn})],[(S,t_{S1},t_{S2},...,t_{Sn})]$) and outputs $\{t_{R1},t_{R2},...,t_{Rn}\} \times \{t_{S1},t_{S2},...,t_{Sn}\}$
@@ -947,7 +947,7 @@ geometry: margin=1.5cm
         * Each file of $R$ and $S$ is sorted according to the join key also
         * At each mapper its file from $S$ is loaded into memory from the HDFS
     * Now we only need to merge each file of $S$ with each file of $R$
-        * I.e. mapper 1 handles $F_1^R, F_2^R,...$ and $F_1^2, F_2^2,...$
+        * I.e. mapper 1 handles $F_1^R, F_2^R,...$ and $F_1^S, F_2^S,...$
     * All that is needed then is a sort merge from each mapper
         * Each mapper maps over $R$, and reads from memory the corresponding file from $S$ - a parallel scan
     * No need for a reducer
@@ -1006,7 +1006,7 @@ geometry: margin=1.5cm
 ### NameNode:
 * The mastermind of HDFS
 * Store global metadata such as:
-    * The state of the namespace - the set of directories and their file and their hierarchical organisation
+    * The state of the namespace - the set of directories and their files and their hierarchical organisation
     * Access permissions
     * Modification times
     * Locations of the file blocks and their replicas
@@ -1033,7 +1033,7 @@ geometry: margin=1.5cm
         * Only blocks of a failed node are affected and can use replicas
         * High availability: ops go on even if a fault occurs
     * Efficiency due to:
-        * Loclity: access replica close to you
+        * Locality: access replica closer to you
         * Data placement so that computations go where the data resides, avoiding expensive data transfers
         * Load balancing: spreading blocks around helps avoid performance bottlenecks
 * Reliability:
@@ -1047,9 +1047,9 @@ geometry: margin=1.5cm
             * E.g. what happens when updating 2 blocks at different nodes and one of them is unavailable
         * Horizontal: address issues that result from need to maintain replicas for each block:
             * E.g. what happens when some copies of blocks are stale due to their node being unavailable at the last update
-* Checkpointing adds time costs to sync to disks
+* Checkpointing adds time costs to sync to disks; same for durability
     * Before ops are acked, disk IO is required
-        * Grouping of operations and carryin them out as a group is used to reduce the effects of this problem
+        * Grouping of operations and carrying them out as a group is used to reduce the effects of this problem
 * Optimised for batch processing
     * Transfers data in 128MB blocks
 * Provides for high bandwidth
@@ -1075,7 +1075,7 @@ geometry: margin=1.5cm
 * On startup of DN: handshake with NN
     * Ensure correct version of SW and namespaceID
 * Register after successful handshake
-    * Obtain unique storageID of DN (independent of IP, port,...)
+    * Obtain unique storageID of DN (independent of IP, port, ...)
 * Block reports:
     * List of (blockID, timestamp, length) for every block in DN
 * Heartbeats:
@@ -1083,14 +1083,14 @@ geometry: margin=1.5cm
     * Piggyback storage use and capacity, etc.
 * Heartbeat replies:
     * Only way for NN to communicate with DNs
-    * Second commands like: send block report, delete blocks, replicate blocks to other DNs, re-register, shutdown, etc.
+    * Sends commands like: send block report, delete blocks, replicate blocks to other DNs, re-register, shutdown, etc.
 
 ### Writing to HDFS:
 1. Client tells NN it plans to write to a new file
     * By creating or opening the file for append
 2. NN will:
     * Create a blockID for the first new block of the file
-    * Decide which DNs will host this blocks' replicas
+    * Decide which DNs will host this block's replicas
 3. Client receives from NN:
     * A leash (like a lock) - 1 writer many readers
     * The blockID and the DN locations it should go to
@@ -1111,7 +1111,7 @@ geometry: margin=1.5cm
     * Comes with a soft and a hard limit
         * Other writers are locked out up to a soft limit
         * Clients can renew the leash or give it up on close (resets both limits)
-        * Between soft limit and hard limit, anoher client can preempt the leash
+        * Between soft limit and hard limit, another client can preempt the leash
         * After hard limit, NN will remove the leash and force-close the file
 
 ### Reading from HDFS:
@@ -1120,7 +1120,7 @@ geometry: margin=1.5cm
     * DN list with replicas of the files' blocks
 2. Client selects a DN per block and contacts each DN directly asking for blocks
     * DN selection is based on distance: try closest replica first, then if unsuccessful go to the next closest, and so on
-3. Each DN respons to the client with:
+3. Each DN responds to the client with:
     * The local file, storing the requested block contents
     * The metadata file (including checksum)
 
@@ -1149,7 +1149,7 @@ geometry: margin=1.5cm
     * Journal:
         * A log with all modifications to the namespace
         * Also in local FS/disk
-        * A write-ahead logging (WAL) log:
+        * Is a write-ahead logging (WAL) log:
             * Any change is first written to the journal
             * Journal is flushed and synched
             * After this the change is acked to the client
@@ -1191,7 +1191,7 @@ geometry: margin=1.5cm
         * If all nodes fail, NN instructs DNs to make more replicas
             * A priority list for such blocks, based on number of replicas
             * Uses same strategy as block placement protocol
-        * Instructs DNs to remove a replica upon detecting over-relication
+        * Instructs DNs to remove a replica upon detecting over-replication
             * Chooses DNs so that the number of racks is not reduced
 * Strives to:
     * Avoid any single DN having >1 replica
@@ -1220,7 +1220,7 @@ geometry: margin=1.5cm
     * Concurrency (many users reading and/or writing shared data)
 * A transaction consists of a series of read or write operations
 * Correctness:
-    * The concurrency dimension (e.g. don't sell the same item to two different people, do nto overdraw from the same account when two people are accessing it)
+    * The concurrency dimension (e.g. don't sell the same item to two different people, do not overdraw from the same account when two people are accessing it)
     * The fault tolerance dimension (e.g. transferring money from one account to another when failure occurs in between withdrawing from one account and depositing in another)
 * The database system needs to define and ensure correctness in the presence of concurrency and failures
     * And then come up with mechanisms that will always ensure this
@@ -1237,7 +1237,7 @@ geometry: margin=1.5cm
 * `Write(X)`: write the item named `X` from local memory to the DB state
 * These cover the various substeps of data access:
     * Map `X` to the relevant disk block containing `X`
-    * Move data to/from disk via OS calls an buffers, etc.
+    * Move data to/from disk via OS calls and buffers, etc.
     * Manage cache memory to speed up operations
 * A transaction may have several other local computations
     * E.g. updating values for an item `X`
@@ -1268,7 +1268,7 @@ geometry: margin=1.5cm
 
     ![incorrect-summary](./images/incorrect-summary.PNG)
 
-    * Suppose transaction $T_2$ computes an aggregate while $T_1$ updates
+    * Suppose transaction $T_3$ computes an aggregate while $T_1$ updates
     * Possible to generate a result that doesn't correspond to the correct one before or after
 * Unrepeatable read:
     * Concurrency can cause problems even for a read-only transaction
@@ -1297,7 +1297,7 @@ geometry: margin=1.5cm
 * Physical problems: fire, theft, flood,...
 
 ### Transaction States:
-* To ensure transation atomicity, the system needs to track the state
+* To ensure transaction atomicity, the system needs to track the state
     * The recovery manager needs to keep track of each operation
     * Ensure that there's enough information to recover state
 * Transactions can be in one of a number of states:
@@ -1324,9 +1324,9 @@ geometry: margin=1.5cm
     * Periodically back up the log to archival storage
 * The log consists of a sequence of log records:
     * `[start_transaction, T]`: `T` is a unique transaction ID
-    * `[write, T, old_value, new_value]`
+    * `[write, T, X, old_value, new_value]`
     * `[read, T, X]`
-        * Not strictly needed for rollback
+        * Read entry (not strictly needed for rollback)
         * May be included for other purposes, e.g. auditing
     * `[commit, T]`: `T` has successfully completed and committed
     * `[abort, T]`
@@ -1351,10 +1351,10 @@ geometry: margin=1.5cm
 ### Memory Buffer, Log and Checkpoints:
 * For every write operation by a transaction `T` on `X`:
     * Put the new `X` value in the memory buffer
-    * Write `[write, T, old_value, new_value]` in the log
+    * Write `[write, T, X, old_value, new_value]` in the log
 * Periodically flush the memory buffer to disk (into a 'checkpoint' file)
 * At any given point in time, we may have:
-    1. Transations that have committed whose updates are not all in the DB state (in disk)
+    1. Transactions that have committed whose updates are not all in the DB state (in disk)
     2. Transactions that abort (after the last flush of the memory buffer to disk) and some of their updates are in the DB state
 * For case 1, need to redo and for case 2, need to undo
 
@@ -1363,7 +1363,7 @@ geometry: margin=1.5cm
     * It is either performed completely, or not at all
     * Controlled by the transaction recovery subsystem of the DBMS
 * Consistency: transactions should preserve database consistency
-    * If a transaction is done fully, it should keept the DB in a consistent state
+    * If a transaction is done fully, it should keep the DB in a consistent state
     * Each transaction moves the DB from one consistent state to another
 * Isolation: effect should be independent of other transactions
     * It should be as if it is the only transaction executing
@@ -1375,7 +1375,7 @@ geometry: margin=1.5cm
 ### Schedules:
 * An actual order of execution of operations is called the schedule
 * Schedule $S$ shows an ordering of the operations of $n$ transactions $T_1,T_2,...,T_n$
-    * $S$ is a total order: for ay two operations, one is before the other
+    * $S$ is a total order: for any two operations, one is before the other
     * Operations from different transactions can be interleaved
     * Operations from the same transaction must be in order
 * Notation: $b,r,w,e,c,a$ for begin, read, write, end, commit, abort
@@ -1393,7 +1393,7 @@ geometry: margin=1.5cm
 * Recoverable schedule: once $T$ is committed, we never have to undo $T$
     * Non-recoverable schedules should not be allowed by a DBMS
     * Helps ensure the durability property
-* Some schedules are reasy to recover, and some are not
+* Some schedules are easy to recover, and some are not
 * We say $T_1$ reads-from $T_2$ if there is a schedule $S$ which contains:
     * $...;w_2(X);....;r_1(X)$ and no other transaction writes $X$ before $r_1(X)$
 * If $T_1$ reads-from $T_2$ and later $T_2$ aborts then $T_1$ must abort as well
@@ -1401,9 +1401,9 @@ geometry: margin=1.5cm
     * The system should not let $T_1$ commit until all transactions from which $T_1$ has read-from are committed
 * A schedule $S$ that respects the above for all transactions and data items is called recoverable
 * The following schedule $r_1(X);w_1(X);r_2(X);r_1(Y);w_2(X);c_2;w_1(Y);a_1$ is not recoverable
-    * $T_2$ reads 0 from $T_1$ but commits before $T_1$ does
+    * $T_2$ reads-from $T_1$ but commits before $T_1$ does
     * Postpone the commit $c_2$: $r_1(X);w_1(X);r_2(X);r_1(Y);w_2(X);w_1(Y);c_1;c_2$
-    * Abort both: $r_1(X);w_1(X);r_2(X);r_1(Y);w_2(X)a_1;a_2$
+    * Abort both: $r_1(X);w_1(X);r_2(X);r_1(Y);w_2(X);a_1;a_2$
         * Aborts are a waste of time and resources
 * Cascading aborts:
     * Consider the schedule $w_1(X);r_2(X);c_2;a_1$
@@ -1412,7 +1412,7 @@ geometry: margin=1.5cm
     * If there exists a $T_3$ that reads-from $T_2$ then $T_3$ needs to abort as well
     * There can be a chain of aborts (still recoverable but costly)
         * This phenomenom is called cascading aborts
-        * Can be avoided by reading only committed data
+        * Can be avoided by reading only committed data (cascadeless)
 
 ### Strictness of Schedules:
 * In strict schedules, write/read only committed data
@@ -1430,7 +1430,7 @@ geometry: margin=1.5cm
 * A schedule $S$ is serial if for every transaction $T$ in $S$, all operations in $T$ are executed sequentially (with no interleaving from other transactions' operations)
     * Ensures correctness as each transaction is consistent
 * If transactions are independent, every serial schedule is correct
-    * Accept schedules that are equivalent to serial ones
+    * Accept schedules that are equivalent to serial ones with respect to their effect on the database
 * A serialisable schedule is equivalent to a serial one
     * Our definition of correctness
 * Conflict equivalent is the most commonly used definition of equivalence
@@ -1699,7 +1699,8 @@ In summary:
             * So cost is $2b$
         * Cost of merge phase:
             * Again, each record is read and written once per merge pass
-            * So cost is $\lceil \log_{d_M}(n_R) \rceil \cdot 2b$  
+            * So cost is $\lceil \log_{d_M}(n_R) \rceil \cdot 2b$
+        * So overall cost: $2b + \lceil \log_{d_M}(n_R) \rceil \cdot 2b$  
 
 # Algorithms for Selection
 ### Selection Operation (Basic Conditions):
@@ -1811,7 +1812,7 @@ In summary:
 
     ![block-nested-loops-join](./images/block-nested-loops-join.PNG)
 
-* Indexed Single Loop Join:
+* Indexed Nested-Loops Join:
     * Requires an index or hash key to exist for either $R.A$ or $S.B$
     * Assume an index exists for $B$ on $S$
     * For each record $r$ from $R$:
@@ -1824,9 +1825,8 @@ In summary:
 * Assume that the files for $R$ and $S$ are physically ordered on $A$ and $B$ respectively (not often the case)
     * For simplicty assume that $A$ and $B$ are keys
 * Scan concurrently $R$ and $S$ using index variables $i$ and $j$ respectively
-* Suppose that at some instant, $R[i].A < S[j].B$
-    * Keep advancing $i$ past records of $R$ until either:
-        * $R[i].A = S[j].B$ - add tuple to result file
+* Suppose that at some instant, $R[i].A < S[j].B$; keep advancing $i$ past records of $R$ until either:
+    * $R[i].A = S[j].B$ - add tuple to result file
     * $R[i].A > S[j].B$ - no $R$-tuple matches $S[j]$ tuple
         * Start advancing $j$ past records of $S$ until either:
             * $R[i].A = S[j].B$ - add tuple to result file
@@ -1900,7 +1900,7 @@ In summary:
         * Total number of accesses is $2000 + 10 \times \frac{2000}{5} = 6000$ block reads
     * Using $\mathrm{DEPARTMENT}$ for the outer loop:
         * Read $\mathrm{DEPARTMENT}$ once - $b_D$ blocks
-        * Read $\mathrm{EMPLOYEEE}$ $\lceil \frac{b_D}{n_B-2} \rceil$ times - $\lceil \frac{b_D}{n_B-2} \rceil b_E$ accesses
+        * Read $\mathrm{EMPLOYEE}$ $\lceil \frac{b_D}{n_B-2} \rceil$ times - $\lceil \frac{b_D}{n_B-2} \rceil b_E$ accesses
         * Total number of accesses is $10 + 2000 \times \frac{10}{5} = 4010$ block reads
     * Not counting the cost of writing results to disk (the same for both approaches)
 
@@ -1927,7 +1927,7 @@ In summary:
 
 ### Partition-Hash Join Performance:
 * Cost is low if $M$ is chosen suitably and the hash function works well
-* Cost: $3(b_R + b_S)
+* Cost: $3(b_R + b_S)$
     * Read in each record of the file once and write it out once in the partition phase
     * Read in again each record once in probing phase
 
@@ -1965,5 +1965,6 @@ In summary:
         * Cluster index means all matching records are sequential, so divided by $b_{fr_{RS}}$
     * Primary index: $C = b_R + |R|(x + 1) + \frac{j_s|R||S|}{b_{fr_{RS}}}$
         * Primary index implies can only be one matching record
-    * Hash key on $B$ of $S$: $C = b_R + |R|h + \frac{j_s|R||S|}{b_{fr_{RS}}}$
-        * $h$ is average number of reads to find a record in hash - should be 1 or 2
+        * Hash key on $B$ of $S$: $C = b_R + |R|h + \frac{j_s|R||S|}{b_{fr_{RS}}}$
+            * $h$ is average number of reads to find a record in hash - should be 1 or 2
+* Partition-hash join (or just hash join): $C = 3(b_R + b_S) + \frac{j_s|R||S|}{b_{fr_{RS}}}$
