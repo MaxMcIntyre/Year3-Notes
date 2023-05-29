@@ -1422,6 +1422,13 @@ geometry: margin=1.5cm
     * If not strict, undoing write of aborted transaction is not enough
     * Need to search for others in cascading chain
 
+### Relation between concepts
+* Ordering: Strict $\implies$ Cascadeless $\implies$ Recoverable
+* Strict: don’t read or write `X` after `T` has written `X`, until `T` commits
+* Cascadeless: transactions only read from committed transactions
+* Recoverable: transactions commit only after transactions they have read from
+commit
+
 ### Serialisability:
 * Serialisability is concerned with isolation
 * Consider two transactions $T_1$ and $T_2$ submitted at the same time
@@ -1499,7 +1506,7 @@ geometry: margin=1.5cm
     * Example: $wl_1(x);w_1(x);wu_1(x);rl_2(x);r_2(x);ru_2(x);c_2;...c_1$ is 2PL but not recoverable since $T_2$ reads from $T_1$ but commits before it
         * It also allows cascading aborts and is not strict
 
-### Locking and Deadlcoks:
+### Locking and Deadlocks:
 * Consider the following schedule: $w_1(X);r_2(X);w_2(Y);r_3(Y);w_3(Z);w_1(Z)$
     * $T_2$ must wait for $T_1$, $T_3$ must wait for $T_2$ and $T_1$ must wait for $T_3$
     * A cycle of wait-form relationships between transactions is a deadlock
