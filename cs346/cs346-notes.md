@@ -1961,7 +1961,7 @@ In summary:
     * Secondary index: $C = b_R + |R|(x + 1 + s_B) + \frac{j_s|R||S|}{b_{fr_{RS}}}$
         * 1 block access per index tree level
         * Each matching tuple is in general in a different block
-    * Cluster index: $C = b_R + |R|(x + 1 + \frac{s_B}{b_{fr_{RS}}}) + \frac{j_s|R||S|}{b_{fr_{RS}}}$
+    * Cluster index: $C = b_R + |R|(x + 1 + \frac{s_B}{b_{fr_{B}}}) + \frac{j_s|R||S|}{b_{fr_{RS}}}$
         * Cluster index means all matching records are sequential, so divided by $b_{fr_{RS}}$
     * Primary index: $C = b_R + |R|(x + 1) + \frac{j_s|R||S|}{b_{fr_{RS}}}$
         * Primary index implies can only be one matching record
