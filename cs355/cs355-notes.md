@@ -609,7 +609,7 @@ geometry: margin=1.5cm
 * In practice, this is very uncommon
     * Images from digital cameras are natural photographic images with high amounts of redundancy
     * Lossy or lossless compression is usually applied
-* Consider two images $\textbf{A}$ and $\textbf{B}$, using $n_1$ and $n_2$ bits respectively
+* Consider two sets representation of the same information/image: $\textbf{A}$ and $\textbf{B}$, using $n_1$ and $n_2$ bits respectively
     * Compression ratio $c_r$ is defined as $c_r = \frac{n_1}{n_2}$
     * Data redundancy is defined as $r_d = 1 - \frac{1}{c_r}$
         * If $n_1=n_2$, $c_r=1$, $r_d=0$
@@ -627,7 +627,7 @@ geometry: margin=1.5cm
 * Types of redundancy:
     * Spatial redundancy: pixel values are highly correlated with neighbouring redundancies. Correlations also exist on a higher level with repeating patterns and structures
     * Psychovisual redundancy: details in images that our visual system cannot see (e.g. image contents corresponding to high frequency coefficients in 2D DCT)
-    * Coding redundancy: using more bits per pixel per needed (e.g. using 8 bits per pixel for an image that can be represented using 4 different grey levels)
+    * Coding redundancy: using more bits per pixel than needed (e.g. using 8 bits per pixel for an image that can be represented using 4 different grey levels)
 
 ### Image Compression Steps:
 * Encoder:
@@ -644,17 +644,20 @@ geometry: margin=1.5cm
 
     ![jpeg-compression-steps](./images/jpeg-compression-steps.PNG)
 
-* First need to convert RGB to YCbCr, and optionally chroma subsample
-* Then divide image into non-overlapping 8x8 or 16x16 blocks, with encoding being done on each block separately
-    * Each block is called a macroblock or minimum encoded unit
-    * Reason for this is so that changes in pixel values are expected to be minimal, yielding larger values for low-frequency components and smaller values for high-frequency components in the DCT domain
+* First need to convert RGB to YCbCr, so the color and luma channels can be compressed differently
+    * This is because there is a lot of color redundancy, due to human eyes being less sensitive to colour than intensity
+    * When highest quality not required, chroma subsampling reduces the resolution of Cb and Cr by a factor of 2/more
+        * This achieves higher compression without losing visual quality, due to human eyes' lower sensitivity to colour
+* Then divide image into non-overlapping 8x8 or 16x16 blocks, with encoding being done on each block (a.k.a. macroblock or minimum encoded unit) independently
+    * DCT done on block-by-block basis instead of on whole image, so that changes in pixel values are expected to be minimal
+        * This yields larger values for low-frequency components and smaller values for high-frequency components in the DCT domain
     * Quantisation then ensures better compression without high information loss
 * Perform DCT transform
     * Energy is preserved under DCT mapping:
         * $||\textbf{f}||^2 = \textbf{f}^T\textbf{f}$
         * $=\textbf{f}^T\textbf{A}^T\textbf{Af}$
         * $=(\textbf{Af})^T\textbf{Af} = \textbf{x}^T\textbf{x} = ||\textbf{x}||^2$
-    * DCT has the ability to capture most of the energy within a small number of coefficients
+    * Energy compaction: DCT has the ability to capture most of the energy within a small number of coefficients
 * Quantisation:
     * The main lossy step in JPEG
     * Each DCT coefficient is quantised by a pre-defined factor:
@@ -689,7 +692,7 @@ geometry: margin=1.5cm
     * Huffman code is not unique
 * Given a code, it is easy to encode the message by replacing the symbols by the codewords
     * A code is only uniquely decodable if no code is a prefix to another code
-        * E.g. the code $C_3 = \{a=1, b=110, c=10, d=111\}$. The word `bad` encodes to $1101111$ but can be decoded as `bad`, `bda` `acda` or `acad`
+        * E.g. the code $C_3 = \{a=1, b=110, c=10, d=111\}$. The word `bad` encodes to $1101111$, but that can be decoded as `bad`, `bda`, `acda` or `acad`
 * This is known as variable-length encoding
     * Going back to our example, the number of bits required will be: 10x1 (1 = 21) + 4x2 (01 = 169) + 4x3 (001 = 243) + 2x3 (000 = 95) = 36
     * With 20 symbols total, this comes out to 1.8 bits/symbol
@@ -705,8 +708,8 @@ geometry: margin=1.5cm
     * Entropy is defined as $H(\textbf{z}) = p\log\frac{1}{p}+(1-p)\log\frac{1}{1-p}$
     * The higher the entropy, the higher the uncertainty in data
     * More generally, a source $\textbf{z}$ generates $a_1,a_2,...,a_n$
-    * $P(a_1)=p_1,P(a_2)=p_2,...$ such that $\sum_{i=1}^n p_j=1$
-    * Entropy is defined as $H(\textbf{z})=-\sum_{j=1}^n p_i\log p_i$
+    * $P(a_1)=p_1,P(a_2)=p_2,...$ such that $\sum_{i=1}^n p_i=1$
+    * Entropy is defined as $H(\textbf{z})=-\sum_{i=1}^n p_i\log p_i$
 * Shannon's source coding theorem: in an uniquely decodable coding scheme, the average codeword length of a source can at best be equal to the source entropy, and not less than it
     * Entropy is the bound on maximum compression that can be achieved using entropy coding
     * In our example: $H(\textbf{z})= -0.5\log0.5-0.1\log0.1-0.2\log0.2-0.2\log0.2=1.76$ bits/symbol
@@ -716,7 +719,7 @@ geometry: margin=1.5cm
 
 ### Splicing Forgery:
 * Have two JPEG images of quality $q_1$ and $q_2$ respectively
-* Splice some of the $q_1$ image onto the $q_1$ image
+* Splice some of the $q_1$ image onto the $q_2$ image
 * Save as a new JPEG image of quality $q_3$
 * Spliced region is compressed at $q_1$ and then $q_3$, while the rest of the image is compressed at $q_2$ and then $q_3$
 
@@ -751,12 +754,10 @@ geometry: margin=1.5cm
     * When dequantised, there will be $B_0+B_1$ elements with value 0, $B_2+B_3$ elements with value 2, and so on
     * When quantised again by factor 3, there will be $B_0+B_1+B_2+B_3$ elements with value 0 (both 0 and 2 get rounded down to 0), $B_4+B_5$ elements with value 1, $B_6+B_7+B_8+B_9$ elements with value 2, $B_{10}+B_{11}$ elements with value 3...
 
-    ![histogram-quantisation](./images/histogram-quantisation.PNG)
-
 * Another example:
     * Now quantise with factor of 3 and then 2
 
-    ![histogram-quantisation](./images/histogram-quantisation.PNG)
+![histogram-quantisation](./images/histogram-quantisation.PNG)
 
 * Artifacts:
     * Periodic empty bins - quantisation by factor 3 places the original samples into 42 bins, while the second quantisation by factor 2 redistributes them into 64 bins
@@ -770,21 +771,31 @@ geometry: margin=1.5cm
 * Suppose we have a set of coefficients $\textbf{c}_1$ that are quantised by $q_1$ and then de-quantised by $q_1$ to produce $\textbf{c}_1^*$:
     * $Q(\textbf{c}_1) = \mathrm{round}(\frac{\textbf{c}_1}{q_1})$
     * $\textbf{c}_1^* = q_1Q(\textbf{c}_1)$
-* Set $\textbf{c}_1$ is subsequently quantised a second time by $q_2$ and subsequently de-quantised by $q_2$ to produce $\textbf{c}_2^*$:
+* Set $\textbf{c}_1^*$ is subsequently quantised a second time by $q_2$ and subsequently de-quantised by $q_2$ to produce $\textbf{c}_2^*$:
     * $Q(\textbf{c}_2) = \mathrm{round}(\frac{\textbf{c}_1^*}{q_2})$
     * $\textbf{c}_2^* = q_2Q(\textbf{c}_1^*)$
 * Define the sum of squared difference $SSD(\textbf{c}_1^*, \textbf{c}_2^*) = \sum_{i \in \{R,G,B\}}\sum_x \sum_y (f(x,y,i)_{\textbf{c}_1^*}-f(x,y,i)_{\textbf{c}_2^*})^2$
+    * For grayscale: $SSD(\textbf{c}_1^*, \textbf{c}_2^*) = \sum_x \sum_y (f(x,y)_{\textbf{c}_1^*}-f(x,y)_{\textbf{c}_2^*})^2$
     * $SSD(\textbf{c}_1^*, \textbf{c}_2^*)$ increases as $q_2$ increases
     * When $q_2=q_1$, $SSD(\textbf{c}_1^*, \textbf{c}_2^*)=0$
 
     ![ssd-graph](./images/ssd-graph.PNG)
 
+    ![directly-calculate-SSD](./images/directly-calculate-SSD.PNG)
+
 * Suppose that an image is compressed at quality $q_1$. An image compressed at quality $q_2$ is inserted into the image and the resulting image is compressed at quality $q_1$
     * We try compressing the image at various quality levels 
-    * Instead of using SSD, for each quality level $Q$ at each pixel location we calculate the difference as follows: $d(x,y,Q) = \frac{1}{3}\sum_{i \in \{R,G,B\}}(f(x,y,i)_{\textbf{c}_1^*}-f(x,y,i)_{\textbf{c}_2^*})^2$
+    * Instead of using SSD, for each quality level $Q$ at each pixel location we calculate the difference as follows: $d(x,y,Q) = \frac{1}{3}\sum_{i \in \{R,G,B\}}(f(x,y,i)_{\textbf{c}^*}-f(x,y,i)_Q)^2$
+        * For grayscale: $d(x,y,Q) = (f(x,y)_{\textbf{c}^*}-f(x,y)_Q)^2$
+        * $\textbf{c}^*$ is the spliced image, and $f(x,y,i)_Q$ is the image compressed at quality level $Q$
+        * Simplified form: $d(x,y,q) = \frac{1}{3}\sum_{i \in \{R,G,B\}}(f(x,y,i)-f_q(x,y,i))^2$
     * We expect to see a minimum at $Q=q_2$ where the spliced region was compressed twice
+    * For a spliced image, local minimum in the difference distribution function may indicate JPEG ghosts or false positives
+        * Can distinguish between them by visualisation in the pixel domain for further investigation (i.e., to identify the spliced region)
 
     ![jpeg-ghost-example](./images/jpeg-ghost-example.PNG)
+
+    * Local minim
 
 * Consider an improved difference measure that is spatially averaged and normalised:
     * $\delta(x,y,q) = \frac{1}{3}\sum_{i=1}^3\frac{1}{b^2}\sum_{b_x=0}^{b-1}\sum_{b_y=0}^{b-1}(f(x+b_x,y+b_y,i)-f_q(x+b_x,y+b_y,i))^2$
@@ -793,7 +804,7 @@ geometry: margin=1.5cm
 # Copy-Move Forgery Detection
 * Forged segment is usually a connected component copied from the same image
 * Search for identical blocks in the image
-    * JPEG compression may chaneg the appearance slightly
+    * JPEG compression may change the appearance slightly
     * Cloned region may be placed into 4 different DCT blocks and compressed slightly differently from the original copied region
 * Search for very similar blocks
     * For each possible block, go over the rest of the block to find matches
@@ -808,33 +819,37 @@ geometry: margin=1.5cm
 * Algorithm:
     * Create a binary image $\textbf{A}$ with all 0s
     * For loop ($k$,$l$):
-        * Circularly shift the image $\textbf{I}$ by $k$, $l$ - set $x_{i,j}$ to $x_{(i+k)\mod M,(j+1)\mod N}$ - to produce $\textbf{S}$
-        * Compare $\textbf{S}$ with $\textbf{I}$:
-            * Output binary mask $\textbf{D}$ where $\textbf{D}_{k,l} = 1$ if $|\textbf{I}-\textbf{S}_{k,l}|<t$
+        * Circularly shift the image $\textbf{I}$ by $k$, $l$: set $x_{i,j}$ to $x_{(i+k)\bmod M,(j+1)\bmod N}$ to produce $\textbf{S}_{k,l}$
+        * Compare $\textbf{S}_{k,l}$ with $\textbf{I}$:
+            * Output binary mask $\textbf{D}_{k,l} = 1$ if $|\textbf{I}-\textbf{S}_{k,l}|<t$
 
             ![circular-shift-match](./images/circular-shift-match.PNG)
 
-        * Set $\textbf{A} = \textbf{A} \space OR \space \textbf{D}$
+        * Set $\textbf{A} = \textbf{A} \; OR \; \textbf{D}_{k,l}$
 * In a lot of cases, a number of pixel pairs may produce false positives
 * We have to process these regions further by applying morphological processing (erosion and dilation)
     * Erosion: the value of the output pixel is set to the minimum value of all the pixels in the input pixel's neighbourhood (set to 0 if any neighbouring pixels are 0)
     * Dilation: the value of the output pixel is set to the maximum value of all the pixels in the input pixel's neighbourhood (set to 1 if any neighbouring pixels are 1)
 
+    ![circular-shift-algorithm](./images/circular-shift-algorithm.PNG)
+
 ### Block Matching - Spatial Domain:
 * A fast-searching method for similar blocks
 * Algorithm:
     * Slide a $b \times b$ block by 1 pixel across the image (top left to bottom right)
-    * Convert each block to a vector of length $b^2$ and store the position of each block in an array $P$
-    * Sort the feature table $T$ lexicographically 
+    * Convert each block to a vector of length $b^2$ to form the rows of the feature table
+    * Store the position of each block in an array $P$
+    * Sort the feature table lexicographically, output ordered table $T$
     * Two consecutive rows in $T$ may correspond to two similar blocks
     * Identify very similar block pairs via thresholding and identify the locations of the similar blocks via $P$
 
 ### Block Matching - Frequency Domain:
+* Use blocks of quantized DCT coefficients instead of pixel blocks
 * DCT coefficients encode the local block information, e.g. DC component encodes all the zero-frequency in the local block
     * Highly overlapped blocks might be very similar
     * Too many false positives - need to do some post-processing
 * Check that similar blocks are all between the same two areas of an image
-    * Counter of shift vectors needs to be above a threshold
+    * Counter of shift vectors $C$ needs to be above a threshold
 
 # Feature Matching Techniques
 ### Image Features:
@@ -850,7 +865,7 @@ geometry: margin=1.5cm
     * Robust against noise, geometric distortions (translation, rotation, scaling) and photometric distortions (illumination, contrast)
 
 ### Local Binary Pattern (LBP):
-* A popular and important feature than can efficiently encode the texture information of an image region
+* A popular and important feature that can efficiently encode the texture information of an image region
 * Texture can be characterised by complex patterns composed of sub-patterns
 * Computing LBP:
     * Consider a $P$-connect neighbourhood
@@ -864,7 +879,7 @@ geometry: margin=1.5cm
 * Rotation invariant LBP:
     * Write down LBP codes computed by starting from different points in the circle, and take the minimum in the set
 * We can now compute an LBP histogram:
-    * With an 8-bit neighbourhood, we have 256 bins the histogram
+    * With an 8-bit neighbourhood, we have 256 bins in the histogram
     * We want to use a more compact LBP feature
     * Uniform LBP codes are those that have at most 2 transitions (1 to 0 or 0 to 1) - take only uniform LBP codes
         * With an 8-bit neighbourhood, the number of bins is now only 59 (58 uniform LBP codes plus 1 for non-uniform)
@@ -874,7 +889,7 @@ geometry: margin=1.5cm
     * Discrete approximations (from Taylor series) of first order derivatives are given by:
         * $f'(x) \approx f(x+1)-f(x)$
         * $f'(x) \approx f(x)-f(x-1)$
-    * Discete approximation for second order derivatives is given by:
+    * Discrete approximation for second order derivatives is given by:
         * $f''(x) \approx f(x+1)-2f(x)+f(x-1)$
     * In matrix form: $f'(x)=\begin{bmatrix}-1 & 1\end{bmatrix} \begin{bmatrix}f(x) & f(x+1)\end{bmatrix}^T$
         * Can be treated as a convolution operation $f'(x)=f(x)*\nabla$ (slide and weighted sum)
@@ -952,18 +967,18 @@ geometry: margin=1.5cm
     * The dominant part in SPN
     * Multiplicative
     * The primary component of PRNU is the pixel non-uniformity (PNU) pattern:
-        * Arises due to the differet sensitivity of pixels to light due to the inhomogeneous nature of silicon wafers and imperfections during the sensor manufacturing process
+        * Arises due to the different sensitivity of pixels to light due to the inhomogeneous nature of silicon wafers and imperfections during the sensor manufacturing process
         * A wafer is a thin slice of semiconductor material used to manufacture integrated circuits
         * Even when the sensors come from the same silicon wafer, their PNU patterns are not correlated
         * PNU is not affected by temperature, humidity or any other external conditions
         * PNU pattern of a source is thus unique, and can be used for source device identification
     * The other component of PRNU is low frequency defects:
         * Arises due to light refraction on dust particles and optical surfaces, and interference with other sensors
-        * Seen as slowly varying distortions - appears in the low frequency commponents of an image
+        * Seen as slowly varying distortions - appears in the low frequency components of an image
         * This component is not exactly a characteristic of a sensor, so it cannot be used for source identification
    
 ### Modelling the acquisition process:
-* $y_{ij} = f_{ij}(x_{ij}+\eta_{ij})+c_{ij}+\epsilon_{ij}$ where
+* Sensor $s_{ij}$ has output $y_{ij} = f_{ij}(x_{ij}+\eta_{ij})+c_{ij}+\epsilon_{ij}$ where
     * $x_{ij}$ is the light incident on $s_{ij}$
     * $\eta_{ij}$ is shot noise
     * $c_{ij}$ is FPN
@@ -985,22 +1000,24 @@ geometry: margin=1.5cm
 * Approximating SPN:
     * Ignore FPN
     * Consider multiple reference images (ideally a uniformly lit scene), $\textbf{p}^k$, $k=1,2,...,K$
-    * Suppress scene content from eac reference by denoising. Let the denoised images be $F(\textbf{p}^k)$
+    * Suppress scene content from each reference by denoising. Let the denoised images be $F(\textbf{p}^k)$
     * Subtract the denoised version from the original image to get the noise residual: $\textbf{n}^k=\textbf{p}^k-F(\textbf{p}^k)$
     * Average the noise residual to approximate the reference SPN: $SPN_{ref}=\frac{1}{K}\sum_k\textbf{n}^k$
 * Single image SPN approximation:
     * $\textbf{n}=\textbf{p}-F(\textbf{p})$
-    * Because PRNU is multiplicativem it is largely suppressed in dark areas
+    * Because PRNU is multiplicative, it is largely suppressed in dark areas
     * Denoising is difficult in textured regions of an image
     * Approximation: high frequency components mixed with SPN + noise residual
 * Can then compare the reference SPN with the test SPN using the correlation coefficient $r(X,Y)$
+    * With multiple reference images, can recognise the device with: $\argmax_{j \in 1,2,...,N} Corr(SPN_{ref}^j, SPN_{test})$
 
 ### Understanding SPN:
 * Assuming no camera processing, we have $\textbf{y}=\textbf{p}$
 * Then we have $SPN_{ij}=y_{ij}-F(y_{ij})$
-* Assume no FPN or random noise
+* Assume no FPN or random noise (i.e. no additive noises)
 * Then we have:
     * $SPN_{ij}=f_{ij}(x_{ij}+\eta_{ij})-F(f_{ij}(x_{ij}+\eta_{ij}))$
-    * $=f_{ij}(x_{ij}+\eta_{ij})-f_{ij}(\hat{x}_{ij}+\hat{\eta}_{ij})$ where $f_{ij}(\hat{x}_{ij}+\hat{\eta}_{ij})$ is the low pass filtered image pixel
+    * $=f_{ij}(x_{ij}+\eta_{ij})-f_{ij}(\hat{x}_{ij}+\hat{\eta}_{ij})$ where $f_{ij}(\hat{x}_{ij}+\hat{\eta}_{ij})$ is the low pass filtered image pixel, very similar to original
     * $=f_{ij}(x_{ij}-\hat{x}_ij)+f_{ij}(\eta_{ij}-\hat{\eta}_{ij})$
     * $=f_{ij}(\Delta x_{ij} + \Delta \eta_{ij})$
+        * where $\Delta x_{ij}$ is high-frequency information (e.g. scene details) and $\Delta \eta_{ij}$ is shot noise residual
