@@ -421,10 +421,10 @@ Projects mostly fail due to:
     1. Difference between what the project was originally expected to cost and what it is currently expected to cost
         * $VAC = BAC - EAC$
 * To-Complete Performance Index ($TCPI$) - future cost-efficiency required
-    1. To achieve the original budget
-        * $TCPI = (BAC - EV) \div (EAC - AC)$
-    2. To achieve the estimated budget
-        * $TCPI = (BAC - EV) \div (BAC - AC)$
+    1. To achieve the estimated budget
+        * $TCPI_{EAC} = (BAC - EV) \div (EAC - AC)$
+    2. To achieve the original budget
+        * $TCPI_{BAC} = (BAC - EV) \div (BAC - AC)$
 
 ### Measuring Success:
 * Common objectives: budget targets, schedule targets, scope targets
@@ -968,7 +968,7 @@ When to use Scrum or Kanban?
     2. Specify **O**bjectives of the solution: Prioritise aims. How can they be measured?
     3. Imagine **A**lternatives: A decision is only as good as the next-best alternative
     4. Tabulate **C**onsequences: Compare the consequences of each alternative
-    5. Claify **T**rade-offs: If no obvious winner, weigh up the objectives. Why is one more important than another?
+    5. Clarify **T**rade-offs: If no obvious winner, weigh up the objectives. Why is one more important than another?
 * Important to consider uncertainty, risk tolerance and linked decisions. Also beware of cognitive biases
 * Example Cognitive Biases:
     * Availability heuristic: people overestimate the importance of information that is available to them
