@@ -203,7 +203,7 @@ geometry: margin=1.5cm
 
 * Directory of bucket addresses
     * Directory entries point to disk blocks storing records with hash values that have the same first/last $d$ bits
-    * Directory size is a power of 2
+    * Directory size is a power of 2, $2^d$
     * Can double or halve this as needed
 * Insertions into a block may cause it to overflow and split into two
     * Directory is then updated accordingly
@@ -307,6 +307,8 @@ geometry: margin=1.5cm
             * Some values may be too frequent - their pointers in 2nd level cannot fit into one block. Can use overflow blocks for this
             * Retrievals - binary search - easy but may be expensive
             * Insertions and deletions - easy
+
+![index-types](./images/index-types.png)
 
 # Multi-level Indexing
 * Build a primary index over the index file
