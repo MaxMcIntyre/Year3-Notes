@@ -710,7 +710,7 @@ geometry: margin=1.5cm
     * More generally, a source $\textbf{z}$ generates $a_1,a_2,...,a_n$
     * $P(a_1)=p_1,P(a_2)=p_2,...$ such that $\sum_{i=1}^n p_i=1$
     * Entropy is defined as $H(\textbf{z})=-\sum_{i=1}^n p_i\log p_i$
-* Shannon's source coding theorem: in an uniquely decodable coding scheme, the average codeword length of a source can at best be equal to the source entropy, and not less than it
+* Shannon's source coding theorem: in a uniquely decodable coding scheme, average codeword length of a source $\geq$ source entropy
     * Entropy is the bound on maximum compression that can be achieved using entropy coding
     * In our example: $H(\textbf{z})= -0.5\log0.5-0.1\log0.1-0.2\log0.2-0.2\log0.2=1.76$ bits/symbol
 
@@ -795,11 +795,9 @@ geometry: margin=1.5cm
 
     ![jpeg-ghost-example](./images/jpeg-ghost-example.PNG)
 
-    * Local minim
-
-* Consider an improved difference measure that is spatially averaged and normalised:
+* Consider an improved difference measure that is spatially averaged (across a $b \; x \; b$ pixel region):
     * $\delta(x,y,q) = \frac{1}{3}\sum_{i=1}^3\frac{1}{b^2}\sum_{b_x=0}^{b-1}\sum_{b_y=0}^{b-1}(f(x+b_x,y+b_y,i)-f_q(x+b_x,y+b_y,i))^2$
-    * Normalised to have values within $[0,1]$: $d(x,y,q)=\frac{\delta(x,y,q)-\min_q(\delta(x,y,q))}{\max_q(\delta(x,y,q)-\min_q(\delta(x,y,q)))}$
+    * And then normalised to have values within $[0,1]$: $d(x,y,q)=\frac{\delta(x,y,q)-\min_q(\delta(x,y,q))}{\max_q(\delta(x,y,q)-\min_q(\delta(x,y,q)))}$
 
 # Copy-Move Forgery Detection
 * Forged segment is usually a connected component copied from the same image
@@ -807,7 +805,7 @@ geometry: margin=1.5cm
     * JPEG compression may change the appearance slightly
     * Cloned region may be placed into 4 different DCT blocks and compressed slightly differently from the original copied region
 * Search for very similar blocks
-    * For each possible block, go over the rest of the block to find matches
+    * For each possible block, go over the rest of the blocks to find matches
     * Computational cost can be high
 * Detection will be based on the similarity between the original segment and the pasted ones
 * A detection algorithm must:
@@ -911,10 +909,10 @@ geometry: margin=1.5cm
 * Given $N$ features extracted from an image, we wish to find the most similar patches
 * Nearest neighbour matching: for a given feature vector $\textbf{f}_1$, compute the similarity betwen $\textbf{f}_1$ and the remaining $N-1$ features
 * The feature $\textbf{f}^*$ with the highest similarity is considered the match
-    * $\textbf{f}^* = \underset{i} \argmin \space d(\textbf{f}_1, \textbf{f}_i)$
+    * $\textbf{f}^* = \underset{i} \argmin \; d(\textbf{f}_1, \textbf{f}_i)$
 * Given a pair of features $(\textbf{f}_1,\textbf{f}_2)$ compute one of the following:
     * L2 distance, L1 distance, sum of square distances (SSD), mean square error (MSE), inner product
-* Discarding falase matches:
+* Discarding false matches:
     * Let $\textbf{f}_2$ be the best SSD match to $\textbf{f}_1$ and $\textbf{f}'_2$ be the 2nd best SSD match to $\textbf{f}_1$
     * Ratio test: compute $\frac{SSD(\textbf{f}_1, \textbf{f}_2)}{SSD(\textbf{f}_1, \textbf{f}'_2)}$
         * An ambiguous or bad match will have a ratio close to 1
@@ -1009,10 +1007,10 @@ geometry: margin=1.5cm
     * Denoising is difficult in textured regions of an image
     * Approximation: high frequency components mixed with SPN + noise residual
 * Can then compare the reference SPN with the test SPN using the correlation coefficient $r(X,Y)$
-    * With multiple reference images, can recognise the device with: $\argmax_{j \in 1,2,...,N} Corr(SPN_{ref}^j, SPN_{test})$
+    * Can recognise the device with: $\argmax_{j \in 1,2,...,N} Corr(SPN_{ref}^j, SPN_{test})$
 
 ### Understanding SPN:
-* Assuming no camera processing, we have $\textbf{y}=\textbf{p}$
+* Assuming no camera processing, we have $\textbf{p}=\textbf{y}$
 * Then we have $SPN_{ij}=y_{ij}-F(y_{ij})$
 * Assume no FPN or random noise (i.e. no additive noises)
 * Then we have:

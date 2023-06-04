@@ -203,7 +203,7 @@ geometry: margin=1.5cm
 
 * Directory of bucket addresses
     * Directory entries point to disk blocks storing records with hash values that have the same first/last $d$ bits
-    * Directory size is a power of 2
+    * Directory size is a power of 2, $2^d$
     * Can double or halve this as needed
 * Insertions into a block may cause it to overflow and split into two
     * Directory is then updated accordingly
@@ -308,6 +308,8 @@ geometry: margin=1.5cm
             * Retrievals - binary search - easy but may be expensive
             * Insertions and deletions - easy
 
+![index-types](./images/index-types.png)
+
 # Multi-level Indexing
 * Build a primary index over the index file
 * The original index is referred to as the base or 1st-level index
@@ -404,7 +406,9 @@ geometry: margin=1.5cm
     * Typically, the mean time between failures of disks is 1 in tens of years
 * Performance cannot really be improved
     * Write accesses may actually be slowed down - need to write to every copy of the data
-    * Read performance can maybe improve - data can be accessed in parallel
+    * Read performance can maybe improve
+        * Each read access may be served by any of the disks holding a copy
+        * This may improve read access, as a least overloaded disk can be chosen
 
 ### RAID 4:
 * Block-level striping + dedicated parity disk
@@ -514,7 +518,7 @@ geometry: margin=1.5cm
 * Typically a different $p$ is used for leaves, $p_{leaf}$
 * How to calculate the best value for $p$ and $p_{leaf}$? 
     * With every jump, we want to access one block
-    * How many pointers can we fit in one block?
+    * How many key+pointer pairs can we fit in one block?
 
 ### B+ Tree Search Algorithm:
 
@@ -678,6 +682,8 @@ geometry: margin=1.5cm
 * Aims to massively parallelise access and processing of huge data volumes
 
     ![mapreduce](./images/mapreduce.PNG)
+
+    ![mapreduce-with-combiner](./images/mapreduce-with-combiner.PNG){ width=70% }
 
 * Within a MapReduce system framework:
     * Mapper processes: defined and assigned tasks
@@ -1027,6 +1033,14 @@ geometry: margin=1.5cm
 * To clients, HDFS is a black box
     * Blocks, partitioning, replication, etc. is all hidden away
 
+### HDFS Architecture Overview
+
+![hdfs-architecture-overview](./images/hdfs-architecture-overview.PNG)
+
+* NameNode: maps a file to a file id and list of DataNodes
+* DataNode: maps a block id to physical location(s) on disk
+* SecondaryNameNode: periodic merge of transaction log 
+
 ### HDFS Key Features:
 * Due to replication and partitioning:
     * Fault tolerance:
@@ -1253,6 +1267,7 @@ geometry: margin=1.5cm
     * Executing transactions serially avoid all problems - desirable for consistency
     * But, serial execution is bad for performance so concurrency is desirable
 * Lost update:
+    * When two transactions are interleaved
 
     ![lost-update](./images/lost-update.PNG)
 
@@ -1318,7 +1333,7 @@ geometry: margin=1.5cm
 * The system log is a sequential, append-only file kept on disk
     * More likely to survive system failure/crash (relative to RAM)
     * Two disks may also be used, each being a copy of the log
-* Transaction updates are writen in a memory buffer
+* Transaction updates are written in a memory buffer
     * When buffers are full they are written to disk
     * At commit point buffers must be flushed to disk
     * Periodically back up the log to archival storage
@@ -1482,7 +1497,7 @@ commit
     * $T$ must `unlock_item(X)` after it is done reading/writing `X`
     * $T$ should not request `lock(X)` if it already holds it (causes a self-deadlock)
     * $T$ cannot `unlock_item(X)` if it doesn't already hold the lock on `X`
-* Binary locks can be too restrictive - only one transaction can access the data item at a time
+* Binary locks can be too restrictive - only one transaction can access the data item at a time. Can instead use shared/exclusive locks:
     * Can allow multiple transactions access to `X` if they only read it
     * Still only one transaction can access to `X` if it will write to it
     * Three states: read-locked, write-locked, unlocked
@@ -1520,7 +1535,7 @@ commit
     ![deadlock-sequence](./images/deadlock-sequence.PNG)
 
     * At this point, $T_1$ and $T_2$ cannot release any locks in 2PL
-    * $T_1$ is blocked on $wl_1(Y)$ and $T_2$ is blocked om $wl_2(X)$ - deadlock
+    * $T_1$ is blocked on $wl_1(Y)$ and $T_2$ is blocked on $wl_2(X)$ - deadlock
 * Deadlocks are typically broken by aborting a transaction that is involved in a deadlock chain
     * Typically a system maintains a wait-for graph for its transactions' operations and detects deadlocks by detecting cycles in the graph
     * To choose which transaction to abort:
@@ -1570,7 +1585,7 @@ commit
 * Example query:
     * `SELECT P.Pnumber, P.Dnum, E.Lname, E.Address, E.Bdate FROM PROJECT P, DEPARTMENT D, EMPLOYEE E WHERE P.Dnum = D.Dnumber AND D.Mgr_ssn = E.Ssn AND P.Plocation = 'Stafford';`
 
-    ![query-tree-example](./images/query-tree-example.PNG)
+    ![query-tree-example](./images/query-tree-example.PNG){ width=70% }
 
 * Representing a relational algebra expression as a tree structure
     * Input relations are leaf nodes
@@ -1616,7 +1631,7 @@ commit
     * If the condition $c$ of selection $\sigma$ following a $\times$ corresponds to a join condition, then $(\sigma_c(R \times S)) \equiv R \bowtie_c S$
 13. Other rules from arithmetic and logic can be applied, e.g. De Morgan's Laws
     * $\mathrm{NOT}(c_1 \mathrm{AND} c_2) \equiv (\mathrm{NOT} c_1) \mathrm{OR} (\mathrm{NOT} c_2)$
-    * $\mathrm{NOT}(c_1 \mathrm{OR} c_2) \equiv (\mathrm{NOT} c_1) \mathrm{OR} (\mathrm{NOT} c_2)$
+    * $\mathrm{NOT}(c_1 \mathrm{OR} c_2) \equiv (\mathrm{NOT} c_1) \mathrm{AND} (\mathrm{NOT} c_2)$
 
 ### Algebraic Optimisation:
 1. Using rule 1, break up selections with ANDs into a cascade
@@ -1642,19 +1657,23 @@ In summary:
 * `SELECT E.Lname FROM EMPLOYEE E, WORKS_ON W, PROJECT P WHERE P.Pname = 'Aquarius' AND P.Pnumber = W.Pno AND E.Essn = W.Ssn AND E.Bdate > '1957-12-31';`
 * Initial query tree:
 
-    ![query-transformation-example-1](./images/query-transformation-example-1.png)
+    ![query-transformation-example-1](./images/query-transformation-example-1.png){ width=60% }
 
 * Moving selection operations down the tree:
 
-    ![query-transformation-example-2](./images/query-transformation-example-2.png)
+    ![query-transformation-example-2](./images/query-transformation-example-2.png){ width=60% }
 
 * Applying the more restrictive selection operation first
 
-    ![query-transformation-example-3](./images/query-transformation-example-3.png)
+    ![query-transformation-example-3](./images/query-transformation-example-3.png){ width=60% }
 
 * Replacing Cartesian products and selections with join operations
 
-    ![query-transformation-example-4](./images/query-transformation-example-4.png)
+    ![query-transformation-example-4](./images/query-transformation-example-4.png){ width=60% }
+
+* Moving project operations down the query tree
+
+    ![query-transformation-example-5](./images/query-transformation-example-5.png){ width=60% }
 
 ### Cost-based Query Optimisation:
 * Assigns costs to different strategies (based on number of disk I/Os)
@@ -1730,7 +1749,7 @@ In summary:
 7. Conjunctive selection:
     * If an attribute in any part of the condition has an access path allowing conditions 1-6, use that condition to retrieve the records and check if each record satisfies the whole condition
 8. Conjunctive selection using a composite index:
-    * If two or more attriutes are involved in equality conditions and a composite index (or hash structure) exists on the combined field, can use it directly
+    * If two or more attributes are involved in equality conditions and a composite index (or hash structure) exists on the combined field, can use it directly
 9. Conjunctive selection using intersecting record pointers:
     * If there are secondary indexes on all (or some) fields involved in equality comparison conditions in the conjunctive condition, each index can be used to retrieve the record pointers that satisfy each individual condition
     * Intersecting these pointers gives the pointers that satisfy the conjunctive condition, which can then be retrieved
